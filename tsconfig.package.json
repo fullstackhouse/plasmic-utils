@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "outDir": "dist",
+    "lib": ["dom", "esnext"],
+    "declaration": true,
+    "module": "es2020",
+    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "preserve"
+  },
+  "include": ["package-env.d.ts", "src"],
+  "exclude": ["node_modules"]
+}

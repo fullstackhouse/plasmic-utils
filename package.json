@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
     "start": "next dev",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "build-host": "next build",
+    "build-package": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json"
   },
+  "main": "dist/index.js",
   "dependencies": {},
   "devDependencies": {
     "@headlessui/react": "^1.7.18",
@@ -32,6 +34,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
+    "rimraf": "^4.0",
     "swr": "^2.2.5",
     "typescript": "^5",
     "use-debounce": "^10.0.1",
