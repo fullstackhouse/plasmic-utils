@@ -1,15 +1,23 @@
 {
   "name": "@myevaluations/myevals-plasmic-utils",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "next dev",
     "lint": "next lint",
     "test": "vitest",
     "build-host": "next build",
-    "build-package": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json"
+    "prepublishOnly": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json"
   },
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/myevaluations/myevals-plasmic-utils",
   "dependencies": {},
   "devDependencies": {
     "@headlessui/react": "^1.7.18",
