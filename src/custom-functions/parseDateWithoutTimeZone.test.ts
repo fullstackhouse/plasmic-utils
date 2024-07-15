@@ -1,4 +1,5 @@
 import { parseDateWithoutTimeZone } from "./parseDateWithoutTimeZone";
+import { describe, it, expect } from "vitest";
 
 describe("parseDateWithoutTimeZone", () => {
   it("parses UTC datetimes (with Z suffix)", () => {
@@ -7,16 +8,16 @@ describe("parseDateWithoutTimeZone", () => {
     expect(date).toBeInstanceOf(Date);
     expect(date.toString()).toContain("Thu Jun 01 2023 18:01:45");
     expect(date.toLocaleString("en-US").replace(" ", " ")).toEqual(
-      "6/1/2023, 6:01:45 PM",
+      "6/1/2023, 6:01:45 PM"
     );
 
     const dateWithoutMilliseconds = parseDateWithoutTimeZone(
-      "2023-06-01T18:01:45Z",
+      "2023-06-01T18:01:45Z"
     );
     expect(dateWithoutMilliseconds).toBeInstanceOf(Date);
     expect(dateWithoutMilliseconds.toString()).toEqual(date.toString());
     expect(dateWithoutMilliseconds.toLocaleString("en-US")).toEqual(
-      date.toLocaleString("en-US"),
+      date.toLocaleString("en-US")
     );
   });
 
@@ -26,16 +27,16 @@ describe("parseDateWithoutTimeZone", () => {
     expect(date).toBeInstanceOf(Date);
     expect(date.toString()).toContain("Thu Jun 01 2023 18:01:45");
     expect(date.toLocaleString("en-US").replace(" ", " ")).toEqual(
-      "6/1/2023, 6:01:45 PM",
+      "6/1/2023, 6:01:45 PM"
     );
 
     const dateWithoutMilliseconds = parseDateWithoutTimeZone(
-      "2023-06-01T18:01:45",
+      "2023-06-01T18:01:45"
     );
     expect(dateWithoutMilliseconds).toBeInstanceOf(Date);
     expect(dateWithoutMilliseconds.toString()).toEqual(date.toString());
     expect(dateWithoutMilliseconds.toLocaleString("en-US")).toEqual(
-      date.toLocaleString("en-US"),
+      date.toLocaleString("en-US")
     );
   });
 
@@ -45,16 +46,16 @@ describe("parseDateWithoutTimeZone", () => {
     expect(date).toBeInstanceOf(Date);
     expect(date.toString()).toContain("Thu Jun 01 2023 18:01:45");
     expect(date.toLocaleString("en-US").replace(" ", " ")).toEqual(
-      "6/1/2023, 6:01:45 PM",
+      "6/1/2023, 6:01:45 PM"
     );
 
     const dateWithoutMilliseconds = parseDateWithoutTimeZone(
-      "2023-06-01T18:01:45+05:00",
+      "2023-06-01T18:01:45+05:00"
     );
     expect(dateWithoutMilliseconds).toBeInstanceOf(Date);
     expect(dateWithoutMilliseconds.toString()).toEqual(date.toString());
     expect(dateWithoutMilliseconds.toLocaleString("en-US")).toEqual(
-      date.toLocaleString("en-US"),
+      date.toLocaleString("en-US")
     );
   });
 
@@ -64,16 +65,16 @@ describe("parseDateWithoutTimeZone", () => {
     expect(date).toBeInstanceOf(Date);
     expect(date.toString()).toContain("Thu Jun 01 2023 18:01:45");
     expect(date.toLocaleString("en-US").replace(" ", " ")).toEqual(
-      "6/1/2023, 6:01:45 PM",
+      "6/1/2023, 6:01:45 PM"
     );
 
     const dateWithoutMilliseconds = parseDateWithoutTimeZone(
-      "2023-06-01T18:01:45+05:00",
+      "2023-06-01T18:01:45+05:00"
     );
     expect(dateWithoutMilliseconds).toBeInstanceOf(Date);
     expect(dateWithoutMilliseconds.toString()).toEqual(date.toString());
     expect(dateWithoutMilliseconds.toLocaleString("en-US")).toEqual(
-      date.toLocaleString("en-US"),
+      date.toLocaleString("en-US")
     );
   });
 
@@ -83,7 +84,7 @@ describe("parseDateWithoutTimeZone", () => {
     expect(date).toBeInstanceOf(Date);
     expect(date.toString()).toContain("Thu Jun 01 2023 00:00:00");
     expect(date.toLocaleString("en-US").replace(" ", " ")).toEqual(
-      "6/1/2023, 12:00:00 AM",
+      "6/1/2023, 12:00:00 AM"
     );
   });
 });
