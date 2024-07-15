@@ -37,7 +37,9 @@ import { registerDebounceProvider } from "@/src/code-components/DebounceProvider
 import { registerWindowEventListener } from "@/src/code-components/WindowEventListener/WindowEventListener.register";
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 
-export function registerAll(plasmic: NextJsPlasmicComponentLoader) {
+export function registerMyEvaluationsPlasmicUtils(
+  plasmic: NextJsPlasmicComponentLoader,
+) {
   registerAuthContext(plasmic);
   registerRouter(plasmic);
   registerRouteQuerySynchronizer(plasmic);
