@@ -9,19 +9,19 @@ export function registerRawList(
 ) {
   plasmic.registerComponent(RawLi, {
     name: "RawLi",
-    importPath: modulePath + "/code-components/raw/Li",
+    importPath: modulePath + "/code-components/RawList/Li",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawOl, {
     name: "RawOl",
-    importPath: modulePath + "/code-components/raw/Ol",
+    importPath: modulePath + "/code-components/RawList/Ol",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawUl, {
     name: "RawUl",
-    importPath: modulePath + "/code-components/raw/Ul",
+    importPath: modulePath + "/code-components/RawList/Ul",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 }

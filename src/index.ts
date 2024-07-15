@@ -15,7 +15,7 @@ import { registerOnChangeProvider } from "./code-components/OnChangeProvider/OnC
 import { registerRawCheckboxOrRadio } from "./code-components/RawCheckboxOrRadio/CheckboxOrRadio.register";
 import { registerRawChildren } from "./code-components/RawChildren/Children.register";
 import { registerRawList } from "./code-components/RawList/RawList.register";
-import { registerRawNull } from "./code-components/RawNull/Null.register";
+import { registerRawNull } from "./code-components/RawNull/RawNull.register";
 import { registerRawTable } from "./code-components/RawTable/RawTable.register";
 import { registerRouteQuerySynchronizer } from "./code-components/Router/RouteQuerySynchronizer.register";
 import { registerRouter } from "./code-components/Router/Router.register";

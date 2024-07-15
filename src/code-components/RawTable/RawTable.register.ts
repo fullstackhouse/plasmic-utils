@@ -13,35 +13,35 @@ export function registerRawTable(
 ) {
   plasmic.registerComponent(RawTable, {
     name: "RawTable",
-    importPath: modulePath + "/code-components/raw/Table",
+    importPath: modulePath + "/code-components/RawTable/Table",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawThead, {
     parentComponentName: "RawTable",
     name: "RawThead",
-    importPath: modulePath + "/code-components/raw/Thead",
+    importPath: modulePath + "/code-components/RawTable/Thead",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawTbody, {
     parentComponentName: "RawTable",
     name: "RawTbody",
-    importPath: modulePath + "/code-components/raw/Tbody",
+    importPath: modulePath + "/code-components/RawTable/Tbody",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawTfoot, {
     parentComponentName: "RawTable",
     name: "RawTfoot",
-    importPath: modulePath + "/code-components/raw/Tfoot",
+    importPath: modulePath + "/code-components/RawTable/Tfoot",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawTr, {
     parentComponentName: "RawTable",
     name: "RawTr",
-    importPath: modulePath + "/code-components/raw/Tr",
+    importPath: modulePath + "/code-components/RawTable/Tr",
     props: {
       style: { type: "object", advanced: true },
       children: "slot",
@@ -59,7 +59,7 @@ export function registerRawTable(
   plasmic.registerComponent(RawTh, {
     parentComponentName: "RawTable",
     name: "RawTh",
-    importPath: modulePath + "/code-components/raw/Th",
+    importPath: modulePath + "/code-components/RawTable/Th",
     props: {
       rowSpan: { type: "number", defaultValueHint: 1 },
       colSpan: { type: "number", defaultValueHint: 1 },
@@ -71,7 +71,7 @@ export function registerRawTable(
   plasmic.registerComponent(RawTd, {
     parentComponentName: "RawTable",
     name: "RawTd",
-    importPath: modulePath + "/code-components/raw/Td",
+    importPath: modulePath + "/code-components/RawTable/Td",
     props: {
       rowSpan: { type: "number", defaultValueHint: 1 },
       colSpan: { type: "number", defaultValueHint: 1 },
