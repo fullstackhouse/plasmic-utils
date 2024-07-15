@@ -8,7 +8,7 @@ import {
 
 export function registerDialogV2(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(DialogV2, {
     name: "DialogV2",

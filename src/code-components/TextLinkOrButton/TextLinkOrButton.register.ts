@@ -3,7 +3,7 @@ import { TextLinkOrButton } from "./TextLinkOrButton";
 
 export function registerTextLinkOrButton(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(TextLinkOrButton, {
     name: "TextLinkOrButton",

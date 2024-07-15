@@ -3,7 +3,7 @@ import { ApiProvider } from "./ApiProvider";
 
 export function registerApiProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",

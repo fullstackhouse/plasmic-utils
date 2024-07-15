@@ -3,7 +3,7 @@ import { RawChildren } from "./Children";
 
 export function registerRawChildren(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawChildren, {
     name: "RawChildren",

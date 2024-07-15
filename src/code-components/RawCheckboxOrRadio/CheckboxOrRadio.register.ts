@@ -3,7 +3,7 @@ import { RawCheckboxOrRadio } from "./CheckboxOrRadio";
 
 export function registerRawCheckboxOrRadio(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawCheckboxOrRadio, {
     name: "RawCheckboxOrRadio",

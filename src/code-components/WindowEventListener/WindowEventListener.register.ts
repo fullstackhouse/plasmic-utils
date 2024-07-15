@@ -4,7 +4,7 @@ import { FunctionComponent } from "react";
 
 export function registerWindowEventListener(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {
     name: "WindowEventListener",

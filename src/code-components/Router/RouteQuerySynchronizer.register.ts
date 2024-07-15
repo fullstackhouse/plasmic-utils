@@ -3,7 +3,7 @@ import { RouteQuerySynchronizer } from "./RouteQuerySynchronizer";
 
 export function registerRouteQuerySynchronizer(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RouteQuerySynchronizer, {
     name: "RouteQuerySynchronizer",

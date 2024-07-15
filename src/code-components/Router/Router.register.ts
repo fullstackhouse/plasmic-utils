@@ -3,7 +3,7 @@ import { Router } from "./Router";
 
 export function registerRouter(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerGlobalContext(Router, {
     name: "Router",

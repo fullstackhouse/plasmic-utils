@@ -3,7 +3,7 @@ import { ApiMutationProvider } from "./ApiMutationProvider";
 
 export function registerApiMutationProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",

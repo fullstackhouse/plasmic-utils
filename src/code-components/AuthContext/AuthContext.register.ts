@@ -3,7 +3,7 @@ import { AuthContextProvider } from "./AuthContextProvider";
 
 export function registerAuthContext(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerGlobalContext(AuthContextProvider, {
     name: "AuthContext",

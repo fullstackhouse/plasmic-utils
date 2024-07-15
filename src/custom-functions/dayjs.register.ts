@@ -3,7 +3,7 @@ import { dayjs } from "./dayjs";
 
 export function registerDayjs(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerFunction(dayjs, {
     name: "dayjs",

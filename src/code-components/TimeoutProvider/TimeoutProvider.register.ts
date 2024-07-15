@@ -3,7 +3,7 @@ import { TimeoutProvider } from "./TimeoutProvider";
 
 export function registerTimeoutProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(TimeoutProvider, {
     name: "TimeoutProvider",

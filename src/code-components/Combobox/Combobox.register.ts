@@ -3,7 +3,7 @@ import { Combobox } from "./Combobox";
 
 export function registerCombobox(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   const activeSelector = "[data-headlessui-state*=active]";
   const selectedSelector = "[aria-selected=true]";

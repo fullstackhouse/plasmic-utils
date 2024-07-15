@@ -3,7 +3,7 @@ import { OnChangeProvider } from "./OnChangeProvider";
 
 export function registerOnChangeProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnChangeProvider, {
     name: "OnChangeProvider",

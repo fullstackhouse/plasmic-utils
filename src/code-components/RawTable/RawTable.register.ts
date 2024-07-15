@@ -9,7 +9,7 @@ import { RawTr } from "./Tr";
 
 export function registerRawTable(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawTable, {
     name: "RawTable",

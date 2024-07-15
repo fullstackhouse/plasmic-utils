@@ -3,7 +3,7 @@ import { parseDateWithoutTimeZone } from "./parseDateWithoutTimeZone";
 
 export function registerParseDateWithoutTimeZone(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerFunction(parseDateWithoutTimeZone, {
     name: "parseDateWithoutTimeZone",

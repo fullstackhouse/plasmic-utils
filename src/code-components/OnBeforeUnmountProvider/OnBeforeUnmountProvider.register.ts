@@ -3,7 +3,7 @@ import { OnBeforeUnmountProvider } from "./OnBeforeUnmountProvider";
 
 export function registerOnBeforeUnmountProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnBeforeUnmountProvider, {
     name: "OnBeforeUnmountProvider",

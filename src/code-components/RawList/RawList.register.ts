@@ -5,7 +5,7 @@ import { RawUl } from "./Ul";
 
 export function registerRawList(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils/dist",
+  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawLi, {
     name: "RawLi",
