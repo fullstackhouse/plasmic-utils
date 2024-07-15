@@ -1,4 +1,4 @@
-import { DataProvider } from "@plasmicapp/loader-react";
+import { DataProvider } from "@plasmicapp/host";
 import { ReactNode, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 

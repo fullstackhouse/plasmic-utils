@@ -1,8 +1,8 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../../plasmic";
 import { OnBeforeLogoutProvider } from "./OnBeforeLogoutProvider";
 
 export function registerOnBeforeLogoutProvider(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnBeforeLogoutProvider, {

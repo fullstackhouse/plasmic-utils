@@ -1,10 +1,10 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import { RawLi } from "./Li";
 import { RawOl } from "./Ol";
 import { RawUl } from "./Ul";
 
 export function registerRawList(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawLi, {

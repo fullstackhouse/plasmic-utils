@@ -1,8 +1,8 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import { OnBeforeUnloadProvider } from "./OnBeforeUnloadProvider";
 
 export function registerOnBeforeUnloadProvider(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnBeforeUnloadProvider, {

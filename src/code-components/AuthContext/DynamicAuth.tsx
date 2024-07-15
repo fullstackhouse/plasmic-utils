@@ -1,4 +1,4 @@
-import { useDataEnv } from "@plasmicapp/loader-react";
+import { useDataEnv } from "@plasmicapp/host";
 import isEqual from "lodash.isequal";
 import { ReactNode, useMemo } from "react";
 import {

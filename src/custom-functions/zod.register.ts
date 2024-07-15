@@ -1,8 +1,8 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../plasmic";
 import { zod } from "./zod";
 
 export function registerZod(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerFunction(zod, {

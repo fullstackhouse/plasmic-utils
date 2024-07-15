@@ -1,4 +1,4 @@
-import { usePlasmicCanvasContext } from "@plasmicapp/loader-react";
+import { usePlasmicCanvasContext } from "@plasmicapp/host";
 import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
 import { ReactNode } from "react";
 import useSWR from "swr";

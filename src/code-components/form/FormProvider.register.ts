@@ -1,9 +1,9 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import { FormControlProvider } from "./FormControlProvider";
 import { FormProvider } from "./FormProvider";
 
 export function registerFormProvider(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(FormProvider, {

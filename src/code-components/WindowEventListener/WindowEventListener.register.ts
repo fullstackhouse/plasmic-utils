@@ -1,9 +1,9 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import { WindowEventListener } from "./WindowEventListener";
 import { FunctionComponent } from "react";
 
 export function registerWindowEventListener(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {

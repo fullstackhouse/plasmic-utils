@@ -1,4 +1,4 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import { RawTable } from "./Table";
 import { RawTbody } from "./Tbody";
 import { RawTd } from "./Td";
@@ -8,7 +8,7 @@ import { RawThead } from "./Thead";
 import { RawTr } from "./Tr";
 
 export function registerRawTable(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawTable, {

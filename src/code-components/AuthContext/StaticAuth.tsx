@@ -1,4 +1,4 @@
-import { DataProvider } from "@plasmicapp/loader-react";
+import { DataProvider } from "@plasmicapp/host";
 // import * as Sentry from "@sentry/react";
 import { ReactNode, useEffect, useMemo } from "react";
 import { LogoutContextProvider } from "./LogoutProvider/LogoutContextProvider";

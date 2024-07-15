@@ -1,4 +1,4 @@
-import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
+import type { PlasmicLoader } from "../../plasmic";
 import {
   DialogV2,
   DialogV2Close,
@@ -7,7 +7,7 @@ import {
 } from "./DialogV2";
 
 export function registerDialogV2(
-  plasmic: PlasmicComponentLoader,
+  plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
   plasmic.registerComponent(DialogV2, {
