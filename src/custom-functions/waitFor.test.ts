@@ -27,8 +27,8 @@ describe("waitFor", () => {
           }
           return value;
         },
-        { timeout: 100, pollInterval: 5 }
-      )
+        { timeout: 100, pollInterval: 5 },
+      ),
     ).rejects.toThrow(new TypeError("test error"));
   });
 
@@ -36,7 +36,7 @@ describe("waitFor", () => {
     let value = false;
 
     expect(
-      waitFor(() => value, { timeout: 30, pollInterval: 1 })
+      waitFor(() => value, { timeout: 30, pollInterval: 1 }),
     ).rejects.toThrow(new TimeoutError("waitFor timed out"));
 
     expect(new TimeoutError().name).toEqual("TimeoutError");

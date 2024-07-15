@@ -65,7 +65,7 @@ export function ApiProvider({
     enabled && interactive ? cacheKey : null,
     () => {
       return fetchApi(fetchOptions).then((data) =>
-        transformResponse(data, fetchOptions)
+        transformResponse(data, fetchOptions),
       );
     },
     {
@@ -74,7 +74,7 @@ export function ApiProvider({
       revalidateOnFocus: refetchOnWindowFocus,
       revalidateOnReconnect: refetchOnReconnect,
       shouldRetryOnError: retryOnError && shouldRetry,
-    }
+    },
   );
 
   const mockedResponse = useMockedResponse({

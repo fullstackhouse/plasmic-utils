@@ -31,7 +31,7 @@ export function StaticAuth({
       features,
       privileges,
     }),
-    [userId, departmentId, roleName, features, privileges]
+    [userId, departmentId, roleName, features, privileges],
   );
 
   // TODO bring it back

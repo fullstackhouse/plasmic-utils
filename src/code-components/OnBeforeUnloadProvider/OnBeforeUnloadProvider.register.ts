@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { OnBeforeUnloadProvider } from "./OnBeforeUnloadProvider";
 
 export function registerOnBeforeUnloadProvider(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(OnBeforeUnloadProvider, {
     name: "OnBeforeUnloadProvider",

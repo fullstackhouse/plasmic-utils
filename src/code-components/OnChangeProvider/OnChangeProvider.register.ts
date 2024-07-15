@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { OnChangeProvider } from "./OnChangeProvider";
 
 export function registerOnChangeProvider(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(OnChangeProvider, {
     name: "OnChangeProvider",

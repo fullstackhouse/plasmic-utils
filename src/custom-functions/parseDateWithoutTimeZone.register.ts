@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { parseDateWithoutTimeZone } from "./parseDateWithoutTimeZone";
 
 export function registerParseDateWithoutTimeZone(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerFunction(parseDateWithoutTimeZone, {
     name: "parseDateWithoutTimeZone",

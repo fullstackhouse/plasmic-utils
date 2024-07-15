@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { TextLinkOrButton } from "./TextLinkOrButton";
 
 export function registerTextLinkOrButton(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(TextLinkOrButton, {
     name: "TextLinkOrButton",

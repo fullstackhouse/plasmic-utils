@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { FollowingTooltip } from "./FollowingTooltip";
 
 export function registerFollowingTooltip(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(FollowingTooltip, {
     name: "RawFollowingTooltip",

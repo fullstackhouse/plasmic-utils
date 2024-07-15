@@ -27,7 +27,7 @@ export interface RouterActions {
        * @default false
        */
       push?: boolean;
-    }
+    },
   ): void;
 }
 
@@ -75,7 +75,7 @@ function useAdapter({
 }
 
 function useCurrentQuery(
-  adapter: RouterAdapter
+  adapter: RouterAdapter,
 ): [Query, RouterActions["setQuery"]] {
   const currentRoute = useCurrentRoute(adapter);
 
@@ -84,7 +84,7 @@ function useCurrentQuery(
 
     const setQuery: RouterActions["setQuery"] = (
       query,
-      { merge = true, push = false } = {}
+      { merge = true, push = false } = {},
     ) => {
       const prevRoute = adapter.getCurrentRoute();
       const prevQuery = parseQueryString(prevRoute.queryString ?? "");

@@ -3,7 +3,7 @@ import { WindowEventListener } from "./WindowEventListener";
 import { FunctionComponent } from "react";
 
 export function registerWindowEventListener(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {
     name: "WindowEventListener",

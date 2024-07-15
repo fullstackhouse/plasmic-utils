@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { ApiMutationProvider } from "./ApiMutationProvider";
 
 export function registerApiMutationProvider(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",

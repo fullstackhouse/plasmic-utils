@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { HiddenIfEmptyContainer } from "./HiddenIfEmptyContainer";
 
 export function registerHiddenIfEmptyContainer(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(HiddenIfEmptyContainer, {
     name: "HiddenIfEmptyContainer",

@@ -48,7 +48,7 @@ export function DialogV2({
             onOpenAutoFocus={() => {
               triggerRef.current =
                 document.activeElement instanceof HTMLElement
-                  ? document.activeElement ?? undefined
+                  ? (document.activeElement ?? undefined)
                   : undefined;
             }}
             onCloseAutoFocus={(event) => {

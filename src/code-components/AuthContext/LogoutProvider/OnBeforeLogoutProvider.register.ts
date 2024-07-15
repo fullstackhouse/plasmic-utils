@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { OnBeforeLogoutProvider } from "./OnBeforeLogoutProvider";
 
 export function registerOnBeforeLogoutProvider(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(OnBeforeLogoutProvider, {
     name: "OnBeforeLogoutProvider",

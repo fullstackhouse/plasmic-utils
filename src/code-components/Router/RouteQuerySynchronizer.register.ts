@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { RouteQuerySynchronizer } from "./RouteQuerySynchronizer";
 
 export function registerRouteQuerySynchronizer(
-  plasmic: NextJsPlasmicComponentLoader
+  plasmic: NextJsPlasmicComponentLoader,
 ) {
   plasmic.registerComponent(RouteQuerySynchronizer, {
     name: "RouteQuerySynchronizer",

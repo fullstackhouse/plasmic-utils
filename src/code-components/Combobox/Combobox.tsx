@@ -70,7 +70,7 @@ export function Combobox({
             ? matchesQuery(option.description, query)
             : false),
       )
-    : options ?? [];
+    : (options ?? []);
 
   const selectedOption = options?.find((option) => option.value === value);
 
@@ -119,7 +119,7 @@ export function Combobox({
                   }
                 }}
                 displayValue={(option: ComboboxOption | null) => {
-                  return option ? option.label ?? String(option.value) : "";
+                  return option ? (option.label ?? String(option.value)) : "";
                 }}
                 className={[inputClassName, styles.input].join(" ")}
                 placeholder={placeholder}
