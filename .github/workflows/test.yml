@@ -1,0 +1,42 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+        id: npm-install
+
+      - run: npm run lint
+        if: steps.npm-install.conclusion == 'success' && (success() || failure())
+
+      - run: npm run test
+        if: steps.npm-install.conclusion == 'success' && (success() || failure())
+
+      - run: npm run build
+        if: steps.npm-install.conclusion == 'success' && (success() || failure())
+
+      - name: Notify FSH Slack on failure
+        if: failure() && github.ref_name == 'main'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: "myevals-alerts"
+          slack-message: ":red_circle: Workflow *<${{env.GITHUB_WORKFLOW_URL}}|${{github.workflow_ref}}>* failed"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.FSH_SLACK_BOT_TOKEN }}
+          GITHUB_WORKFLOW_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
