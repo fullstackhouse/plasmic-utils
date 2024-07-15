@@ -3,12 +3,11 @@ import { ApiMutationProvider } from "./ApiMutationProvider";
 
 export function registerApiMutationProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",
-    importPath:
-      modulePath + "/src/code-components/ApiProvider/ApiMutationProvider",
+    importPath: modulePath + "/code-components/ApiProvider/ApiMutationProvider",
     props: {
       method: {
         type: "choice",

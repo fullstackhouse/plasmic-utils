@@ -31,7 +31,7 @@ import { registerZod } from "./custom-functions/zod.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   registerApiMutationProvider(plasmic, modulePath);
   registerApiProvider(plasmic, modulePath);

@@ -3,12 +3,12 @@ import { Switch } from "./Switch";
 
 export function registerSwitch(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(Switch, {
     name: "RawSwitch",
     importName: "Switch",
-    importPath: modulePath + "/src/code-components/form/Switch/Switch",
+    importPath: modulePath + "/code-components/form/Switch/Switch",
     props: {
       name: { type: "string", advanced: true },
       value: { type: "string", advanced: true },

@@ -3,12 +3,11 @@ import { AuthContextProvider } from "./AuthContextProvider";
 
 export function registerAuthContext(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerGlobalContext(AuthContextProvider, {
     name: "AuthContext",
-    importPath:
-      modulePath + "/src/code-components/AuthContext/AuthContextProvider",
+    importPath: modulePath + "/code-components/AuthContext/AuthContextProvider",
     importName: "AuthContextProvider",
     props: {
       userId: {

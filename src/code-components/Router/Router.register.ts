@@ -3,11 +3,11 @@ import { Router } from "./Router";
 
 export function registerRouter(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerGlobalContext(Router, {
     name: "Router",
-    importPath: modulePath + "/src/code-components/Router/Router",
+    importPath: modulePath + "/code-components/Router/Router",
     props: {
       initialQueryString: {
         type: "string",

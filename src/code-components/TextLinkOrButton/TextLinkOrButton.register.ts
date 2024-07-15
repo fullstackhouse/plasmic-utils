@@ -3,12 +3,12 @@ import { TextLinkOrButton } from "./TextLinkOrButton";
 
 export function registerTextLinkOrButton(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(TextLinkOrButton, {
     name: "TextLinkOrButton",
     importPath:
-      modulePath + "/src/code-components/TextLinkOrButton/TextLinkOrButton",
+      modulePath + "/code-components/TextLinkOrButton/TextLinkOrButton",
     props: {
       href: "href",
       disabled: {

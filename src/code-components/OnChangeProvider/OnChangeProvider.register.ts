@@ -3,13 +3,13 @@ import { OnChangeProvider } from "./OnChangeProvider";
 
 export function registerOnChangeProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnChangeProvider, {
     name: "OnChangeProvider",
     description: "Run code whenever some data is changed.",
     importPath:
-      modulePath + "/src/code-components/OnChangeProvider/OnChangeProvider",
+      modulePath + "/code-components/OnChangeProvider/OnChangeProvider",
     props: {
       data: { type: "object" },
       runOnMount: {

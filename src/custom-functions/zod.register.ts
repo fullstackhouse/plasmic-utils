@@ -3,12 +3,12 @@ import { zod } from "./zod";
 
 export function registerZod(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerFunction(zod, {
     name: "zod",
     description: "Get zod object. Example usage: $$.zod().string()",
-    importPath: modulePath + "/src/custom-functions/zod",
+    importPath: modulePath + "/custom-functions/zod",
     typescriptDeclaration: `(): any`,
   });
 }

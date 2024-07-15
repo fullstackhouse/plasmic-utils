@@ -8,11 +8,11 @@ import {
 
 export function registerDialogV2(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(DialogV2, {
     name: "DialogV2",
-    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/code-components/DialogV2/DialogV2",
     props: {
       open: {
         type: "boolean",
@@ -85,7 +85,7 @@ export function registerDialogV2(
     name: "DialogV2Title",
 
     parentComponentName: "DialogV2",
-    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",
@@ -97,7 +97,7 @@ export function registerDialogV2(
   plasmic.registerComponent(DialogV2Description, {
     name: "DialogV2Description",
     parentComponentName: "DialogV2",
-    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",
@@ -109,7 +109,7 @@ export function registerDialogV2(
   plasmic.registerComponent(DialogV2Close, {
     name: "DialogV2Close",
     parentComponentName: "DialogV2",
-    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",

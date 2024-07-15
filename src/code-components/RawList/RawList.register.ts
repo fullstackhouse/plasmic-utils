@@ -5,23 +5,23 @@ import { RawUl } from "./Ul";
 
 export function registerRawList(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawLi, {
     name: "RawLi",
-    importPath: modulePath + "/src/code-components/raw/Li",
+    importPath: modulePath + "/code-components/raw/Li",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawOl, {
     name: "RawOl",
-    importPath: modulePath + "/src/code-components/raw/Ol",
+    importPath: modulePath + "/code-components/raw/Ol",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 
   plasmic.registerComponent(RawUl, {
     name: "RawUl",
-    importPath: modulePath + "/src/code-components/raw/Ul",
+    importPath: modulePath + "/code-components/raw/Ul",
     props: { style: { type: "object", advanced: true }, children: "slot" },
   });
 }

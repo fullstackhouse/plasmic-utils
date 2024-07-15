@@ -4,11 +4,11 @@ import { FormProvider } from "./FormProvider";
 
 export function registerFormProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(FormProvider, {
     name: "FormProvider",
-    importPath: modulePath + "/src/code-components/form/FormProvider",
+    importPath: modulePath + "/code-components/form/FormProvider",
     props: {
       contextName: {
         type: "string",
@@ -68,7 +68,7 @@ export function registerFormProvider(
 
   plasmic.registerComponent(FormControlProvider, {
     name: "FormControlProvider",
-    importPath: modulePath + "/src/code-components/form/FormControlProvider",
+    importPath: modulePath + "/code-components/form/FormControlProvider",
     props: {
       contextName: {
         type: "string",

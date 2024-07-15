@@ -3,13 +3,13 @@ import { RawNull } from "./Null";
 
 export function registerRawNull(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawNull, {
     name: "RawNull",
     description:
       "Renders nothing. Useful if you want to set it as a slot's content, so that its' placeholder is not visible in the editor UI.",
-    importPath: modulePath + "/src/code-components/raw/Null",
+    importPath: modulePath + "/code-components/raw/Null",
     props: {},
     styleSections: false,
   });

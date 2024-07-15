@@ -3,13 +3,13 @@ import { StateProvider } from "./StateProvider";
 
 export function registerStateProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(StateProvider, {
     name: "StateProvider",
     description:
       "Provides a state value, that will default to a certain value, whenever the current value is empty or is included in the provided list of allowed values.",
-    importPath: modulePath + "/src/code-components/StateProvider/StateProvider",
+    importPath: modulePath + "/code-components/StateProvider/StateProvider",
     props: {
       value: {
         type: "string",

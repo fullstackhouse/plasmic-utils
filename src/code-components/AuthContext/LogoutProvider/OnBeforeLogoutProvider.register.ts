@@ -3,7 +3,7 @@ import { OnBeforeLogoutProvider } from "./OnBeforeLogoutProvider";
 
 export function registerOnBeforeLogoutProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnBeforeLogoutProvider, {
     name: "OnBeforeLogoutProvider",

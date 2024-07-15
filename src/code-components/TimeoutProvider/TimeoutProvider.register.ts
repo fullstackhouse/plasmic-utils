@@ -3,13 +3,12 @@ import { TimeoutProvider } from "./TimeoutProvider";
 
 export function registerTimeoutProvider(
   plasmic: PlasmicComponentLoader,
-  modulePath = "@myevaluations/plasmic-utils",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(TimeoutProvider, {
     name: "TimeoutProvider",
     description: "Run code whenever some time is reached.",
-    importPath:
-      modulePath + "/src/code-components/TimeoutProvider/TimeoutProvider",
+    importPath: modulePath + "/code-components/TimeoutProvider/TimeoutProvider",
     props: {
       delay: {
         type: "number",
