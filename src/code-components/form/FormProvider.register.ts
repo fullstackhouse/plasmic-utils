@@ -2,7 +2,7 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { FormControlProvider } from "./FormControlProvider";
 import { FormProvider } from "./FormProvider";
 
-export function registerFormProviders(
+export function registerFormProvider(
   plasmic: NextJsPlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
