@@ -60,8 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       <PlasmicComponent component={pageMeta.displayName} />
     </PlasmicRootProvider>,
   );
-  // Use revalidate if you want incremental static regeneration
-  return { props: { plasmicData, queryCache }, revalidate: 60 };
+  return { props: { plasmicData, queryCache } };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

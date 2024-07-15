@@ -2,6 +2,7 @@ export type Query = Record<string, string>;
 
 export function parseQueryString(queryString: string): Query {
   const search = new URLSearchParams(queryString ?? "");
+  // @ts-ignore
   return [...search.keys()].reduce((acc, key) => {
     return {
       ...acc,
