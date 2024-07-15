@@ -1,4 +1,4 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import {
   DialogV2,
   DialogV2Close,
@@ -7,7 +7,7 @@ import {
 } from "./DialogV2";
 
 export function registerDialogV2(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(DialogV2, {

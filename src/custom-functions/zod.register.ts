@@ -1,8 +1,8 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { zod } from "./zod";
 
 export function registerZod(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerFunction(zod, {

@@ -1,8 +1,8 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { StateProvider } from "./StateProvider";
 
 export function registerStateProvider(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(StateProvider, {

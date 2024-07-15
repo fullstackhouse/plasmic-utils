@@ -1,4 +1,4 @@
-import { DataProvider, GlobalActionsProvider } from "@plasmicapp/loader-nextjs";
+import { DataProvider, GlobalActionsProvider } from "@plasmicapp/loader-react";
 import { ReactNode, useLayoutEffect, useMemo, useState } from "react";
 import { useInPlasmic } from "../../common/useInPlasmic";
 import { Route, RouterAdapter } from "./adapters/base";

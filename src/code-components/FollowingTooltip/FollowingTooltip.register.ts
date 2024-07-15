@@ -1,8 +1,8 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { FollowingTooltip } from "./FollowingTooltip";
 
 export function registerFollowingTooltip(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(FollowingTooltip, {

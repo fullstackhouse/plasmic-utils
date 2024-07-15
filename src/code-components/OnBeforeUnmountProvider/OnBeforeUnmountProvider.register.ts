@@ -1,8 +1,8 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { OnBeforeUnmountProvider } from "./OnBeforeUnmountProvider";
 
 export function registerOnBeforeUnmountProvider(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(OnBeforeUnmountProvider, {

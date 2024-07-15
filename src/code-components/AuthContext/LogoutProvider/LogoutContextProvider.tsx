@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { LogoutListener, LogoutContext, LogoutEvent } from "./LogoutContext";
-import { DataProvider } from "@plasmicapp/loader-nextjs";
+import { DataProvider } from "@plasmicapp/loader-react";
 
 export function LogoutContextProvider({ children }: { children: ReactNode }) {
   const listeners = useRef<LogoutListener[]>([]);

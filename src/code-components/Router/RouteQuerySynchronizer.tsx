@@ -1,4 +1,4 @@
-import { useDataEnv } from "@plasmicapp/loader-nextjs";
+import { useDataEnv } from "@plasmicapp/loader-react";
 import { useEffect, useRef } from "react";
 import { RouterContextValue } from "./Router";
 

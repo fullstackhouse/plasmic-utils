@@ -1,10 +1,10 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { RawLi } from "./Li";
 import { RawOl } from "./Ol";
 import { RawUl } from "./Ul";
 
 export function registerRawList(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(RawLi, {

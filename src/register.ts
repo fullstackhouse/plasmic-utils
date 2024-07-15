@@ -1,4 +1,4 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { registerAuthContext } from "./code-components/AuthContext/AuthContext.register";
@@ -30,7 +30,7 @@ import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 
 export function registerMyEvaluationsPlasmicUtils(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   registerApiMutationProvider(plasmic, modulePath);

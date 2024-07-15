@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
-import { useSelector } from "@plasmicapp/loader-nextjs";
+import { useSelector } from "@plasmicapp/loader-react";
 import {
   AuthLoginType,
   triggerAuthLogin,

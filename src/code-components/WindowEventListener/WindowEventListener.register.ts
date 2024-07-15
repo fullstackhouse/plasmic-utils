@@ -1,9 +1,9 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { WindowEventListener } from "./WindowEventListener";
 import { FunctionComponent } from "react";
 
 export function registerWindowEventListener(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {

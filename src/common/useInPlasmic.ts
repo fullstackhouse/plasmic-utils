@@ -1,4 +1,4 @@
-import { usePlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
+import { usePlasmicCanvasContext } from "@plasmicapp/loader-react";
 
 export function useInPlasmic(): boolean {
   const inPlasmicCanvas = !!usePlasmicCanvasContext();

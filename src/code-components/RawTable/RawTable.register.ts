@@ -1,4 +1,4 @@
-import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
+import { PlasmicComponentLoader } from "@plasmicapp/loader-react";
 import { RawTable } from "./Table";
 import { RawTbody } from "./Tbody";
 import { RawTd } from "./Td";
@@ -8,7 +8,7 @@ import { RawThead } from "./Thead";
 import { RawTr } from "./Tr";
 
 export function registerRawTable(
-  plasmic: NextJsPlasmicComponentLoader,
+  plasmic: PlasmicComponentLoader,
   modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(RawTable, {
