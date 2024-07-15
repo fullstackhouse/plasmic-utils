@@ -1,0 +1,8 @@
+.root {
+	position: relative;
+}
+
+.thumb {
+	display: block;
+	will-change: transform;
+}

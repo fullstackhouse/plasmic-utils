@@ -1,0 +1,8 @@
+.container {
+  position: relative;
+  min-width: min-content;
+}
+
+.tooltip:empty {
+  display: none;
+}

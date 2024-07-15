@@ -1,0 +1,41 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+
+.wrapper {
+  position: relative;
+}
+
+.input {
+  box-sizing: border-box;
+}
+
+.leftIcon:empty {
+  display: none;
+}
+
+.input:focus + .arrowIcon {
+  pointer-events: none;
+}
+
+.rotate {
+  transform: rotate(180deg) translateY(5px);
+}
+
+/* Clip-path to get rid of overflowing box shadow on input */
+.options {
+  list-style: none;
+  scrollbar-width: thin;
+  user-select: none;
+  transition: opacity 0.1s ease-in;
+  position: absolute;
+  top: 100%;
+  margin: 0;
+  clip-path: inset(0 -48px -48px -48px);
+}
+
+.options:global(.hide-start) {
+  opacity: 1;
+}
+
+.options:global(.hide-end) {
+  opacity: 0;
+}
