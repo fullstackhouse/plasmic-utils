@@ -7,7 +7,8 @@
     "lint": "next lint",
     "test": "vitest",
     "build-host": "next build",
-    "prepublishOnly": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json"
+    "build-package": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json",
+    "prepublishOnly": "npm run build-package"
   },
   "main": "dist/index.js",
   "files": [

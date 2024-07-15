@@ -24,9 +24,13 @@ jobs:
         with:
           bump_each_commit: true
 
+      - uses: fregante/setup-git-user@v2
+
       - run: npm version ${{ steps.version.outputs.version }}
 
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify FSH Slack on failure
         if: failure() && github.ref_name == 'main'
