@@ -1,6 +1,6 @@
 {
   "name": "@myevaluations/myevals-plasmic-utils",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "next dev",
     "lint": "next lint",
