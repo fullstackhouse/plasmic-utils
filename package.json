@@ -18,7 +18,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "repository": "https://github.com/myevaluations/myevals-plasmic-utils",
+  "repository": "github:myevaluations/myevals-plasmic-utils",
   "dependencies": {},
   "devDependencies": {
     "@headlessui/react": "^1.7.18",
