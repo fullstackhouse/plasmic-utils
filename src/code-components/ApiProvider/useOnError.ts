@@ -1,12 +1,12 @@
-import {
-  AuthLoginType,
-  triggerAuthLogin,
-} from "@/src/common/auth/triggerAuthLogin";
 import { useEffect, useRef, useState } from "react";
 import { ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
 import { useSelector } from "@plasmicapp/loader-nextjs";
-import { ToastContext } from "@/src/common/ToastContext";
+import {
+  AuthLoginType,
+  triggerAuthLogin,
+} from "../../common/auth/triggerAuthLogin";
+import { ToastContext } from "../../common/ToastContext";
 
 /**
  * Whenever `error` changes and is present:

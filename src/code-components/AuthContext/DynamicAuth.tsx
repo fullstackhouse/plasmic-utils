@@ -1,10 +1,10 @@
-import {
-  getSessionStorageObject,
-  setSessionStorageObject,
-} from "@/src/common/sessionStorage";
 import { useDataEnv } from "@plasmicapp/loader-nextjs";
 import isEqual from "lodash.isequal";
 import { ReactNode, useMemo } from "react";
+import {
+  getSessionStorageObject,
+  setSessionStorageObject,
+} from "../../common/sessionStorage";
 import { ApiProvider } from "../ApiProvider/ApiProvider";
 import { AuthContextValue, StaticAuth } from "./StaticAuth";
 import { convertPrivileges } from "./convertPrivileges";

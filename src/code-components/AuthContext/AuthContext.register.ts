@@ -1,10 +1,14 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { AuthContextProvider } from "./AuthContextProvider";
 
-export function registerAuthContext(plasmic: NextJsPlasmicComponentLoader) {
+export function registerAuthContext(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerGlobalContext(AuthContextProvider, {
     name: "AuthContext",
-    importPath: "./src/code-components/AuthContext/AuthContextProvider",
+    importPath:
+      modulePath + "/src/code-components/AuthContext/AuthContextProvider",
     importName: "AuthContextProvider",
     props: {
       userId: {

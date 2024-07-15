@@ -1,10 +1,10 @@
 import { DataProvider, GlobalActionsProvider } from "@plasmicapp/loader-nextjs";
 import { ReactNode, useLayoutEffect, useMemo, useState } from "react";
+import { useInPlasmic } from "../../common/useInPlasmic";
 import { Route, RouterAdapter } from "./adapters/base";
 import { buildBrowserRouterAdapter } from "./adapters/browser";
 import { buildMemoryRouterAdapter } from "./adapters/memory";
 import { Query, buildQueryString, parseQueryString } from "./utils/queryString";
-import { useInPlasmic } from "@/src/common/useInPlasmic";
 
 export interface RouterProps {
   initialQueryString?: string;

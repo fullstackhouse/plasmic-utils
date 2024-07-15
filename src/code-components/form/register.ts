@@ -2,10 +2,13 @@ import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { FormControlProvider } from "./FormControlProvider";
 import { FormProvider } from "./FormProvider";
 
-export function registerFormProviders(plasmic: NextJsPlasmicComponentLoader) {
+export function registerFormProviders(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(FormProvider, {
     name: "FormProvider",
-    importPath: "./src/code-components/form/FormProvider",
+    importPath: modulePath + "/src/code-components/form/FormProvider",
     props: {
       contextName: {
         type: "string",
@@ -65,7 +68,7 @@ export function registerFormProviders(plasmic: NextJsPlasmicComponentLoader) {
 
   plasmic.registerComponent(FormControlProvider, {
     name: "FormControlProvider",
-    importPath: "./src/code-components/form/FormControlProvider",
+    importPath: modulePath + "/src/code-components/form/FormControlProvider",
     props: {
       contextName: {
         type: "string",

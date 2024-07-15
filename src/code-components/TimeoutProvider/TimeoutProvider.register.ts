@@ -1,11 +1,15 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { TimeoutProvider } from "./TimeoutProvider";
 
-export function registerTimeoutProvider(plasmic: NextJsPlasmicComponentLoader) {
+export function registerTimeoutProvider(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(TimeoutProvider, {
     name: "TimeoutProvider",
     description: "Run code whenever some time is reached.",
-    importPath: "./src/code-components/TimeoutProvider/TimeoutProvider",
+    importPath:
+      modulePath + "/src/code-components/TimeoutProvider/TimeoutProvider",
     props: {
       delay: {
         type: "number",

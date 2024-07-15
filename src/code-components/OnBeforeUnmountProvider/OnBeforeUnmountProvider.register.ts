@@ -3,12 +3,14 @@ import { OnBeforeUnmountProvider } from "./OnBeforeUnmountProvider";
 
 export function registerOnBeforeUnmountProvider(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(OnBeforeUnmountProvider, {
     name: "OnBeforeUnmountProvider",
     description: "Calls the passed callback before unmounting the component",
     importPath:
-      "./src/code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider",
+      modulePath +
+      "/src/code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider",
     props: {
       callback: {
         type: "eventHandler",

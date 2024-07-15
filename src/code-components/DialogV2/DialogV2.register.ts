@@ -6,10 +6,13 @@ import {
   DialogV2Title,
 } from "./DialogV2";
 
-export function registerDialogV2(plasmic: NextJsPlasmicComponentLoader) {
+export function registerDialogV2(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(DialogV2, {
     name: "DialogV2",
-    importPath: "./src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
     props: {
       open: {
         type: "boolean",
@@ -82,7 +85,7 @@ export function registerDialogV2(plasmic: NextJsPlasmicComponentLoader) {
     name: "DialogV2Title",
 
     parentComponentName: "DialogV2",
-    importPath: "./src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",
@@ -94,7 +97,7 @@ export function registerDialogV2(plasmic: NextJsPlasmicComponentLoader) {
   plasmic.registerComponent(DialogV2Description, {
     name: "DialogV2Description",
     parentComponentName: "DialogV2",
-    importPath: "./src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",
@@ -106,7 +109,7 @@ export function registerDialogV2(plasmic: NextJsPlasmicComponentLoader) {
   plasmic.registerComponent(DialogV2Close, {
     name: "DialogV2Close",
     parentComponentName: "DialogV2",
-    importPath: "./src/code-components/DialogV2/DialogV2",
+    importPath: modulePath + "/src/code-components/DialogV2/DialogV2",
     props: {
       children: {
         type: "slot",

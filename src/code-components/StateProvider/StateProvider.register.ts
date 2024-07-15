@@ -1,12 +1,15 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { StateProvider } from "./StateProvider";
 
-export function registerStateProvider(plasmic: NextJsPlasmicComponentLoader) {
+export function registerStateProvider(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(StateProvider, {
     name: "StateProvider",
     description:
       "Provides a state value, that will default to a certain value, whenever the current value is empty or is included in the provided list of allowed values.",
-    importPath: "./src/code-components/StateProvider/StateProvider",
+    importPath: modulePath + "/src/code-components/StateProvider/StateProvider",
     props: {
       value: {
         type: "string",

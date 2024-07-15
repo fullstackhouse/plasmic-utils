@@ -1,7 +1,10 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { Combobox } from "./Combobox";
 
-export function registerCombobox(plasmic: NextJsPlasmicComponentLoader) {
+export function registerCombobox(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   const activeSelector = "[data-headlessui-state*=active]";
   const selectedSelector = "[aria-selected=true]";
   const highlightSelector = "[data-highlight=true]";
@@ -9,7 +12,7 @@ export function registerCombobox(plasmic: NextJsPlasmicComponentLoader) {
   plasmic.registerComponent(Combobox, {
     name: "RawCombobox",
     importName: "Combobox",
-    importPath: "./src/code-components/Combobox/Combobox",
+    importPath: modulePath + "/src/code-components/Combobox/Combobox",
     props: {
       value: {
         type: "string",

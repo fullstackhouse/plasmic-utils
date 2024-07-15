@@ -3,11 +3,13 @@ import { DebounceProvider } from "./DebounceProvider";
 
 export function registerDebounceProvider(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(DebounceProvider, {
     name: "DebounceProvider",
     description: "Passes through a value into the context, but after a delay.",
-    importPath: "./src/code-components/DebounceProvider/DebounceProvider",
+    importPath:
+      modulePath + "/src/code-components/DebounceProvider/DebounceProvider",
     props: {
       name: {
         type: "string",

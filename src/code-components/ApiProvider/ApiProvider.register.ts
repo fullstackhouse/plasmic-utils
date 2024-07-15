@@ -1,10 +1,13 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { ApiProvider } from "./ApiProvider";
 
-export function registerApiProvider(plasmic: NextJsPlasmicComponentLoader) {
+export function registerApiProvider(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",
-    importPath: "./src/code-components/ApiProvider/ApiProvider",
+    importPath: modulePath + "/src/code-components/ApiProvider/ApiProvider",
     props: {
       method: {
         type: "choice",

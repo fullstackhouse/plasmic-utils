@@ -6,11 +6,11 @@ import { FetchError } from "./FetchError";
 import { FetchApiOptions, Query, fetchApi } from "./fetchApi";
 import { useOnError } from "./useOnError";
 import { useOnLoad } from "./useOnLoad";
-import { AuthLoginType } from "@/src/common/auth/triggerAuthLogin";
 import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
+import { AuthLoginType } from "../../common/auth/triggerAuthLogin";
 
 export interface ApiMutationProviderProps {
   method: string;

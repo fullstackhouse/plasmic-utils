@@ -3,11 +3,13 @@ import { FollowingTooltip } from "./FollowingTooltip";
 
 export function registerFollowingTooltip(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(FollowingTooltip, {
     name: "RawFollowingTooltip",
     importName: "FollowingTooltip",
-    importPath: "./src/code-components/FollowingTooltip/FollowingTooltip",
+    importPath:
+      modulePath + "/src/code-components/FollowingTooltip/FollowingTooltip",
     props: {
       content: { type: "string", defaultValue: "Example value" },
       delay: { type: "number", defaultValue: 300 },

@@ -3,10 +3,12 @@ import { TextLinkOrButton } from "./TextLinkOrButton";
 
 export function registerTextLinkOrButton(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(TextLinkOrButton, {
     name: "TextLinkOrButton",
-    importPath: "./src/code-components/TextLinkOrButton/TextLinkOrButton",
+    importPath:
+      modulePath + "/src/code-components/TextLinkOrButton/TextLinkOrButton",
     props: {
       href: "href",
       disabled: {

@@ -1,10 +1,13 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { Router } from "./Router";
 
-export function registerRouter(plasmic: NextJsPlasmicComponentLoader) {
+export function registerRouter(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerGlobalContext(Router, {
     name: "Router",
-    importPath: "./src/code-components/Router/Router",
+    importPath: modulePath + "/src/code-components/Router/Router",
     props: {
       initialQueryString: {
         type: "string",

@@ -3,10 +3,12 @@ import { RouteQuerySynchronizer } from "./RouteQuerySynchronizer";
 
 export function registerRouteQuerySynchronizer(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(RouteQuerySynchronizer, {
     name: "RouteQuerySynchronizer",
-    importPath: "./src/code-components/Router/RouteQuerySynchronizer",
+    importPath:
+      modulePath + "/src/code-components/Router/RouteQuerySynchronizer",
     description: `Utility component to help synchronizing local state with a route query parameter. Set a query param to the \`value\` prop whenever it changes, and calls \`onChange\` prop whenever query param is changed.`,
     props: {
       queryParamName: {

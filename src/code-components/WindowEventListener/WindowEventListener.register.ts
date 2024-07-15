@@ -4,11 +4,14 @@ import { FunctionComponent } from "react";
 
 export function registerWindowEventListener(
   plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
 ) {
   plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {
     name: "WindowEventListener",
     description: "Listens for events on the window.",
-    importPath: "./src/code-components/WindowEventListener/WindowEventListener",
+    importPath:
+      modulePath +
+      "/src/code-components/WindowEventListener/WindowEventListener",
     props: {
       onEvent: {
         type: "eventHandler",

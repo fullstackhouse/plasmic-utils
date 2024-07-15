@@ -1,11 +1,14 @@
 import { NextJsPlasmicComponentLoader } from "@plasmicapp/loader-nextjs";
 import { Switch } from "./Switch";
 
-export function registerSwitch(plasmic: NextJsPlasmicComponentLoader) {
+export function registerSwitch(
+  plasmic: NextJsPlasmicComponentLoader,
+  modulePath = "@myevaluations/plasmic-utils",
+) {
   plasmic.registerComponent(Switch, {
     name: "RawSwitch",
     importName: "Switch",
-    importPath: "./src/code-components/form/Switch/Switch",
+    importPath: modulePath + "/src/code-components/form/Switch/Switch",
     props: {
       name: { type: "string", advanced: true },
       value: { type: "string", advanced: true },

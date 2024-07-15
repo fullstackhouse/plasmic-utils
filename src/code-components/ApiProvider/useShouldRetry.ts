@@ -1,4 +1,3 @@
-import { triggerAuthLogin } from "@/src/common/auth/triggerAuthLogin";
 import { FetchError } from "./FetchError";
 
 type ShouldRetry = (err: Error) => boolean;

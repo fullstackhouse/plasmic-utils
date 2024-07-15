@@ -1,4 +1,3 @@
-import { AuthLoginType } from "@/src/common/auth/triggerAuthLogin";
 import { usePlasmicCanvasContext } from "@plasmicapp/loader-nextjs";
 import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
 import { ReactNode } from "react";
@@ -14,6 +13,7 @@ import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
+import { AuthLoginType } from "../../common/auth/triggerAuthLogin";
 
 export interface ApiProviderProps {
   method?: string;
