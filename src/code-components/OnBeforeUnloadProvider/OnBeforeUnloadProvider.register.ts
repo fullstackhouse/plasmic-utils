@@ -11,7 +11,7 @@ export function registerOnBeforeUnloadProvider(
       "Open confirm window whenever the page is about to be unloaded while page has unsaved changes.",
     importPath:
       modulePath +
-      "/src/code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider",
+      "/code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider",
     props: {
       hasUnsavedChanges: {
         type: "boolean",

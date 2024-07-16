@@ -10,8 +10,7 @@ export function registerWindowEventListener(
     name: "WindowEventListener",
     description: "Listens for events on the window.",
     importPath:
-      modulePath +
-      "/src/code-components/WindowEventListener/WindowEventListener",
+      modulePath + "/code-components/WindowEventListener/WindowEventListener",
     props: {
       onEvent: {
         type: "eventHandler",

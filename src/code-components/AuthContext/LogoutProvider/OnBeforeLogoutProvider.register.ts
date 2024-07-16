@@ -10,7 +10,7 @@ export function registerOnBeforeLogoutProvider(
     description: "Run code whenever logout is triggered.",
     importPath:
       modulePath +
-      "/src/code-components/AuthContext/LogoutProvider/OnBeforeLogoutProvider",
+      "/code-components/AuthContext/LogoutProvider/OnBeforeLogoutProvider",
     props: {
       onBeforeLogout: {
         type: "eventHandler",

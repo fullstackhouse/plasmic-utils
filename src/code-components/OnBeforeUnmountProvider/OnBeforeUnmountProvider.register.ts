@@ -10,7 +10,7 @@ export function registerOnBeforeUnmountProvider(
     description: "Calls the passed callback before unmounting the component",
     importPath:
       modulePath +
-      "/src/code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider",
+      "/code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider",
     props: {
       callback: {
         type: "eventHandler",
