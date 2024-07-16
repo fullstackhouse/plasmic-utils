@@ -1,7 +1,7 @@
 import { DataProvider } from "@plasmicapp/host";
-// import * as Sentry from "@sentry/react";
-import { ReactNode, useEffect, useMemo } from "react";
+import { ReactNode, useContext, useEffect, useMemo } from "react";
 import { LogoutContextProvider } from "./LogoutProvider/LogoutContextProvider";
+import { SentryContext } from "../../sentry/SentryContext";
 
 export interface StaticAuthProps extends AuthContextValue {
   children: ReactNode;
@@ -23,6 +23,7 @@ export function StaticAuth({
   privileges,
   children,
 }: StaticAuthProps) {
+  const sentry = useContext(SentryContext);
   const auth = useMemo(
     () => ({
       userId,
@@ -34,15 +35,14 @@ export function StaticAuth({
     [userId, departmentId, roleName, features, privileges],
   );
 
-  // TODO bring it back
-  // useEffect(() => {
-  //   Sentry.setUser({
-  //     id: auth.userId,
-  //   });
-  //   Sentry.setTags({
-  //     department: auth.departmentId,
-  //   });
-  // }, [auth.userId, auth.departmentId]);
+  useEffect(() => {
+    sentry?.setUser({
+      id: auth.userId,
+    });
+    sentry?.setTags({
+      department: auth.departmentId,
+    });
+  }, [sentry, auth.userId, auth.departmentId]);
 
   return (
     <DataProvider name="auth" data={auth}>

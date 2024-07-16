@@ -17,4 +17,4 @@ export const PLASMIC = initPlasmicLoader({
   preview: false,
 });
 
-registerMyEvaluationsPlasmicUtils(PLASMIC, "./src");
+registerMyEvaluationsPlasmicUtils(PLASMIC, { modulePath: "./src" });

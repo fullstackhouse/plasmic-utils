@@ -28,6 +28,7 @@ import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWi
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 import { registerMyEvaluationsPlasmicUtils } from "./register";
+import { SentryContext } from "./sentry/SentryContext";
 
 export {
   registerApiMutationProvider,
@@ -60,4 +61,5 @@ export {
   registerWaitFor,
   registerWindowEventListener,
   registerZod,
+  SentryContext,
 };
