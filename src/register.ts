@@ -2,7 +2,6 @@ import type { PlasmicLoader } from "./plasmic";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { registerAuthContext } from "./code-components/AuthContext/AuthContext.register";
-import { registerOnBeforeLogoutProvider } from "./code-components/AuthContext/LogoutProvider/OnBeforeLogoutProvider.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
@@ -57,7 +56,6 @@ export function registerMyEvaluationsPlasmicUtils(
   registerFollowingTooltip(plasmic, modulePath);
   registerFormProvider(plasmic, modulePath);
   registerHiddenIfEmptyContainer(plasmic, modulePath);
-  registerOnBeforeLogoutProvider(plasmic, modulePath);
   registerOnBeforeUnloadProvider(plasmic, modulePath);
   registerOnBeforeUnmountProvider(plasmic, modulePath);
   registerOnChangeProvider(plasmic, modulePath);

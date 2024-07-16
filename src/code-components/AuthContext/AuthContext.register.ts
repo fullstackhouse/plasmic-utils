@@ -1,5 +1,6 @@
 import type { PlasmicLoader } from "../../plasmic";
 import { AuthContextProvider } from "./AuthContextProvider";
+import { OnBeforeLogoutProvider } from "./LogoutProvider/OnBeforeLogoutProvider";
 
 export function registerAuthContext(
   plasmic: PlasmicLoader,
@@ -35,5 +36,20 @@ export function registerAuthContext(
       },
     },
     providesData: true,
+  });
+
+  plasmic.registerComponent(OnBeforeLogoutProvider, {
+    name: "OnBeforeLogoutProvider",
+    description: "Run code whenever logout is triggered.",
+    importPath:
+      modulePath +
+      "/code-components/AuthContext/LogoutProvider/OnBeforeLogoutProvider",
+    props: {
+      onBeforeLogout: {
+        type: "eventHandler",
+        argTypes: [{ name: "event", type: "object" }],
+      },
+    },
+    styleSections: false,
   });
 }

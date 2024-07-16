@@ -1,7 +1,6 @@
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { registerAuthContext } from "./code-components/AuthContext/AuthContext.register";
-import { registerOnBeforeLogoutProvider } from "./code-components/AuthContext/LogoutProvider/OnBeforeLogoutProvider.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
@@ -42,7 +41,6 @@ export {
   registerFormProvider,
   registerHiddenIfEmptyContainer,
   registerMyEvaluationsPlasmicUtils,
-  registerOnBeforeLogoutProvider,
   registerOnBeforeUnloadProvider,
   registerOnBeforeUnmountProvider,
   registerOnChangeProvider,
