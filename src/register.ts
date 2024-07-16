@@ -31,11 +31,25 @@ import { registerZod } from "./custom-functions/zod.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  {
+    modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+    auth = true,
+    router = true,
+  }: {
+    modulePath?: string;
+    /**
+     * @default true
+     */
+    auth?: boolean;
+    /**
+     * @default true
+     */
+    router?: boolean;
+  } = {},
 ) {
   registerApiMutationProvider(plasmic, modulePath);
   registerApiProvider(plasmic, modulePath);
-  registerAuthContext(plasmic, modulePath);
+  if (auth) registerAuthContext(plasmic, modulePath);
   registerCombobox(plasmic, modulePath);
   registerDayjs(plasmic, modulePath);
   registerDebounceProvider(plasmic, modulePath);
@@ -54,7 +68,7 @@ export function registerMyEvaluationsPlasmicUtils(
   registerRawNull(plasmic, modulePath);
   registerRawTable(plasmic, modulePath);
   registerRouteQuerySynchronizer(plasmic, modulePath);
-  registerRouter(plasmic, modulePath);
+  if (router) registerRouter(plasmic, modulePath);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);
   registerTextLinkOrButton(plasmic, modulePath);
