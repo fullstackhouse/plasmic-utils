@@ -7,7 +7,7 @@ export function registerRawChildren(
 ) {
   plasmic.registerComponent(RawChildren, {
     name: "RawChildren",
-    importPath: modulePath + "/code-components/raw/Children",
+    importPath: modulePath + "/code-components/RawChildren/Children",
     props: { className: { type: "class" }, children: "slot" },
     styleSections: false,
     isAttachment: true,

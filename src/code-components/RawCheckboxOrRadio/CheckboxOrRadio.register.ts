@@ -7,7 +7,8 @@ export function registerRawCheckboxOrRadio(
 ) {
   plasmic.registerComponent(RawCheckboxOrRadio, {
     name: "RawCheckboxOrRadio",
-    importPath: modulePath + "/code-components/raw/CheckboxOrRadio",
+    importPath:
+      modulePath + "/code-components/RawCheckboxOrRadio/CheckboxOrRadio",
     props: {
       type: {
         type: "choice",
