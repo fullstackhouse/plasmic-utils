@@ -10,7 +10,6 @@ import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
-import { AuthLoginType } from "../../common/auth/triggerAuthLogin";
 
 export interface ApiMutationProviderProps {
   method: string;
@@ -72,7 +71,6 @@ export function ApiMutationProvider({
     onError,
     error: response.error,
     alertOnError,
-    authLoginType: AuthLoginType.Modal,
   });
 
   return (

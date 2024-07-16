@@ -2,11 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
 import { useSelector } from "@plasmicapp/host";
-import {
-  AuthLoginType,
-  triggerAuthLogin,
-} from "../../common/auth/triggerAuthLogin";
 import { ToastContext } from "../../common/ToastContext";
+import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
 
 /**
  * Whenever `error` changes and is present:
@@ -19,12 +16,10 @@ export function useOnError({
   onError,
   error,
   alertOnError,
-  authLoginType,
 }: {
   onError: ApiProviderProps["onError"];
   error: Error | undefined;
   alertOnError: boolean;
-  authLoginType: AuthLoginType;
 }) {
   const [navigatedElsewhere, setNavigatedElsewhere] = useState(false);
 
@@ -55,7 +50,7 @@ export function useOnError({
       // and don't do anything else.
       if (!error.handled && error.response?.status === 401) {
         error.handled = true;
-        triggerAuthLogin(authLoginType);
+        dispatchUnauthorizedEvent();
       }
 
       if (!error.handled && alertOnError && !navigatedElsewhere) {

@@ -1,6 +1,10 @@
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
-import { registerAuthContext } from "./code-components/AuthContext/AuthContext.register";
+import {
+  unauthorizedEventName,
+  dispatchUnauthorizedEvent,
+  subscribeToUnauthorizedEvents,
+} from "./code-components/ApiProvider/UnauthorizedEvent";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
@@ -32,7 +36,6 @@ import { SentryContext } from "./sentry/SentryContext";
 export {
   registerApiMutationProvider,
   registerApiProvider,
-  registerAuthContext,
   registerCombobox,
   registerDayjs,
   registerDebounceProvider,
@@ -60,4 +63,7 @@ export {
   registerWindowEventListener,
   registerZod,
   SentryContext,
+  unauthorizedEventName,
+  dispatchUnauthorizedEvent,
+  subscribeToUnauthorizedEvents,
 };

@@ -1,7 +1,6 @@
 import type { PlasmicLoader } from "./plasmic";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
-import { registerAuthContext } from "./code-components/AuthContext/AuthContext.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
@@ -32,14 +31,9 @@ export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
   {
     modulePath = "@myevaluations/myevals-plasmic-utils/dist",
-    auth = true,
     router = true,
   }: {
     modulePath?: string;
-    /**
-     * @default true
-     */
-    auth?: boolean;
     /**
      * @default true
      */
@@ -48,7 +42,6 @@ export function registerMyEvaluationsPlasmicUtils(
 ) {
   registerApiMutationProvider(plasmic, modulePath);
   registerApiProvider(plasmic, modulePath);
-  if (auth) registerAuthContext(plasmic, modulePath);
   registerCombobox(plasmic, modulePath);
   registerDayjs(plasmic, modulePath);
   registerDebounceProvider(plasmic, modulePath);

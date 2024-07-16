@@ -3,7 +3,7 @@ import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
 import { ReactNode } from "react";
 import useSWR from "swr";
 import { FetchError } from "./FetchError";
-import { FetchApiOptions, Query, fetchApi } from "./fetchApi";
+import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
 import { EditorMode, useMockedResponse } from "./useMockedResponse";
 import { useOnError } from "./useOnError";
@@ -13,7 +13,6 @@ import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
-import { AuthLoginType } from "../../common/auth/triggerAuthLogin";
 
 export interface ApiProviderProps {
   method?: string;
@@ -91,7 +90,6 @@ export function ApiProvider({
     onError,
     error: mockedResponse.error,
     alertOnError,
-    authLoginType: inEditor ? AuthLoginType.Modal : AuthLoginType.Redirect,
   });
 
   return (
