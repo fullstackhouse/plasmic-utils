@@ -18,4 +18,7 @@ yarn start
 
 ## Deployment
 
-Automated via Github Actions - the `main` branch gets deployed automatically.
+Automated via Github Actions. Whenever a commit appears on the `main` branch:
+
+- new version of the Plasmic host is deployed,
+- new version of the `@myevals/myevals-plasmic-utils` node.js package is published.
