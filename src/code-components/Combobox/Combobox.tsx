@@ -11,7 +11,7 @@ interface ComboboxProps {
   value?: ComboboxValue;
   emptyOptionText?: string;
   leftIcon: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
   options?: ComboboxOption[];
   disabled?: boolean;
   "aria-label"?: string;
