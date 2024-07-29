@@ -46,6 +46,7 @@ export function registerCombobox(
       "aria-labelledby": "string",
       placeholder: { type: "string", defaultValue: "Select" },
       leftIcon: { type: "slot" },
+      footer: { type: "slot" },
       inputWrapperClassName: {
         type: "class",
         selectors: [

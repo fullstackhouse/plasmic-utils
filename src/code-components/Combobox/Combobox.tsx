@@ -11,6 +11,7 @@ interface ComboboxProps {
   value?: ComboboxValue;
   emptyOptionText?: string;
   leftIcon: ReactNode;
+  footer: ReactNode;
   options?: ComboboxOption[];
   disabled?: boolean;
   "aria-label"?: string;
@@ -41,6 +42,7 @@ export function Combobox({
   value,
   emptyOptionText,
   leftIcon,
+  footer,
   options,
   disabled,
   "aria-label": ariaLabel,
@@ -198,6 +200,7 @@ export function Combobox({
                       </HeadlessCombobox.Option>
                     ))
                   )}
+                  {footer && <div>{footer}</div>}
                 </HeadlessCombobox.Options>
               </Transition>
             </div>
