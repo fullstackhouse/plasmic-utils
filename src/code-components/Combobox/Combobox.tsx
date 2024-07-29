@@ -200,7 +200,7 @@ export function Combobox({
                       </HeadlessCombobox.Option>
                     ))
                   )}
-                  <div>{footer}</div>
+                  {footer && <div>{footer}</div>}
                 </HeadlessCombobox.Options>
               </Transition>
             </div>
