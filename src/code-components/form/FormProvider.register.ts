@@ -83,6 +83,7 @@ export function registerFormProvider(
       fieldName: {
         type: "string",
         required: true,
+        defaultValue: "username",
       },
       defaultValue: {
         type: "string",
