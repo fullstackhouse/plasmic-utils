@@ -33,6 +33,7 @@ import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 import { registerMyEvaluationsPlasmicUtils } from "./register";
 import { SentryContext } from "./sentry/SentryContext";
+import { toastContextProviderConfig } from "./ToastContextProvider/config";
 
 export {
   registerApiMutationProvider,
@@ -68,4 +69,5 @@ export {
   unauthorizedEventName,
   dispatchUnauthorizedEvent,
   subscribeToUnauthorizedEvents,
+  toastContextProviderConfig,
 };

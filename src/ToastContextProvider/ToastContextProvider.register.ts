@@ -1,11 +1,9 @@
 import { PlasmicLoader } from "../plasmic";
 import { ToastContextProvider } from "./ToastContextProvider";
-import { ToastRenderer } from "./ToastRenderer";
 
 export function registerToastContextProvider(
   plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
-  toastRenderer?: ToastRenderer,
 ) {
   plasmic.registerGlobalContext(ToastContextProvider, {
     name: "ToastContext",
@@ -15,10 +13,6 @@ export function registerToastContextProvider(
       duration: {
         type: "number",
         defaultValue: 5000,
-      },
-      toastRenderer: {
-        type: "object",
-        defaultValue: toastRenderer,
       },
     },
     providesData: true,

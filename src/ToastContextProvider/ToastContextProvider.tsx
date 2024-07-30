@@ -7,11 +7,11 @@ import { ReactNode, useContext, useMemo, useRef, useState } from "react";
 import styles from "./ToastContextProvider.module.css";
 import { SentryContext } from "../sentry/SentryContext";
 import { ToastContext, ToastType } from "./ToastContext";
-import { DefaultToastRenderer, ToastRenderer } from "./ToastRenderer";
+import { ToastRenderer } from "./ToastRenderer";
+import { toastContextProviderConfig } from "./config";
 
 export interface ToastContextProviderProps {
   duration: number;
-  toastRenderer?: ToastRenderer;
   children: ReactNode;
 }
 
@@ -26,7 +26,6 @@ interface ToastState {
 
 export function ToastContextProvider({
   duration,
-  toastRenderer,
   children,
 }: ToastContextProviderProps) {
   const idRef = useRef(1);
@@ -66,7 +65,7 @@ export function ToastContextProvider({
     [sentry],
   );
 
-  const ToastRenderer = toastRenderer ?? DefaultToastRenderer;
+  const ToastRenderer = toastContextProviderConfig.toastRenderer;
 
   return (
     <GlobalActionsProvider
