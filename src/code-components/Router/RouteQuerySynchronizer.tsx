@@ -1,6 +1,6 @@
-import { useDataEnv } from "@plasmicapp/host";
 import { useEffect, useRef } from "react";
 import { RouterContextValue } from "./Router";
+import { useDataEnv } from "@plasmicapp/react-web/lib/host";
 
 export interface RouteQuerySynchronizerProps {
   queryParamName: string;

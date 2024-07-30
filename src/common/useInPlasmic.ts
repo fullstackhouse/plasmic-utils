@@ -1,4 +1,4 @@
-import { usePlasmicCanvasContext } from "@plasmicapp/host";
+import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
 
 export function useInPlasmic(): boolean {
   const inPlasmicCanvas = !!usePlasmicCanvasContext();

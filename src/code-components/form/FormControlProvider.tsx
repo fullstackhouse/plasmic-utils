@@ -1,4 +1,4 @@
-import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
+import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import {
   Control,

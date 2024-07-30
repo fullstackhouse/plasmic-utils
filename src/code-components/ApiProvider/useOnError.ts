@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
-import { useSelector } from "@plasmicapp/host";
 import { ToastContext } from "../../common/ToastContext";
 import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
+import { useSelector } from "@plasmicapp/react-web/lib/host";
 
 /**
  * Whenever `error` changes and is present:

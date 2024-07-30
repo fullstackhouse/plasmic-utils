@@ -1,4 +1,3 @@
-import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
 import { ReactNode } from "react";
 import { Arguments } from "swr";
 import useSWRMutation from "swr/mutation";
@@ -10,6 +9,7 @@ import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
+import { DataProvider } from "@plasmicapp/react-web/lib/host";
 
 export interface ApiMutationProviderProps {
   method: string;

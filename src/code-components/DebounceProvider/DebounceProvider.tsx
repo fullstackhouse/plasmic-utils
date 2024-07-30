@@ -1,5 +1,5 @@
-import { DataProvider } from "@plasmicapp/host";
-import { ReactNode, useEffect } from "react";
+import { DataProvider } from "@plasmicapp/react-web/lib/host";
+import { ReactNode } from "react";
 import { useDebounce } from "use-debounce";
 
 interface DebounceProviderProps<T = unknown> {

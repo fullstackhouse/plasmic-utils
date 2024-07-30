@@ -1,5 +1,3 @@
-import { usePlasmicCanvasContext } from "@plasmicapp/host";
-import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
 import { ReactNode } from "react";
 import useSWR from "swr";
 import { FetchError } from "./FetchError";
@@ -13,6 +11,10 @@ import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
+import {
+  DataProvider,
+  usePlasmicCanvasContext,
+} from "@plasmicapp/react-web/lib/host";
 
 export interface ApiProviderProps {
   method?: string;

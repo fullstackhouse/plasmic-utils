@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
+import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import { UseFormProps, useForm } from "react-hook-form";
 import { z } from "zod";

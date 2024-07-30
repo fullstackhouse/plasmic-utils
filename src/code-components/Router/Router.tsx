@@ -1,4 +1,7 @@
-import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
+import {
+  DataProvider,
+  GlobalActionsProvider,
+} from "@plasmicapp/react-web/lib/host";
 import { ReactNode, useLayoutEffect, useMemo, useState } from "react";
 import { useInPlasmic } from "../../common/useInPlasmic";
 import { Route, RouterAdapter } from "./adapters/base";
