@@ -27,6 +27,7 @@ import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWi
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
+import { ToastRenderer } from "./ToastContextProvider/ToastRenderer";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
@@ -34,6 +35,7 @@ export function registerMyEvaluationsPlasmicUtils(
     modulePath = "@myevaluations/myevals-plasmic-utils/dist",
     router = true,
     toast = true,
+    toastRenderer,
   }: {
     modulePath?: string;
     /**
@@ -44,6 +46,7 @@ export function registerMyEvaluationsPlasmicUtils(
      * @default true
      */
     toast?: boolean;
+    toastRenderer?: ToastRenderer;
   } = {},
 ) {
   registerApiMutationProvider(plasmic, modulePath);
@@ -66,7 +69,7 @@ export function registerMyEvaluationsPlasmicUtils(
   registerRawTable(plasmic, modulePath);
   registerRouteQuerySynchronizer(plasmic, modulePath);
   if (router) registerRouter(plasmic, modulePath);
-  if (toast) registerToastContextProvider(plasmic, modulePath);
+  if (toast) registerToastContextProvider(plasmic, modulePath, toastRenderer);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);
   registerTextLinkOrButton(plasmic, modulePath);
