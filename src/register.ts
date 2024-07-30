@@ -26,18 +26,24 @@ import { registerDayjs } from "./custom-functions/dayjs.register";
 import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWithoutTimeZone.register";
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
+import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
   {
     modulePath = "@myevaluations/myevals-plasmic-utils/dist",
     router = true,
+    toast = true,
   }: {
     modulePath?: string;
     /**
      * @default true
      */
     router?: boolean;
+    /**
+     * @default true
+     */
+    toast?: boolean;
   } = {},
 ) {
   registerApiMutationProvider(plasmic, modulePath);
@@ -60,6 +66,7 @@ export function registerMyEvaluationsPlasmicUtils(
   registerRawTable(plasmic, modulePath);
   registerRouteQuerySynchronizer(plasmic, modulePath);
   if (router) registerRouter(plasmic, modulePath);
+  if (toast) registerToastContextProvider(plasmic, modulePath);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);
   registerTextLinkOrButton(plasmic, modulePath);

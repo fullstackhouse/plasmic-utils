@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
-import { ToastContext } from "../../common/ToastContext";
+import { ToastContext } from "../../ToastContextProvider/ToastContext";
 import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
 import { useSelector } from "@plasmicapp/react-web/lib/host";
 
