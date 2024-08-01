@@ -2,7 +2,7 @@
 
 .viewport {
   --viewport-padding-horizontal: 16px;
-  --viewport-padding-vertical: 40px;
+  --viewport-padding-vertical: 16px;
 
   position: fixed;
   top: 0;
