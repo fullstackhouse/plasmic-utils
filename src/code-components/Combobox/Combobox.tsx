@@ -36,6 +36,7 @@ export interface ComboboxOption {
   description?: string;
   value: ComboboxValue;
   highlight?: boolean;
+  group?: string;
 }
 
 export function Combobox({
@@ -64,15 +65,54 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const arrowIconRef = useRef<HTMLButtonElement>(null);
 
+  const groupOptions = (
+    options: ComboboxOption[],
+  ): Record<string, ComboboxOption[]> => {
+    return options.reduce((acc: Record<string, ComboboxOption[]>, option) => {
+      if (option.group) {
+        if (!acc[option.group]) {
+          acc[option.group] = [];
+        }
+        acc[option.group].push(option);
+      } else {
+        if (!acc["noGroup"]) {
+          acc["noGroup"] = [];
+        }
+        acc["noGroup"].push(option);
+      }
+      return acc;
+    }, {});
+  };
+  const groupedOptions = groupOptions(options ?? []);
+
   const visibleOptions = query
-    ? (options ?? []).filter(
-        (option) =>
-          matchesQuery(option.label ?? option.value.toString(), query) ||
-          (option.description !== undefined
-            ? matchesQuery(option.description, query)
-            : false),
+    ? Object.entries(groupedOptions).reduce(
+        (
+          acc: { group?: string; options: ComboboxOption[] }[],
+          [group, options],
+        ) => {
+          const filteredOptions = options.filter(
+            (option) =>
+              matchesQuery(option.label ?? option.value.toString(), query) ||
+              (option.description !== undefined
+                ? matchesQuery(option.description, query)
+                : false),
+          );
+          if (filteredOptions.length > 0) {
+            if (group === "noGroup") {
+              acc.push({ options: filteredOptions });
+            } else {
+              acc.push({ group, options: filteredOptions });
+            }
+          }
+          return acc;
+        },
+        [],
       )
-    : (options ?? []);
+    : Object.entries(groupedOptions).map(([group, options]) => ({
+        group: group === "noGroup" ? undefined : group,
+        options,
+      }));
 
   const selectedOption = options?.find((option) => option.value === value);
 
@@ -169,35 +209,46 @@ export function Combobox({
                   {visibleOptions.length === 0 ? (
                     <p className={emptyOptionClassName}>{emptyOptionText}</p>
                   ) : (
-                    visibleOptions.map((option, optionIndex) => (
-                      <HeadlessCombobox.Option
-                        key={optionIndex}
-                        value={option}
-                        data-highlight={option.highlight ? "true" : undefined}
-                        className={optionClassName}
-                      >
-                        <p className={labelClassName}>
-                          <HighlightQueryValue
-                            text={option.label ?? String(option.value)}
-                            query={query}
-                            queryClassName={searchValueClassName}
-                          />
-                        </p>
-                        {option.description ? (
-                          <p
+                    visibleOptions.map(({ group, options }) => (
+                      <Fragment key={group || "noGroup"}>
+                        {group && (
+                          <HeadlessCombobox.Label>
+                            {group}
+                          </HeadlessCombobox.Label>
+                        )}
+                        {options.map((option, optionIndex) => (
+                          <HeadlessCombobox.Option
+                            key={optionIndex}
+                            value={option}
                             data-highlight={
                               option.highlight ? "true" : undefined
                             }
-                            className={descriptionClassName}
+                            className={optionClassName}
                           >
-                            <HighlightQueryValue
-                              text={option.description}
-                              query={query}
-                              queryClassName={searchValueClassName}
-                            />
-                          </p>
-                        ) : null}
-                      </HeadlessCombobox.Option>
+                            <p className={labelClassName}>
+                              <HighlightQueryValue
+                                text={option.label ?? String(option.value)}
+                                query={query}
+                                queryClassName={searchValueClassName}
+                              />
+                            </p>
+                            {option.description ? (
+                              <p
+                                data-highlight={
+                                  option.highlight ? "true" : undefined
+                                }
+                                className={descriptionClassName}
+                              >
+                                <HighlightQueryValue
+                                  text={option.description}
+                                  query={query}
+                                  queryClassName={searchValueClassName}
+                                />
+                              </p>
+                            ) : null}
+                          </HeadlessCombobox.Option>
+                        ))}
+                      </Fragment>
                     ))
                   )}
                   {footer && <div>{footer}</div>}
