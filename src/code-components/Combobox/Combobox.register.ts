@@ -82,6 +82,7 @@ export function registerCombobox(
         ],
       },
       emptyOptionClassName: { type: "class" },
+      groupClassName: { type: "class" },
       arrowIconClassName: {
         type: "class",
       },

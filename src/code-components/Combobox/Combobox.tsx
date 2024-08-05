@@ -3,7 +3,7 @@ import { useState, useRef, Fragment, ReactNode } from "react";
 
 import styles from "./Combobox.module.css";
 import HighlightQueryValue from "./HighlightQueryValue";
-import { matchesQuery } from "./utils";
+import { groupOptions, optionGroupMatchesQuery } from "./utils";
 
 type ComboboxValue = string | number;
 
@@ -24,6 +24,7 @@ interface ComboboxProps {
   emptyOptionClassName?: string;
   optionsClassName?: string;
   optionClassName?: string;
+  groupClassName?: string;
   labelClassName?: string;
   searchValueClassName?: string;
   descriptionClassName?: string;
@@ -36,6 +37,12 @@ export interface ComboboxOption {
   description?: string;
   value: ComboboxValue;
   highlight?: boolean;
+  group?: string;
+}
+
+export interface OptionGroup {
+  name?: string;
+  options: ComboboxOption[];
 }
 
 export function Combobox({
@@ -56,6 +63,7 @@ export function Combobox({
   emptyOptionClassName,
   optionsClassName,
   optionClassName,
+  groupClassName,
   labelClassName,
   searchValueClassName,
   descriptionClassName,
@@ -64,15 +72,11 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const arrowIconRef = useRef<HTMLButtonElement>(null);
 
-  const visibleOptions = query
-    ? (options ?? []).filter(
-        (option) =>
-          matchesQuery(option.label ?? option.value.toString(), query) ||
-          (option.description !== undefined
-            ? matchesQuery(option.description, query)
-            : false),
-      )
-    : (options ?? []);
+  const optionGroups = groupOptions(options ?? []);
+
+  const visibleOptionGroups = query
+    ? optionGroups.filter((group) => optionGroupMatchesQuery(group, query))
+    : optionGroups;
 
   const selectedOption = options?.find((option) => option.value === value);
 
@@ -166,38 +170,49 @@ export function Combobox({
                 <HeadlessCombobox.Options
                   className={[styles.options, optionsClassName].join(" ")}
                 >
-                  {visibleOptions.length === 0 ? (
+                  {visibleOptionGroups.length === 0 ? (
                     <p className={emptyOptionClassName}>{emptyOptionText}</p>
                   ) : (
-                    visibleOptions.map((option, optionIndex) => (
-                      <HeadlessCombobox.Option
-                        key={optionIndex}
-                        value={option}
-                        data-highlight={option.highlight ? "true" : undefined}
-                        className={optionClassName}
-                      >
-                        <p className={labelClassName}>
-                          <HighlightQueryValue
-                            text={option.label ?? String(option.value)}
-                            query={query}
-                            queryClassName={searchValueClassName}
-                          />
-                        </p>
-                        {option.description ? (
-                          <p
+                    visibleOptionGroups.map(({ name, options }) => (
+                      <Fragment key={name || "noGroup"}>
+                        {name && (
+                          <HeadlessCombobox.Label className={groupClassName}>
+                            {name}
+                          </HeadlessCombobox.Label>
+                        )}
+                        {options.map((option, optionIndex) => (
+                          <HeadlessCombobox.Option
+                            key={optionIndex}
+                            value={option}
                             data-highlight={
                               option.highlight ? "true" : undefined
                             }
-                            className={descriptionClassName}
+                            className={optionClassName}
                           >
-                            <HighlightQueryValue
-                              text={option.description}
-                              query={query}
-                              queryClassName={searchValueClassName}
-                            />
-                          </p>
-                        ) : null}
-                      </HeadlessCombobox.Option>
+                            <p className={labelClassName}>
+                              <HighlightQueryValue
+                                text={option.label ?? String(option.value)}
+                                query={query}
+                                queryClassName={searchValueClassName}
+                              />
+                            </p>
+                            {option.description ? (
+                              <p
+                                data-highlight={
+                                  option.highlight ? "true" : undefined
+                                }
+                                className={descriptionClassName}
+                              >
+                                <HighlightQueryValue
+                                  text={option.description}
+                                  query={query}
+                                  queryClassName={searchValueClassName}
+                                />
+                              </p>
+                            ) : null}
+                          </HeadlessCombobox.Option>
+                        ))}
+                      </Fragment>
                     ))
                   )}
                   {footer && <div>{footer}</div>}
