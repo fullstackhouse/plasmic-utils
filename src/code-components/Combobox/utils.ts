@@ -1,5 +1,11 @@
 import { ComboboxOption, OptionGroup } from "./Combobox";
 
+function matchesQuery(text: string, query: string): boolean {
+  return normalizeSearchedText(text).includes(
+    normalizeSearchedText(query).trim(),
+  );
+}
+
 function optionMatchesQuery(option: ComboboxOption, query: string): boolean {
   if (matchesQuery(option.label ?? option.value.toString(), query)) {
     return true;
@@ -19,11 +25,6 @@ export function normalizeSearchedText(text: string): string {
       // with a regular hyphen
       .replace(/–/g, "-")
       .toLowerCase()
-  );
-}
-export function matchesQuery(text: string, query: string): boolean {
-  return normalizeSearchedText(text).includes(
-    normalizeSearchedText(query).trim(),
   );
 }
 
