@@ -1,3 +1,5 @@
+import { ComboboxOption } from "./Combobox";
+
 export function normalizeSearchedText(text: string): string {
   return (
     text
@@ -12,3 +14,22 @@ export function matchesQuery(text: string, query: string): boolean {
     normalizeSearchedText(query).trim(),
   );
 }
+
+export const groupOptions = (
+  options: ComboboxOption[],
+): Record<string, ComboboxOption[]> => {
+  return options.reduce((groups: Record<string, ComboboxOption[]>, option) => {
+    if (option.group) {
+      if (!groups[option.group]) {
+        groups[option.group] = [];
+      }
+      groups[option.group].push(option);
+    } else {
+      if (!groups["noGroup"]) {
+        groups["noGroup"] = [];
+      }
+      groups["noGroup"].push(option);
+    }
+    return groups;
+  }, {});
+};

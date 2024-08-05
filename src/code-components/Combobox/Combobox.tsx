@@ -3,7 +3,7 @@ import { useState, useRef, Fragment, ReactNode } from "react";
 
 import styles from "./Combobox.module.css";
 import HighlightQueryValue from "./HighlightQueryValue";
-import { matchesQuery } from "./utils";
+import { groupOptions, matchesQuery } from "./utils";
 
 type ComboboxValue = string | number;
 
@@ -67,30 +67,12 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const arrowIconRef = useRef<HTMLButtonElement>(null);
 
-  const groupOptions = (
-    options: ComboboxOption[],
-  ): Record<string, ComboboxOption[]> => {
-    return options.reduce((acc: Record<string, ComboboxOption[]>, option) => {
-      if (option.group) {
-        if (!acc[option.group]) {
-          acc[option.group] = [];
-        }
-        acc[option.group].push(option);
-      } else {
-        if (!acc["noGroup"]) {
-          acc["noGroup"] = [];
-        }
-        acc["noGroup"].push(option);
-      }
-      return acc;
-    }, {});
-  };
-  const groupedOptions = groupOptions(options ?? []);
+  const optionGroups = groupOptions(options ?? []);
 
-  const visibleOptions = query
-    ? Object.entries(groupedOptions).reduce(
+  const visibleOptionGroups = query
+    ? Object.entries(optionGroups).reduce(
         (
-          acc: { group?: string; options: ComboboxOption[] }[],
+          acc: Array<{ group?: string; options: ComboboxOption[] }>,
           [group, options],
         ) => {
           const filteredOptions = options.filter(
@@ -111,7 +93,7 @@ export function Combobox({
         },
         [],
       )
-    : Object.entries(groupedOptions).map(([group, options]) => ({
+    : Object.entries(optionGroups).map(([group, options]) => ({
         group: group === "noGroup" ? undefined : group,
         options,
       }));
@@ -208,10 +190,10 @@ export function Combobox({
                 <HeadlessCombobox.Options
                   className={[styles.options, optionsClassName].join(" ")}
                 >
-                  {visibleOptions.length === 0 ? (
+                  {visibleOptionGroups.length === 0 ? (
                     <p className={emptyOptionClassName}>{emptyOptionText}</p>
                   ) : (
-                    visibleOptions.map(({ group, options }) => (
+                    visibleOptionGroups.map(({ group, options }) => (
                       <Fragment key={group || "noGroup"}>
                         {group && (
                           <HeadlessCombobox.Label className={groupClassName}>
