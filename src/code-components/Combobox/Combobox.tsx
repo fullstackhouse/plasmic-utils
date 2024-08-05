@@ -24,6 +24,7 @@ interface ComboboxProps {
   emptyOptionClassName?: string;
   optionsClassName?: string;
   optionClassName?: string;
+  groupClassName?: string;
   labelClassName?: string;
   searchValueClassName?: string;
   descriptionClassName?: string;
@@ -57,6 +58,7 @@ export function Combobox({
   emptyOptionClassName,
   optionsClassName,
   optionClassName,
+  groupClassName,
   labelClassName,
   searchValueClassName,
   descriptionClassName,
@@ -212,7 +214,7 @@ export function Combobox({
                     visibleOptions.map(({ group, options }) => (
                       <Fragment key={group || "noGroup"}>
                         {group && (
-                          <HeadlessCombobox.Label>
+                          <HeadlessCombobox.Label className={groupClassName}>
                             {group}
                           </HeadlessCombobox.Label>
                         )}
