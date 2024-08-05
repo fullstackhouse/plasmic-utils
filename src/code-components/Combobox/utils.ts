@@ -1,4 +1,16 @@
-import { ComboboxOption } from "./Combobox";
+import { ComboboxOption, OptionGroup } from "./Combobox";
+
+function optionMatchesQuery(option: ComboboxOption, query: string): boolean {
+  if (matchesQuery(option.label ?? option.value.toString(), query)) {
+    return true;
+  }
+
+  if (option.description && matchesQuery(option.description, query)) {
+    return true;
+  }
+
+  return false;
+}
 
 export function normalizeSearchedText(text: string): string {
   return (
@@ -17,19 +29,27 @@ export function matchesQuery(text: string, query: string): boolean {
 
 export const groupOptions = (
   options: ComboboxOption[],
-): Record<string, ComboboxOption[]> => {
-  return options.reduce((groups: Record<string, ComboboxOption[]>, option) => {
-    if (option.group) {
-      if (!groups[option.group]) {
-        groups[option.group] = [];
+): { group?: string; options: ComboboxOption[] }[] => {
+  const grouped = options.reduce<Record<string, ComboboxOption[]>>(
+    (groups, option) => {
+      const groupKey = option.group || "noGroup";
+      if (!groups[groupKey]) {
+        groups[groupKey] = [];
       }
-      groups[option.group].push(option);
-    } else {
-      if (!groups["noGroup"]) {
-        groups["noGroup"] = [];
-      }
-      groups["noGroup"].push(option);
-    }
-    return groups;
-  }, {});
+      groups[groupKey].push(option);
+      return groups;
+    },
+    {},
+  );
+  return Object.entries(grouped).map(([group, options]) => ({
+    group: group === "noGroup" ? undefined : group,
+    options,
+  }));
 };
+
+export function optionGroupMatchesQuery(
+  group: OptionGroup,
+  query: string,
+): boolean {
+  return group.options.some((option) => optionMatchesQuery(option, query));
+}

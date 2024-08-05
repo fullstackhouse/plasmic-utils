@@ -3,7 +3,7 @@ import { useState, useRef, Fragment, ReactNode } from "react";
 
 import styles from "./Combobox.module.css";
 import HighlightQueryValue from "./HighlightQueryValue";
-import { groupOptions, matchesQuery } from "./utils";
+import { groupOptions, optionGroupMatchesQuery } from "./utils";
 
 type ComboboxValue = string | number;
 
@@ -40,6 +40,11 @@ export interface ComboboxOption {
   group?: string;
 }
 
+export interface OptionGroup {
+  group?: string;
+  options: ComboboxOption[];
+}
+
 export function Combobox({
   value,
   emptyOptionText,
@@ -70,33 +75,8 @@ export function Combobox({
   const optionGroups = groupOptions(options ?? []);
 
   const visibleOptionGroups = query
-    ? Object.entries(optionGroups).reduce(
-        (
-          acc: Array<{ group?: string; options: ComboboxOption[] }>,
-          [group, options],
-        ) => {
-          const filteredOptions = options.filter(
-            (option) =>
-              matchesQuery(option.label ?? option.value.toString(), query) ||
-              (option.description !== undefined
-                ? matchesQuery(option.description, query)
-                : false),
-          );
-          if (filteredOptions.length > 0) {
-            if (group === "noGroup") {
-              acc.push({ options: filteredOptions });
-            } else {
-              acc.push({ group, options: filteredOptions });
-            }
-          }
-          return acc;
-        },
-        [],
-      )
-    : Object.entries(optionGroups).map(([group, options]) => ({
-        group: group === "noGroup" ? undefined : group,
-        options,
-      }));
+    ? optionGroups.filter((group) => optionGroupMatchesQuery(group, query))
+    : optionGroups;
 
   const selectedOption = options?.find((option) => option.value === value);
 
