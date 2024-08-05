@@ -41,7 +41,7 @@ export interface ComboboxOption {
 }
 
 export interface OptionGroup {
-  group?: string;
+  name?: string;
   options: ComboboxOption[];
 }
 
@@ -173,11 +173,11 @@ export function Combobox({
                   {visibleOptionGroups.length === 0 ? (
                     <p className={emptyOptionClassName}>{emptyOptionText}</p>
                   ) : (
-                    visibleOptionGroups.map(({ group, options }) => (
-                      <Fragment key={group || "noGroup"}>
-                        {group && (
+                    visibleOptionGroups.map(({ name, options }) => (
+                      <Fragment key={name || "noGroup"}>
+                        {name && (
                           <HeadlessCombobox.Label className={groupClassName}>
-                            {group}
+                            {name}
                           </HeadlessCombobox.Label>
                         )}
                         {options.map((option, optionIndex) => (

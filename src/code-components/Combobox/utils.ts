@@ -28,9 +28,7 @@ export function normalizeSearchedText(text: string): string {
   );
 }
 
-export const groupOptions = (
-  options: ComboboxOption[],
-): { group?: string; options: ComboboxOption[] }[] => {
+export const groupOptions = (options: ComboboxOption[]): OptionGroup[] => {
   const grouped = options.reduce<Record<string, ComboboxOption[]>>(
     (groups, option) => {
       const groupKey = option.group || "noGroup";
@@ -43,7 +41,7 @@ export const groupOptions = (
     {},
   );
   return Object.entries(grouped).map(([group, options]) => ({
-    group: group === "noGroup" ? undefined : group,
+    name: group === "noGroup" ? undefined : group,
     options,
   }));
 };
