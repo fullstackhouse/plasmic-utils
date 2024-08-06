@@ -12,6 +12,10 @@
   display: none;
 }
 
+.rightIcon:empty {
+  display: none;
+}
+
 .input:focus + .arrowIcon {
   pointer-events: none;
 }
