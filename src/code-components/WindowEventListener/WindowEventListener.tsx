@@ -4,12 +4,14 @@ interface WindowEventListenerProps {
   onEvent: (event: Event) => void;
   eventType: string;
   passive: boolean;
+  elementId?: string | null;
 }
 
 export function WindowEventListener({
   onEvent,
   eventType,
   passive,
+  elementId,
 }: WindowEventListenerProps) {
   const handleEventRef = useRef(onEvent);
   handleEventRef.current = onEvent;
@@ -17,7 +19,10 @@ export function WindowEventListener({
   useEffect(() => {
     const listener = (event: Event) => handleEventRef.current?.(event);
 
-    window.addEventListener(eventType, listener, { passive: passive });
-    return () => window.removeEventListener(eventType, listener);
-  }, [eventType, passive]);
+    const element = elementId ? document.getElementById(elementId) : window;
+    if (element) {
+      element.addEventListener(eventType, listener, { passive: passive });
+      return () => element.removeEventListener(eventType, listener);
+    }
+  }, [eventType, passive, elementId]);
 }

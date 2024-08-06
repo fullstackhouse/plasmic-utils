@@ -27,6 +27,12 @@ export function registerWindowEventListener(
         defaultValue: false,
         description: "Whether the event listener is passive.",
       },
+      elementId: {
+        type: "string",
+        defaultValue: "",
+        description:
+          "Element's id on which you want to set the EventListener. None = window",
+      },
     },
     styleSections: false,
   });
