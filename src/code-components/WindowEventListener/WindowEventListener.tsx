@@ -4,7 +4,7 @@ interface WindowEventListenerProps {
   onEvent: (event: Event) => void;
   eventType: string;
   passive: boolean;
-  elementId?: string | null;
+  elementId?: string;
 }
 
 export function WindowEventListener({
