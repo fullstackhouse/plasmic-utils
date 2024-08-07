@@ -1,16 +1,16 @@
 import type { PlasmicLoader } from "../../plasmic";
-import { WindowEventListener } from "./WindowEventListener";
 import { FunctionComponent } from "react";
+import { DOMEventListener } from "./DOMEventListener";
 
-export function registerWindowEventListener(
+export function registerDOMEventListener(
   plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
-  plasmic.registerComponent(WindowEventListener as FunctionComponent<any>, {
-    name: "WindowEventListener",
-    description: "Listens for events on the window.",
+  plasmic.registerComponent(DOMEventListener as FunctionComponent<any>, {
+    name: "DOMEventListener",
+    description: "Listens for events on the DOMElement or the window object.",
     importPath:
-      modulePath + "/code-components/WindowEventListener/WindowEventListener",
+      modulePath + "/code-components/DOMEventListener/DOMEventListener",
     props: {
       onEvent: {
         type: "eventHandler",
@@ -26,6 +26,11 @@ export function registerWindowEventListener(
         type: "boolean",
         defaultValue: false,
         description: "Whether the event listener is passive.",
+      },
+      elementId: {
+        type: "string",
+        description:
+          "Element's id on which you want to set the EventListener. None = window",
       },
     },
     styleSections: false,

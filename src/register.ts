@@ -21,7 +21,7 @@ import { registerRouter } from "./code-components/Router/Router.register";
 import { registerStateProvider } from "./code-components/StateProvider/StateProvider.register";
 import { registerTextLinkOrButton } from "./code-components/TextLinkOrButton/TextLinkOrButton.register";
 import { registerTimeoutProvider } from "./code-components/TimeoutProvider/TimeoutProvider.register";
-import { registerWindowEventListener } from "./code-components/WindowEventListener/WindowEventListener.register";
+import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
 import { registerDayjs } from "./custom-functions/dayjs.register";
 import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWithoutTimeZone.register";
 import { registerWaitFor } from "./custom-functions/waitFor.register";
@@ -72,6 +72,6 @@ export function registerMyEvaluationsPlasmicUtils(
   registerTextLinkOrButton(plasmic, modulePath);
   registerTimeoutProvider(plasmic, modulePath);
   registerWaitFor(plasmic, modulePath);
-  registerWindowEventListener(plasmic, modulePath);
+  registerDOMEventListener(plasmic, modulePath);
   registerZod(plasmic, modulePath);
 }
