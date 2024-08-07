@@ -11,6 +11,7 @@ interface ComboboxProps {
   value?: ComboboxValue;
   emptyOptionText?: string;
   leftIcon: ReactNode;
+  rightIcon: ReactNode;
   footer?: ReactNode;
   options?: ComboboxOption[];
   disabled?: boolean;
@@ -19,6 +20,7 @@ interface ComboboxProps {
   placeholder?: string;
   className?: string;
   leftIconClassName?: string;
+  rightIconClassName?: string;
   inputClassName?: string;
   inputWrapperClassName?: string;
   emptyOptionClassName?: string;
@@ -49,6 +51,7 @@ export function Combobox({
   value,
   emptyOptionText,
   leftIcon,
+  rightIcon,
   footer,
   options,
   disabled,
@@ -58,6 +61,7 @@ export function Combobox({
   onChange,
   className,
   leftIconClassName,
+  rightIconClassName,
   inputClassName,
   inputWrapperClassName,
   emptyOptionClassName,
@@ -137,6 +141,9 @@ export function Combobox({
                 // ( https://1password.community/discussion/117501/as-a-web-developer-how-can-i-disable-1password-filling-for-a-specific-field/p4 )
                 data-1p-ignore
               />
+              <div className={[styles.rightIcon, rightIconClassName].join(" ")}>
+                {rightIcon}
+              </div>
               <HeadlessCombobox.Button
                 ref={arrowIconRef}
                 className={[
