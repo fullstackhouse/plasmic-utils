@@ -8,7 +8,7 @@ export function registerDOMEventListener(
 ) {
   plasmic.registerComponent(DOMEventListener as FunctionComponent<any>, {
     name: "DOMEventListener",
-    description: "Listens for events on the DOMElement.",
+    description: "Listens for events on the DOMElement or the window object.",
     importPath:
       modulePath + "/code-components/DOMEventListener/DOMEventListener",
     props: {
