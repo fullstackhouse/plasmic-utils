@@ -25,7 +25,7 @@ import { registerRouter } from "./code-components/Router/Router.register";
 import { registerStateProvider } from "./code-components/StateProvider/StateProvider.register";
 import { registerTextLinkOrButton } from "./code-components/TextLinkOrButton/TextLinkOrButton.register";
 import { registerTimeoutProvider } from "./code-components/TimeoutProvider/TimeoutProvider.register";
-import { registerWindowEventListener } from "./code-components/WindowEventListener/WindowEventListener.register";
+import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 import { registerDayjs } from "./custom-functions/dayjs.register";
 import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWithoutTimeZone.register";
@@ -62,7 +62,7 @@ export {
   registerTextLinkOrButton,
   registerTimeoutProvider,
   registerWaitFor,
-  registerWindowEventListener,
+  registerDOMEventListener,
   registerZod,
   registerToastContextProvider,
   SentryContext,
