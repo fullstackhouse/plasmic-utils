@@ -1,23 +1,5 @@
 import { ComboboxOption, OptionGroup } from "./Combobox";
 
-function matchesQuery(text: string, query: string): boolean {
-  return normalizeSearchedText(text).includes(
-    normalizeSearchedText(query).trim(),
-  );
-}
-
-function optionMatchesQuery(option: ComboboxOption, query: string): boolean {
-  if (matchesQuery(option.label ?? option.value.toString(), query)) {
-    return true;
-  }
-
-  if (option.description && matchesQuery(option.description, query)) {
-    return true;
-  }
-
-  return false;
-}
-
 export function normalizeSearchedText(text: string): string {
   return (
     text
@@ -28,7 +10,7 @@ export function normalizeSearchedText(text: string): string {
   );
 }
 
-export const groupOptions = (options: ComboboxOption[]): OptionGroup[] => {
+export function groupOptions(options: ComboboxOption[]): OptionGroup[] {
   const grouped = options.reduce<Record<string, ComboboxOption[]>>(
     (groups, option) => {
       const groupKey = option.group || "noGroup";
@@ -44,11 +26,4 @@ export const groupOptions = (options: ComboboxOption[]): OptionGroup[] => {
     name: group === "noGroup" ? undefined : group,
     options,
   }));
-};
-
-export function optionGroupMatchesQuery(
-  group: OptionGroup,
-  query: string,
-): boolean {
-  return group.options.some((option) => optionMatchesQuery(option, query));
 }

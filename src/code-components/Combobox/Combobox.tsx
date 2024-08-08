@@ -3,7 +3,8 @@ import { useState, useRef, Fragment, ReactNode } from "react";
 
 import styles from "./Combobox.module.css";
 import HighlightQueryValue from "./HighlightQueryValue";
-import { groupOptions, optionGroupMatchesQuery } from "./utils";
+import { groupOptions } from "./utils";
+import { filterOptionGroupsByQuery } from "./filterOptionGroupsByQuery";
 
 type ComboboxValue = string | number;
 
@@ -78,9 +79,7 @@ export function Combobox({
 
   const optionGroups = groupOptions(options ?? []);
 
-  const visibleOptionGroups = query
-    ? optionGroups.filter((group) => optionGroupMatchesQuery(group, query))
-    : optionGroups;
+  const visibleOptionGroups = filterOptionGroupsByQuery(optionGroups, query);
 
   const selectedOption = options?.find((option) => option.value === value);
 
@@ -184,7 +183,11 @@ export function Combobox({
                       <Fragment key={name || "noGroup"}>
                         {name && (
                           <HeadlessCombobox.Label className={groupClassName}>
-                            {name}
+                            <HighlightQueryValue
+                              text={name}
+                              query={query}
+                              queryClassName={searchValueClassName}
+                            />
                           </HeadlessCombobox.Label>
                         )}
                         {options.map((option, optionIndex) => (
