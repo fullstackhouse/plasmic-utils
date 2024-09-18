@@ -6,11 +6,14 @@ import HighlightQueryValue from "./HighlightQueryValue";
 import { groupOptions } from "./utils";
 import { filterOptionGroupsByQuery } from "./filterOptionGroupsByQuery";
 
+const MAX_OPTIONS_DISPLAY = 500;
+
 type ComboboxValue = string | number;
 
 interface ComboboxProps {
   value?: ComboboxValue;
   emptyOptionText?: string;
+  typeToSearchText?: string;
   leftIcon: ReactNode;
   rightIcon: ReactNode;
   footer?: ReactNode;
@@ -30,6 +33,7 @@ interface ComboboxProps {
   groupClassName?: string;
   labelClassName?: string;
   searchValueClassName?: string;
+  typeToSearchClassName?: string;
   descriptionClassName?: string;
   arrowIconClassName?: string;
   onChange?(value: ComboboxValue | null): void;
@@ -51,6 +55,7 @@ export interface OptionGroup {
 export function Combobox({
   value,
   emptyOptionText,
+  typeToSearchText,
   leftIcon,
   rightIcon,
   footer,
@@ -71,6 +76,7 @@ export function Combobox({
   groupClassName,
   labelClassName,
   searchValueClassName,
+  typeToSearchClassName,
   descriptionClassName,
   arrowIconClassName,
 }: ComboboxProps) {
@@ -78,10 +84,20 @@ export function Combobox({
   const arrowIconRef = useRef<HTMLButtonElement>(null);
 
   const optionGroups = groupOptions(options ?? []);
-
   const visibleOptionGroups = filterOptionGroupsByQuery(optionGroups, query);
 
   const selectedOption = options?.find((option) => option.value === value);
+
+  const showTypeToSearchText =
+    visibleOptionGroups.reduce(
+      (count, group) => count + group.options.length,
+      0,
+    ) > MAX_OPTIONS_DISPLAY;
+
+  const limitedOptionGroups = visibleOptionGroups.map((group) => ({
+    ...group,
+    options: group.options.slice(0, MAX_OPTIONS_DISPLAY),
+  }));
 
   return (
     <div className={className}>
@@ -179,7 +195,7 @@ export function Combobox({
                   {visibleOptionGroups.length === 0 ? (
                     <p className={emptyOptionClassName}>{emptyOptionText}</p>
                   ) : (
-                    visibleOptionGroups.map(({ name, options }) => (
+                    limitedOptionGroups.map(({ name, options }) => (
                       <Fragment key={name || "noGroup"}>
                         {name && (
                           <HeadlessCombobox.Label className={groupClassName}>
@@ -224,6 +240,9 @@ export function Combobox({
                         ))}
                       </Fragment>
                     ))
+                  )}
+                  {showTypeToSearchText && (
+                    <p className={typeToSearchClassName}>{typeToSearchText}</p>
                   )}
                   {footer && <div>{footer}</div>}
                 </HeadlessCombobox.Options>
