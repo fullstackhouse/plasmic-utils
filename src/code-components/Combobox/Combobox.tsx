@@ -4,6 +4,7 @@ import { useState, useRef, Fragment, ReactNode } from "react";
 import styles from "./Combobox.module.css";
 import HighlightQueryValue from "./HighlightQueryValue";
 import { groupOptions } from "./utils";
+import { limitOptions } from "./limitOptions";
 import { filterOptionGroupsByQuery } from "./filterOptionGroupsByQuery";
 
 const MAX_OPTIONS_DISPLAY = 500;
@@ -88,23 +89,10 @@ export function Combobox({
 
   const selectedOption = options?.find((option) => option.value === value);
 
-  const showTypeToSearchText =
-    visibleOptionGroups.reduce(
-      (count, group) => count + group.options.length,
-      0,
-    ) > MAX_OPTIONS_DISPLAY;
-
-  const allVisibleOptions = showTypeToSearchText
-    ? visibleOptionGroups.flatMap((group) => group.options)
-    : visibleOptionGroups;
-
-  const limitedOptions = showTypeToSearchText
-    ? allVisibleOptions.slice(0, MAX_OPTIONS_DISPLAY)
-    : allVisibleOptions;
-
-  const limitedOptionGroups: OptionGroup[] = showTypeToSearchText
-    ? groupOptions(limitedOptions as ComboboxOption[])
-    : (limitedOptions as OptionGroup[]);
+  const {
+    optionGroups: limitedOptionGroups,
+    showTypeToSearchText: showTypeToSearchText,
+  } = limitOptions(visibleOptionGroups, MAX_OPTIONS_DISPLAY);
 
   return (
     <div className={className}>
