@@ -94,13 +94,17 @@ export function Combobox({
       0,
     ) > MAX_OPTIONS_DISPLAY;
 
-  const allVisibleOptions = visibleOptionGroups.flatMap(
-    (group) => group.options,
-  );
+  const allVisibleOptions = showTypeToSearchText
+    ? visibleOptionGroups.flatMap((group) => group.options)
+    : visibleOptionGroups;
 
-  const limitedOptions = allVisibleOptions.slice(0, MAX_OPTIONS_DISPLAY);
+  const limitedOptions = showTypeToSearchText
+    ? allVisibleOptions.slice(0, MAX_OPTIONS_DISPLAY)
+    : allVisibleOptions;
 
-  const limitedOptionGroups = groupOptions(limitedOptions);
+  const limitedOptionGroups: OptionGroup[] = showTypeToSearchText
+    ? groupOptions(limitedOptions as ComboboxOption[])
+    : (limitedOptions as OptionGroup[]);
 
   return (
     <div className={className}>
