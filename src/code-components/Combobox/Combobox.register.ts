@@ -19,6 +19,11 @@ export function registerCombobox(
         editOnly: true,
       },
       emptyOptionText: { type: "string", defaultValue: "Nothing found." },
+      typeToSearchText: {
+        type: "string",
+        defaultValue:
+          "Displaying the first 500 results, start typing to filter...",
+      },
       options: {
         type: "array",
         defaultValue: [
@@ -73,6 +78,7 @@ export function registerCombobox(
       leftIconClassName: { type: "class" },
       rightIconClassName: { type: "class" },
       labelClassName: { type: "class" },
+      typeToSearchClassName: { type: "class" },
       searchValueClassName: { type: "class" },
       descriptionClassName: {
         type: "class",
