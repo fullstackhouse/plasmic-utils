@@ -3,28 +3,28 @@ import { groupOptions } from "./utils";
 
 export function limitOptions(
   optionGroups: OptionGroup[],
-  maxOptionsDisplay: number,
+  limit: number,
 ): {
   optionGroups: OptionGroup[];
-  showTypeToSearchText: boolean;
+  limited: boolean;
 } {
   const totalOptions = optionGroups.reduce(
     (count, group) => count + group.options.length,
     0,
   );
 
-  const showTypeToSearchText = totalOptions > maxOptionsDisplay;
+  const overLimit = totalOptions > limit;
 
   const allVisibleOptions = optionGroups.flatMap((group) => group.options);
 
-  const limitedOptions = showTypeToSearchText
-    ? allVisibleOptions.slice(0, maxOptionsDisplay)
+  const limitedOptions = overLimit
+    ? allVisibleOptions.slice(0, limit)
     : allVisibleOptions;
 
   const limitedOptionGroups = groupOptions(limitedOptions);
 
   return {
     optionGroups: limitedOptionGroups,
-    showTypeToSearchText: showTypeToSearchText,
+    limited: overLimit,
   };
 }
