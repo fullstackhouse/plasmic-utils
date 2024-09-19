@@ -89,10 +89,8 @@ export function Combobox({
 
   const selectedOption = options?.find((option) => option.value === value);
 
-  const {
-    optionGroups: limitedOptionGroups,
-    showTypeToSearchText: showTypeToSearchText,
-  } = limitOptions(visibleOptionGroups, MAX_OPTIONS_DISPLAY);
+  const { optionGroups: limitedOptionGroups, limited: overLimit } =
+    limitOptions(visibleOptionGroups, MAX_OPTIONS_DISPLAY);
 
   return (
     <div className={className}>
@@ -236,7 +234,7 @@ export function Combobox({
                       </Fragment>
                     ))
                   )}
-                  {showTypeToSearchText && (
+                  {overLimit && (
                     <p className={typeToSearchClassName}>{typeToSearchText}</p>
                   )}
                   {footer && <div>{footer}</div>}
