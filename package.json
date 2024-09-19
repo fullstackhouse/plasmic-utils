@@ -21,7 +21,7 @@
   "repository": "github:myevaluations/myevals-plasmic-utils",
   "dependencies": {},
   "devDependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^3.3.4",
     "@plasmicapp/loader-nextjs": "^1.0.398",
     "@plasmicapp/react-web": "^0.2.327",
