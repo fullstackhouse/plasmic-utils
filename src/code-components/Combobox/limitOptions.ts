@@ -15,6 +15,10 @@ export function limitOptions(
 
   const overLimit = totalOptions > limit;
 
+  if (!overLimit) {
+    return { limited: false, optionGroups };
+  }
+
   const allVisibleOptions = optionGroups.flatMap((group) => group.options);
 
   const limitedOptions = overLimit
