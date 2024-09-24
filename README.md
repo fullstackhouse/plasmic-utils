@@ -20,5 +20,5 @@ yarn start
 
 Automated via Github Actions. Whenever a commit appears on the `main` branch:
 
-- new version of the Plasmic host is deployed,
+- new version of the Plasmic host is deployed (to https://myevaluations.github.io/myevals-plasmic-utils/plasmic-host ),
 - new version of the `@myevals/myevals-plasmic-utils` node.js package is published.
