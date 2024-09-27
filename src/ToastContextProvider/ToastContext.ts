@@ -6,6 +6,9 @@ export interface ToastContext {
     type?: ToastType;
     title: string;
     description?: string;
+    actionLabel?: string;
+    actionUrl?: string;
+    actionVariant?: string;
     duration?: number;
   }): void;
 
