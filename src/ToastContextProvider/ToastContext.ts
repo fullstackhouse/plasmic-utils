@@ -6,9 +6,11 @@ export interface ToastContext {
     type?: ToastType;
     title: string;
     description?: string;
-    actionLabel?: string;
-    actionUrl?: string;
-    actionVariant?: string;
+    action?: {
+      variant?: string;
+      label: string;
+      onClick(): void;
+    };
     duration?: number;
   }): void;
 
