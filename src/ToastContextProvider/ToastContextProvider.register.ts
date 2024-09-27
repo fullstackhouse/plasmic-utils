@@ -18,7 +18,7 @@ export function registerToastContextProvider(
     providesData: true,
     globalActions: {
       show: {
-        description: `Example usage: show({ type: 'info', title: 'Title', description: 'Description, actionLabel: 'Action' actionUrl: 'actionUrl', actionVariant: 'secondary' }) .
+        description: `Example usage: show({ type: 'info', title: 'Title', description: 'Description, actionLabel: 'Action', actionUrl: 'actionUrl', actionVariant: 'secondary' }) .
           Interface: { id?: string, type?: 'info' | 'success' | 'error', title: string, description?: string, actionLabel?: string, actionUrl?: string, actionVariant?: string, duration?: number }`,
         parameters: [{ name: "toast", type: "object" }],
       },
