@@ -21,9 +21,11 @@ interface ToastState {
   type?: ToastType;
   title: string;
   description?: string;
-  actionLabel?: string;
-  actionUrl?: string;
-  actionVariant?: string;
+  action?: {
+    variant?: string;
+    label: string;
+    onClick(): void;
+  };
   duration?: number;
 }
 
@@ -37,22 +39,11 @@ export function ToastContextProvider({
 
   const context = useMemo<ToastContext>(
     () => ({
-      show({
-        id,
-        type,
-        title,
-        description,
-        actionLabel,
-        actionUrl,
-        actionVariant,
-        duration,
-      }) {
+      show({ id, type, title, description, action, duration }) {
         sentry?.addBreadcrumb({
           category: "toast",
           level: type === "success" ? "info" : type,
-          message: [title, description, actionLabel, actionUrl, actionVariant]
-            .filter(Boolean)
-            .join("\n"),
+          message: [title, description, action].filter(Boolean).join("\n"),
         });
 
         setToasts((toasts) => [
@@ -63,9 +54,7 @@ export function ToastContextProvider({
             type,
             title,
             description,
-            actionLabel,
-            actionUrl,
-            actionVariant,
+            action,
             duration,
           },
         ]);
@@ -109,9 +98,7 @@ export function ToastContextProvider({
                 type={toast.type}
                 title={toast.title}
                 description={toast.description}
-                actionLabel={toast.actionLabel}
-                actionUrl={toast.actionUrl}
-                actionVariant={toast.actionVariant}
+                action={toast.action}
                 onClose={() => context.hide(toast.id)}
               />
             </RadixToast.Root>
