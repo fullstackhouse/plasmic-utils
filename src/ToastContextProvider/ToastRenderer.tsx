@@ -4,6 +4,11 @@ export interface ToastRendererProps {
   type?: ToastType;
   title: string;
   description?: string;
+  action?: {
+    variant?: string;
+    label: string;
+    onClick(): void;
+  };
   onClose?(): void;
 }
 
@@ -15,6 +20,11 @@ export const DefaultToastRenderer: ToastRenderer = (props) => {
       <h4>{props.type} Toast</h4>
       <h3>{props.title}</h3>
       {props.description && <p>{props.description}</p>}
+      {props.action && (
+        <button onClick={props.action.onClick}>
+          {props.action.label}/{props.action.variant}
+        </button>
+      )}
     </div>
   );
 };
