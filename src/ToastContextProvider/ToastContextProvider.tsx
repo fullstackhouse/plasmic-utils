@@ -43,7 +43,7 @@ export function ToastContextProvider({
         sentry?.addBreadcrumb({
           category: "toast",
           level: type === "success" ? "info" : type,
-          message: [title, description, action].filter(Boolean).join("\n"),
+          message: [title, description].filter(Boolean).join("\n"),
         });
 
         setToasts((toasts) => [
