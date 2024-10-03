@@ -3,7 +3,14 @@ import {
   GlobalActionsProvider,
 } from "@plasmicapp/react-web/lib/host";
 import * as RadixToast from "@radix-ui/react-toast";
-import { ReactNode, useContext, useMemo, useRef, useState } from "react";
+import {
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styles from "./ToastContextProvider.module.css";
 import { SentryContext } from "../sentry/SentryContext";
 import { ToastContext, ToastType } from "./ToastContext";
@@ -71,6 +78,13 @@ export function ToastContextProvider({
     [sentry],
   );
 
+  useEffect(() => {
+    window.__myevalsPlasmicUtilsToast = context;
+    return () => {
+      delete window.__myevalsPlasmicUtilsToast;
+    };
+  }, [context]);
+
   const ToastRenderer = toastContextProviderConfig.toastRenderer;
 
   return (
@@ -84,6 +98,8 @@ export function ToastContextProvider({
 
           {toasts.map((toast) => (
             <RadixToast.Root
+              style={{ userSelect: "auto" }}
+              onSwipeEnd={(event) => event.preventDefault()}
               key={toast.id}
               open={toast.open}
               className={styles.root}
