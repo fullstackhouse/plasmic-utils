@@ -12,6 +12,7 @@ export function registerVirtualScroll(
     importPath: modulePath + "/code-components/VirtualScroll/VirtualScroll",
     props: {
       style: { type: "object", defaultValue: { height: 500 } },
+      className: { type: "class" },
       children: "slot",
     },
   });
