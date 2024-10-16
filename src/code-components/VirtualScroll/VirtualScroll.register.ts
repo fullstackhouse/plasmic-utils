@@ -1,12 +1,12 @@
 import type { PlasmicLoader } from "../../plasmic";
-import VirtualScrollProvider from "./VirtualScroll";
+import VirtualScroll from "./VirtualScroll";
 
-export function registerVirtualScrollProvider(
+export function registerVirtualScroll(
   plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
-  plasmic.registerComponent(VirtualScrollProvider, {
-    name: "VirtualScrollProvider",
+  plasmic.registerComponent(VirtualScroll, {
+    name: "VirtualScroll",
     description:
       "Loads and renders only the visible portion of a list, dynamically loading more items as the user scrolls.",
     importPath: modulePath + "/code-components/VirtualScroll/VirtualScroll",
