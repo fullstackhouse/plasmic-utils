@@ -1,0 +1,9 @@
+.virtualList {
+  overflow-y: scroll;
+  width: 100%;
+  position: relative;
+}
+
+.listItem {
+  width: 100%;
+}
