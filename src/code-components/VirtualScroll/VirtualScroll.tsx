@@ -1,17 +1,17 @@
 import { CSSProperties, ReactNode } from "react";
 import { VList } from "virtua";
 
-interface VirtualScrollProps {
+interface VirtualScrollListProps {
   style?: CSSProperties;
   className?: string;
   children: ReactNode[];
 }
 
-export default function VirtualScroll({
+export default function VirtualScrollList({
   style,
   className,
   children,
-}: VirtualScrollProps) {
+}: VirtualScrollListProps) {
   return (
     <VList className={className} style={style}>
       {children}
