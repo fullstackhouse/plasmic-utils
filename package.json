@@ -19,7 +19,9 @@
     "registry": "https://npm.pkg.github.com"
   },
   "repository": "github:myevaluations/myevals-plasmic-utils",
-  "dependencies": {},
+  "dependencies": {
+    "virtua": "^0.35.1"
+  },
   "devDependencies": {
     "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^3.3.4",
