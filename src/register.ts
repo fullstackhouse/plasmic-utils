@@ -27,6 +27,7 @@ import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWi
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
+import { registerVirtualScrollList } from "./code-components/VirtualScroll/VirtualScroll.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
@@ -74,4 +75,5 @@ export function registerMyEvaluationsPlasmicUtils(
   registerWaitFor(plasmic, modulePath);
   registerDOMEventListener(plasmic, modulePath);
   registerZod(plasmic, modulePath);
+  registerVirtualScrollList(plasmic, modulePath);
 }
