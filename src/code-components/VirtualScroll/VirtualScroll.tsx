@@ -7,7 +7,7 @@ interface VirtualScrollListProps {
   children: ReactNode[];
 }
 
-export default function VirtualScrollList({
+export function VirtualScrollList({
   style,
   className,
   children,

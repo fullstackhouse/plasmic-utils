@@ -1,5 +1,5 @@
 import type { PlasmicLoader } from "../../plasmic";
-import VirtualScrollList from "./VirtualScroll";
+import { VirtualScrollList } from "./VirtualScroll";
 
 export function registerVirtualScrollList(
   plasmic: PlasmicLoader,
