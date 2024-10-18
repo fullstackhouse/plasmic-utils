@@ -101,6 +101,13 @@ export function registerApiProvider(
         advanced: true,
         defaultExprHint: "data => data[0]",
       },
+      suspense: {
+        type: "boolean",
+        description:
+          "Suspend rendering (and trigger the closest Loading Boundary) until data is fetched. **Note: Don't change this after the component is mounted.**",
+        advanced: true,
+        defaultValue: false,
+      },
       onLoad: {
         type: "eventHandler",
         argTypes: [{ name: "data", type: "object" }],

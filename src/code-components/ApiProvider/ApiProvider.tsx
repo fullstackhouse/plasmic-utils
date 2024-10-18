@@ -32,6 +32,7 @@ export interface ApiProviderProps {
   retryOnError?: boolean;
   alertOnError?: boolean;
   useNodejsApi?: boolean;
+  suspense?: boolean;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
   onError?(error: FetchError): void;
@@ -53,6 +54,7 @@ export function ApiProvider({
   retryOnError = true,
   alertOnError = true,
   useNodejsApi = true,
+  suspense = false,
   transformResponse = defaultResponseTransform,
   onLoad,
   onError,
@@ -75,6 +77,7 @@ export function ApiProvider({
       revalidateOnFocus: refetchOnWindowFocus,
       revalidateOnReconnect: refetchOnReconnect,
       shouldRetryOnError: retryOnError && shouldRetry,
+      suspense,
     },
   );
 
