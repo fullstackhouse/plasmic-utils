@@ -4,6 +4,7 @@ import { FetchError } from "./FetchError";
 import { ToastContext } from "../../ToastContextProvider/ToastContext";
 import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
 import { useSelector } from "@plasmicapp/react-web/lib/host";
+import { useTrackBeforeUnload } from "./useTrackBeforeUnload";
 
 /**
  * Whenever `error` changes and is present:
@@ -21,21 +22,10 @@ export function useOnError({
   error: Error | undefined;
   alertOnError: boolean;
 }) {
-  const [navigatedElsewhere, setNavigatedElsewhere] = useState(false);
-
+  const requestCancelled = useTrackBeforeUnload();
   const toast = useSelector("toast") as ToastContext | undefined;
-
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
-
-  useEffect(() => {
-    const handleBeforeUnload = () => setNavigatedElsewhere(true);
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
 
   if (error && !(error instanceof FetchError)) {
     throw error;
@@ -53,7 +43,7 @@ export function useOnError({
         dispatchUnauthorizedEvent();
       }
 
-      if (!error.handled && alertOnError && !navigatedElsewhere) {
+      if (!error.handled && alertOnError && !requestCancelled) {
         error.handled = true;
         toast?.show({
           id: "server-error",
