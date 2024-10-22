@@ -68,15 +68,15 @@ export function ApiProvider({
   const inEditor = !!usePlasmicCanvasContext();
   const interactive = !inEditor || editorMode === EditorMode.interactive;
   const shouldRetry = useShouldRetry();
+  const actualOnError = useOnError({ alertOnError, onError });
 
   const fetchOptions = { method, path, query, useNodejsApi };
   const response = useSWR(
     enabled && interactive ? cacheKey : null,
-    () => {
-      return fetchApi(fetchOptions).then((data) =>
+    () =>
+      fetchApi(fetchOptions).then((data) =>
         transformResponse(data, fetchOptions),
-      );
-    },
+      ),
     {
       use: [swrLaggyMiddleware],
       revalidateIfStale: refetchIfStale,
@@ -84,6 +84,7 @@ export function ApiProvider({
       revalidateOnReconnect: refetchOnReconnect,
       shouldRetryOnError: retryOnError && shouldRetry,
       suspense,
+      onError: actualOnError,
     },
   );
 
@@ -97,11 +98,11 @@ export function ApiProvider({
   });
 
   useOnLoad({ onLoad, data: mockedResponse.data });
-  useOnError({
-    onError,
-    error: mockedResponse.error,
-    alertOnError,
-  });
+
+  const { error } = mockedResponse;
+  if (error && !(error instanceof FetchError)) {
+    throw error;
+  }
 
   return (
     <DataProvider name={name} data={mockedResponse}>

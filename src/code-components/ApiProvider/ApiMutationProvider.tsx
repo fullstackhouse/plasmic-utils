@@ -40,6 +40,7 @@ export function ApiMutationProvider({
   onLoad,
   onError,
 }: ApiMutationProviderProps) {
+  const actualOnError = useOnError({ alertOnError, onError });
   const response = useSWRMutation<
     any,
     Error,
@@ -63,15 +64,16 @@ export function ApiMutationProvider({
       // swr accepts either `true` or `false` but not `boolean` in here
       // let's assert it's always true (even though it's a boolean, which it may be).
       throwOnError: throwOnError as true,
+      onError: actualOnError,
     },
   );
 
   useOnLoad({ onLoad, data: response.data });
-  useOnError({
-    onError,
-    error: response.error,
-    alertOnError,
-  });
+
+  const { error } = response;
+  if (error && !(error instanceof FetchError)) {
+    throw error;
+  }
 
   return (
     <DataProvider name={name} data={response}>
