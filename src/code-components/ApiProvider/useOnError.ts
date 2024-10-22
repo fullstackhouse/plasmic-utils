@@ -32,30 +32,34 @@ export function useOnError({
   }
 
   useEffect(() => {
-    if (error) {
-      console.error(error);
-
-      // If it's been a 401 error,
-      // redirect the user to authentication page
-      // and don't do anything else.
-      if (!error.handled && error.response?.status === 401) {
-        error.handled = true;
-        dispatchUnauthorizedEvent();
-      }
-
-      if (!error.handled && alertOnError && !requestCancelled) {
-        error.handled = true;
-        toast?.show({
-          id: "server-error",
-          type: "error",
-          title: "Server Error",
-          description:
-            "There have been some troubles while loading data from the server. If the problem persists, refresh the page or contact support for help.",
-        });
-      }
-
-      onErrorRef.current?.(error);
+    if (!error) {
+      return;
     }
+
+    if (process.env.NODE_ENV !== "test") {
+      console.error(error);
+    }
+
+    // If it's been a 401 error,
+    // redirect the user to authentication page
+    // and don't do anything else.
+    if (!error.handled && error.response?.status === 401) {
+      error.handled = true;
+      dispatchUnauthorizedEvent();
+    }
+
+    if (!error.handled && alertOnError && !requestCancelled && toast) {
+      error.handled = true;
+      toast.show({
+        id: "server-error",
+        type: "error",
+        title: "Server Error",
+        description:
+          "There have been some troubles while loading data from the server. If the problem persists, refresh the page or contact support for help.",
+      });
+    }
+
+    onErrorRef.current?.(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 }
