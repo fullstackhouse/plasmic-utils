@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import useSWR from "swr";
+import useSWR, { SWRResponse } from "swr";
 import { FetchError } from "./FetchError";
 import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
@@ -22,7 +22,7 @@ export interface ApiProviderProps {
   query?: Query;
   cacheKey?: any;
   enabled?: boolean;
-  name: string;
+  name?: string;
   editorMode?: EditorMode;
   previewData?: any;
   children: ReactNode;
@@ -38,13 +38,19 @@ export interface ApiProviderProps {
   onError?(error: FetchError): void;
 }
 
+export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
+  Data,
+  Error,
+  Config
+>;
+
 export function ApiProvider({
   method = "GET",
   path,
   query,
   cacheKey = [path, query],
-  enabled,
-  name,
+  enabled = true,
+  name = "response",
   editorMode = EditorMode.interactive,
   previewData,
   children,
@@ -81,7 +87,7 @@ export function ApiProvider({
     },
   );
 
-  const mockedResponse = useMockedResponse({
+  const mockedResponse: ApiResponse = useMockedResponse({
     response,
     inEditor,
     editorMode,
