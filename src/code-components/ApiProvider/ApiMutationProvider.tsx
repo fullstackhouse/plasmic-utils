@@ -12,14 +12,14 @@ import {
 import { DataProvider } from "@plasmicapp/react-web/lib/host";
 
 export interface ApiMutationProviderProps {
-  method: string;
+  method?: string;
   path: string;
   query?: Query;
   cacheKey?: Arguments;
-  name: string;
+  name?: string;
   children: ReactNode;
-  alertOnError: boolean;
-  throwOnError: boolean;
+  alertOnError?: boolean;
+  throwOnError?: boolean;
   useNodejsApi: boolean;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
@@ -27,14 +27,14 @@ export interface ApiMutationProviderProps {
 }
 
 export function ApiMutationProvider({
-  method,
+  method = "POST",
   path,
   query,
   cacheKey = [path, query],
-  name,
+  name = "response",
   children,
-  alertOnError,
-  throwOnError,
+  alertOnError = true,
+  throwOnError = true,
   useNodejsApi,
   transformResponse = defaultResponseTransform,
   onLoad,
