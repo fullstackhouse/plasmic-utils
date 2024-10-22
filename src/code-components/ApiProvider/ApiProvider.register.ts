@@ -1,4 +1,5 @@
 import type { PlasmicLoader } from "../../plasmic";
+import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
 
 export function registerApiProvider(
@@ -119,5 +120,15 @@ export function registerApiProvider(
     },
     providesData: true,
     isAttachment: true,
+  });
+
+  plasmic.registerComponent(ApiErrorBoundary, {
+    name: "ApiErrorBoundary",
+    importPath: modulePath + "/code-components/ApiProvider/ApiErrorBoundary",
+    isAttachment: true,
+    props: {
+      fallback: { type: "slot" },
+      children: { type: "slot" },
+    },
   });
 }

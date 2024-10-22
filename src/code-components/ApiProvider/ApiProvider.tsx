@@ -1,20 +1,20 @@
+import {
+  DataProvider,
+  usePlasmicCanvasContext,
+} from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import useSWR, { SWRResponse } from "swr";
 import { FetchError } from "./FetchError";
 import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
-import { EditorMode, useMockedResponse } from "./useMockedResponse";
-import { useOnError } from "./useOnError";
-import { useOnLoad } from "./useOnLoad";
-import { useShouldRetry } from "./useShouldRetry";
 import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
-import {
-  DataProvider,
-  usePlasmicCanvasContext,
-} from "@plasmicapp/react-web/lib/host";
+import { EditorMode, useMockedResponse } from "./useMockedResponse";
+import { useOnError } from "./useOnError";
+import { useOnLoad } from "./useOnLoad";
+import { useShouldRetry } from "./useShouldRetry";
 
 export interface ApiProviderProps {
   method?: string;
@@ -44,27 +44,28 @@ export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
   Config
 >;
 
-export function ApiProvider({
-  method = "GET",
-  path,
-  query,
-  cacheKey = [path, query],
-  enabled = true,
-  name = "response",
-  editorMode = EditorMode.interactive,
-  previewData,
-  children,
-  refetchIfStale = true,
-  refetchOnWindowFocus = false,
-  refetchOnReconnect = false,
-  retryOnError = true,
-  alertOnError = true,
-  useNodejsApi = true,
-  suspense = false,
-  transformResponse = defaultResponseTransform,
-  onLoad,
-  onError,
-}: ApiProviderProps) {
+export function ApiProvider(props: ApiProviderProps) {
+  const {
+    method,
+    path,
+    query,
+    cacheKey,
+    enabled,
+    name,
+    editorMode,
+    previewData,
+    children,
+    refetchIfStale,
+    refetchOnWindowFocus,
+    refetchOnReconnect,
+    retryOnError,
+    alertOnError,
+    useNodejsApi,
+    suspense,
+    transformResponse,
+    onLoad,
+    onError,
+  } = fillProps(props);
   const inEditor = !!usePlasmicCanvasContext();
   const interactive = !inEditor || editorMode === EditorMode.interactive;
   const shouldRetry = useShouldRetry();
@@ -110,3 +111,24 @@ export function ApiProvider({
     </DataProvider>
   );
 }
+
+function fillProps(props: ApiProviderProps) {
+  return {
+    method: "GET",
+    cacheKey: [props.path, props.query],
+    enabled: true,
+    name: "response",
+    editorMode: EditorMode.interactive,
+    refetchIfStale: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retryOnError: true,
+    alertOnError: true,
+    useNodejsApi: true,
+    suspense: false,
+    transformResponse: defaultResponseTransform,
+    ...props,
+  };
+}
+
+export type ApiProviderFilledProps = ReturnType<typeof fillProps>;

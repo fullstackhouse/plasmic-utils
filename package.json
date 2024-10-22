@@ -20,6 +20,7 @@
   },
   "repository": "github:myevaluations/myevals-plasmic-utils",
   "dependencies": {
+    "react-error-boundary": "^4.1.2",
     "virtua": "^0.35.1"
   },
   "devDependencies": {

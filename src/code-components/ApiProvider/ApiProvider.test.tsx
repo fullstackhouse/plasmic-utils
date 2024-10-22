@@ -1,36 +1,20 @@
 import { DataProvider, useSelector } from "@plasmicapp/react-web/lib/host";
-import { render, waitFor } from "@testing-library/react";
-import { delay, http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  it,
-  onTestFinished,
-  vitest,
-} from "vitest";
-import { ApiProvider, ApiProviderProps, ApiResponse } from "./ApiProvider";
+import { cleanup, render, waitFor } from "@testing-library/react";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { SWRConfig } from "swr";
+import { afterEach, describe, it, onTestFinished, vitest } from "vitest";
+import { ApiErrorBoundary } from "./ApiErrorBoundary";
+import { ApiProvider, ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
 import { subscribeToUnauthorizedEvents } from "./UnauthorizedEvent";
+import { stubApi } from "./stubApi.test-helper";
 
-const server = setupServer(
-  http.get("http://localhost/foo", async () => {
-    await delay();
-    return HttpResponse.json({ foo: "bar" });
-  }),
-  http.get("http://localhost/error", () => HttpResponse.error()),
-  http.get("http://localhost/401", () =>
-    HttpResponse.json({ error: "Not Authorized" }, { status: 401 }),
-  ),
-);
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+stubApi();
+afterEach(cleanup);
 
 function TestComponent() {
-  const response = useSelector("response") as ApiResponse;
+  const response = useSelector("response");
   return JSON.stringify(response);
 }
 
@@ -40,51 +24,60 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
   };
 
   const result = render(
-    <DataProvider name="toast" data={toast}>
-      <ApiProvider
-        {...{
-          path: "http://localhost/foo",
-          useNodejsApi: false,
-          retryOnError: false,
-          ...props,
-        }}
-      >
-        <TestComponent />
-      </ApiProvider>
-    </DataProvider>,
+    <SWRConfig value={{ provider: () => new Map() }}>
+      <DataProvider name="toast" data={toast}>
+        <ErrorBoundary
+          fallbackRender={({ error }) =>
+            JSON.stringify({ error: error.toString() })
+          }
+        >
+          <ApiErrorBoundary
+            fallback={JSON.stringify({ suspended: true, error: true })}
+          >
+            <Suspense
+              fallback={JSON.stringify({ suspended: true, loading: true })}
+            >
+              <ApiProvider
+                {...{
+                  path: "http://localhost/foo",
+                  useNodejsApi: false,
+                  retryOnError: false,
+                  ...props,
+                }}
+              >
+                <TestComponent />
+              </ApiProvider>
+            </Suspense>
+          </ApiErrorBoundary>
+        </ErrorBoundary>
+      </DataProvider>
+    </SWRConfig>,
   );
-
-  onTestFinished(() => result.unmount());
 
   return {
     toast,
     result,
+    getOutput() {
+      return JSON.parse(result.container.innerHTML);
+    },
   };
-}
-
-function getOutput(container: HTMLElement) {
-  return JSON.parse(container.innerHTML) as ApiResponse;
 }
 
 describe.sequential(ApiProvider.name, () => {
   it("returns loading state on init", async ({ expect }) => {
-    const {
-      result: { container },
-    } = renderApiProvider();
+    const { getOutput } = renderApiProvider();
 
-    expect(getOutput(container)).toMatchObject({
+    expect(getOutput()).toMatchObject({
       isLoading: true,
       isValidating: true,
     });
   });
 
   it("returns data when fetch succeeds", async ({ expect }) => {
-    const {
-      result: { container },
-    } = renderApiProvider();
+    const { getOutput } = renderApiProvider();
 
     await waitFor(() => {
-      expect(getOutput(container)).toEqual({
+      expect(getOutput()).toEqual({
         data: {
           foo: "bar",
         },
@@ -97,12 +90,10 @@ describe.sequential(ApiProvider.name, () => {
 
   it("calls onLoad when data is loaded", async ({ expect }) => {
     const onLoad = vitest.fn();
-    const {
-      result: { container },
-    } = renderApiProvider({ onLoad });
+    const { getOutput } = renderApiProvider({ onLoad });
 
     await waitFor(() => {
-      expect(getOutput(container)).toMatchObject({
+      expect(getOutput()).toMatchObject({
         data: {
           foo: "bar",
         },
@@ -114,14 +105,12 @@ describe.sequential(ApiProvider.name, () => {
   });
 
   it("returns error when fetch fails", async ({ expect }) => {
-    const {
-      result: { container },
-    } = renderApiProvider({
+    const { getOutput } = renderApiProvider({
       path: "http://localhost/error",
     });
 
     await waitFor(() => {
-      expect(getOutput(container)).toMatchObject({
+      expect(getOutput()).toMatchObject({
         error: { name: "FetchError" },
         isLoading: false,
         isValidating: false,
@@ -131,21 +120,18 @@ describe.sequential(ApiProvider.name, () => {
 
   it("calls onError when fetch fails", async ({ expect }) => {
     const onError = vitest.fn();
-    const {
-      result: { container },
-    } = renderApiProvider({
+    const { getOutput } = renderApiProvider({
       path: "http://localhost/error",
       onError,
     });
 
     await waitFor(() => {
-      expect(getOutput(container)).toMatchObject({
+      expect(getOutput()).toMatchObject({
         error: { name: "FetchError" },
       });
     });
 
-    // Somehow this gets called twice... no idea why. Doesn't happen if you run just this test in isolation. Commenting out for now.
-    // expect(onError).toHaveBeenCalledTimes(1);
+    expect(onError).toHaveBeenCalledTimes(1);
     expect(onError).toHaveBeenCalledWith(expect.any(FetchError));
   });
 
@@ -157,15 +143,13 @@ describe.sequential(ApiProvider.name, () => {
     onTestFinished(unsubscribe);
 
     const onError = vitest.fn();
-    const {
-      result: { container },
-    } = renderApiProvider({
+    const { getOutput } = renderApiProvider({
       path: "http://localhost/401",
       onError,
     });
 
     await waitFor(() => {
-      expect(getOutput(container)).toMatchObject({
+      expect(getOutput()).toMatchObject({
         error: { name: "FetchError" },
       });
     });
@@ -177,21 +161,89 @@ describe.sequential(ApiProvider.name, () => {
   });
 
   it("shows toast when fatch fails", async ({ expect }) => {
-    const {
-      toast,
-      result: { container },
-    } = renderApiProvider({
+    const { toast, getOutput } = renderApiProvider({
       path: "http://localhost/error",
     });
 
     await waitFor(() => {
-      expect(getOutput(container)).toMatchObject({
+      expect(getOutput()).toMatchObject({
         error: { name: "FetchError" },
         isLoading: false,
         isValidating: false,
       });
 
       expect(toast.show).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("if fetch fails because of an application error in transformResponse, an error is thrown during the render, and it is not caught by ApiErrorBoundary", async ({
+    expect,
+  }) => {
+    const { getOutput } = renderApiProvider({
+      transformResponse() {
+        throw new TypeError("test error");
+      },
+    });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({
+        error: "TypeError: test error",
+      });
+    });
+  });
+
+  it("if suspense is enabled, suspends rendering until data is fetched", async ({
+    expect,
+  }) => {
+    const { getOutput } = renderApiProvider({ suspense: true });
+
+    expect(getOutput()).toEqual({ suspended: true, loading: true });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({
+        data: {
+          foo: "bar",
+        },
+      });
+    });
+  });
+
+  it("if suspense is enabled, and fetch fails, toast is shown", async ({
+    expect,
+  }) => {
+    const { getOutput } = renderApiProvider({
+      path: "http://localhost/error",
+      suspense: true,
+    });
+
+    expect(getOutput()).toEqual({ suspended: true, loading: true });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({
+        suspended: true,
+        error: true,
+      });
+    });
+  });
+
+  it("if suspense is enabled, and fetch fails because of an application error in transformResponse, an error is thrown during the render, and it is not caught by ApiErrorBoundary", async ({
+    expect,
+  }) => {
+    const {
+      toast,
+
+      getOutput,
+    } = renderApiProvider({
+      suspense: true,
+      transformResponse() {
+        throw new TypeError("test error");
+      },
+    });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({
+        error: "TypeError: test error",
+      });
     });
   });
 });
