@@ -1,4 +1,5 @@
 import type { PlasmicLoader } from "../../plasmic";
+import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
 
 export function registerApiProvider(
@@ -101,6 +102,13 @@ export function registerApiProvider(
         advanced: true,
         defaultExprHint: "data => data[0]",
       },
+      suspense: {
+        type: "boolean",
+        description:
+          "Suspend rendering (and trigger the closest Loading Boundary) until data is fetched. **Note: Don't change this after the component is mounted.**",
+        advanced: true,
+        defaultValue: false,
+      },
       onLoad: {
         type: "eventHandler",
         argTypes: [{ name: "data", type: "object" }],
@@ -112,5 +120,15 @@ export function registerApiProvider(
     },
     providesData: true,
     isAttachment: true,
+  });
+
+  plasmic.registerComponent(ApiErrorBoundary, {
+    name: "ApiErrorBoundary",
+    importPath: modulePath + "/code-components/ApiProvider/ApiErrorBoundary",
+    isAttachment: true,
+    props: {
+      fallback: { type: "slot" },
+      children: { type: "slot" },
+    },
   });
 }

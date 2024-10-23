@@ -12,14 +12,14 @@ import {
 import { DataProvider } from "@plasmicapp/react-web/lib/host";
 
 export interface ApiMutationProviderProps {
-  method: string;
+  method?: string;
   path: string;
   query?: Query;
   cacheKey?: Arguments;
-  name: string;
+  name?: string;
   children: ReactNode;
-  alertOnError: boolean;
-  throwOnError: boolean;
+  alertOnError?: boolean;
+  throwOnError?: boolean;
   useNodejsApi: boolean;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
@@ -27,19 +27,20 @@ export interface ApiMutationProviderProps {
 }
 
 export function ApiMutationProvider({
-  method,
+  method = "POST",
   path,
   query,
   cacheKey = [path, query],
-  name,
+  name = "response",
   children,
-  alertOnError,
-  throwOnError,
+  alertOnError = true,
+  throwOnError = true,
   useNodejsApi,
   transformResponse = defaultResponseTransform,
   onLoad,
   onError,
 }: ApiMutationProviderProps) {
+  const actualOnError = useOnError({ alertOnError, onError });
   const response = useSWRMutation<
     any,
     Error,
@@ -63,15 +64,16 @@ export function ApiMutationProvider({
       // swr accepts either `true` or `false` but not `boolean` in here
       // let's assert it's always true (even though it's a boolean, which it may be).
       throwOnError: throwOnError as true,
+      onError: actualOnError,
     },
   );
 
   useOnLoad({ onLoad, data: response.data });
-  useOnError({
-    onError,
-    error: response.error,
-    alertOnError,
-  });
+
+  const { error } = response;
+  if (error && !(error instanceof FetchError)) {
+    throw error;
+  }
 
   return (
     <DataProvider name={name} data={response}>
