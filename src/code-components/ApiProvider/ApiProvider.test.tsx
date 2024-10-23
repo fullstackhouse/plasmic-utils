@@ -208,7 +208,7 @@ describe.sequential(ApiProvider.name, () => {
     });
   });
 
-  it("if suspense is enabled, and fetch fails, toast is shown", async ({
+  it("if suspense is enabled, and fetch fails, throws an error that can be later caught by ApiErrorBoundary", async ({
     expect,
   }) => {
     const { getOutput } = renderApiProvider({
