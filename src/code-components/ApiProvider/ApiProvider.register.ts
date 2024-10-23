@@ -127,6 +127,10 @@ export function registerApiProvider(
     importPath: modulePath + "/code-components/ApiProvider/ApiErrorBoundary",
     isAttachment: true,
     props: {
+      previewFallback: {
+        type: "boolean",
+        defaultValue: false,
+      },
       fallback: { type: "slot" },
       children: { type: "slot" },
     },
