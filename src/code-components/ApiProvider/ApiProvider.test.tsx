@@ -171,9 +171,9 @@ describe.sequential(ApiProvider.name, () => {
         isLoading: false,
         isValidating: false,
       });
-
-      expect(toast.show).toHaveBeenCalledTimes(1);
     });
+
+    expect(toast.show).toHaveBeenCalledTimes(1);
   });
 
   it("if fetch fails because of an application error in transformResponse, an error is thrown during the render, and it is not caught by ApiErrorBoundary", async ({
@@ -209,6 +209,26 @@ describe.sequential(ApiProvider.name, () => {
   });
 
   it("if suspense is enabled, and fetch fails, throws an error that can be later caught by ApiErrorBoundary", async ({
+    expect,
+  }) => {
+    const { toast, getOutput } = renderApiProvider({
+      path: "http://localhost/error",
+      suspense: true,
+    });
+
+    expect(getOutput()).toEqual({ suspended: true, loading: true });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({
+        suspended: true,
+        error: true,
+      });
+    });
+
+    expect(toast.show).toHaveBeenCalledTimes(1);
+  });
+
+  it("if suspense is enabled, and fetch fails, toast is shown", async ({
     expect,
   }) => {
     const { getOutput } = renderApiProvider({
