@@ -1,7 +1,8 @@
 import { useSelector } from "@plasmicapp/react-web/lib/host";
 import { act, cleanup, renderHook } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { RouteContext, Router } from "./Router";
+import { Router } from "./Router";
+import { RouteContext } from "./useRouterContext";
 
 afterEach(cleanup);
 

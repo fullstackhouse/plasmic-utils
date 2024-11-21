@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { RouterActions } from "./Router";
 import { RouteStorage } from "./storage/base";
 import { useRoute } from "./useRoute";
-import { Query, parseQueryString, buildQueryString } from "./utils/queryString";
+import { RouteContext, RouterActions } from "./useRouterContext";
+import { buildQueryString, parseQueryString } from "./utils/queryString";
 
 export function useQuery(
   storage: RouteStorage,
-): [Query, RouterActions["setQuery"]] {
+): [RouteContext["query"], RouteContext["setQuery"]] {
   const currentRoute = useRoute(storage);
 
   return useMemo(() => {
