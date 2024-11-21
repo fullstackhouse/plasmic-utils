@@ -1,7 +1,7 @@
 import { buildSubject } from "../utils/Subject";
-import { Route, RouterAdapter } from "./base";
+import { Route, RouteStorage } from "./base";
 
-export function buildBrowserRouterAdapter(): RouterAdapter {
+export function buildBrowserRouteStorage(): RouteStorage {
   const routeSubject = buildSubject<Route>();
 
   window.addEventListener("popstate", onWindowPopState);

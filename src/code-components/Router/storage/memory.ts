@@ -1,15 +1,15 @@
 import { buildSubject } from "../utils/Subject";
-import { Route, RouterAdapter } from "./base";
+import { Route, RouteStorage } from "./base";
 
-export interface MemoryRouterAdapterProps {
+export interface MemoryRouteStorageInput {
   initialQueryString?: string;
 }
 
-export function buildMemoryRouterAdapter(
-  props: MemoryRouterAdapterProps,
-): RouterAdapter {
+export function buildMemoryRouteStorage(
+  input: MemoryRouteStorageInput,
+): RouteStorage {
   const routeSubject = buildSubject<Route>();
-  const initialRoute: Route = { queryString: props.initialQueryString ?? null };
+  const initialRoute: Route = { queryString: input.initialQueryString ?? null };
   const memory: Route[] = [initialRoute];
 
   function getCurrentRoute() {

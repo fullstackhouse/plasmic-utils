@@ -4,7 +4,7 @@ export interface Route {
 
 export type OnRouteChangeListener = (route: Route) => void;
 
-export interface RouterAdapter {
+export interface RouteStorage {
   getCurrentRoute(): Route;
 
   pushRoute(route: Route): void;

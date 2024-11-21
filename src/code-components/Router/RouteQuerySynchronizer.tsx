@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { RouterContextValue } from "./Router";
 import { useDataEnv } from "@plasmicapp/react-web/lib/host";
+import { RouteContext } from "./useRouterContext";
 
 export interface RouteQuerySynchronizerProps {
   queryParamName: string;
@@ -16,7 +16,7 @@ export function RouteQuerySynchronizer({
   onChange,
 }: RouteQuerySynchronizerProps) {
   const $ctx = useDataEnv();
-  const route = $ctx!.route as RouterContextValue;
+  const route = $ctx!.route as RouteContext;
 
   const prevPropValue = useRef(propValue);
 
