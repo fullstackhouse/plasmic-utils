@@ -21,7 +21,7 @@ function renderRouter() {
   return renderHook(useRoute, {
     wrapper: ({ children }) => {
       return (
-        <Router initialQueryString="a=b" adapter="memory">
+        <Router initialQueryString="a=b" storage="memory">
           {children}
         </Router>
       );

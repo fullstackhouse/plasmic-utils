@@ -3,13 +3,13 @@ import {
   GlobalActionsProvider,
 } from "@plasmicapp/react-web/lib/host";
 import { ReactNode, useLayoutEffect, useMemo, useState } from "react";
-import { Route, RouterAdapter } from "./adapters/base";
+import { Route, RouteStorage } from "./storage/base";
 import { Query, buildQueryString, parseQueryString } from "./utils/queryString";
-import { AdapterType, useAdapter } from "./useAdapter";
+import { RouteStorageType, useStorage } from "./storage/useStorage";
 
 export interface RouterProps {
   initialQueryString?: string;
-  adapter?: AdapterType;
+  storage?: RouteStorageType;
   children: ReactNode;
 }
 
@@ -33,9 +33,9 @@ export interface RouterActions {
   ): void;
 }
 
-export function Router({ initialQueryString, adapter, children }: RouterProps) {
-  const adapterRef = useAdapter({ initialQueryString, type: adapter });
-  const [query, setQuery] = useCurrentQuery(adapterRef);
+export function Router({ initialQueryString, storage, children }: RouterProps) {
+  const storageRef = useStorage({ initialQueryString, type: storage });
+  const [query, setQuery] = useCurrentQuery(storageRef);
 
   const { context, actions } = useMemo<{
     context: RouteContext;
@@ -65,9 +65,9 @@ export function Router({ initialQueryString, adapter, children }: RouterProps) {
 }
 
 function useCurrentQuery(
-  adapter: RouterAdapter,
+  storage: RouteStorage,
 ): [Query, RouterActions["setQuery"]] {
-  const currentRoute = useCurrentRoute(adapter);
+  const currentRoute = useCurrentRoute(storage);
 
   return useMemo(() => {
     const currentQuery = parseQueryString(currentRoute.queryString ?? "");
@@ -76,33 +76,33 @@ function useCurrentQuery(
       query,
       { merge = true, push = false } = {},
     ) => {
-      const prevRoute = adapter.getCurrentRoute();
+      const prevRoute = storage.getCurrentRoute();
       const prevQuery = parseQueryString(prevRoute.queryString ?? "");
       const newQuery = merge ? { ...prevQuery, ...query } : query;
       const route = {
         queryString: buildQueryString(newQuery),
       };
       if (push) {
-        adapter.pushRoute(route);
+        storage.pushRoute(route);
       } else {
-        adapter.replaceRoute(route);
+        storage.replaceRoute(route);
       }
     };
 
     return [currentQuery, setQuery];
-  }, [adapter, currentRoute.queryString]);
+  }, [storage, currentRoute.queryString]);
 }
 
-function useCurrentRoute(adapter: RouterAdapter): Route {
-  const [currentRoute, setCurrentRoute] = useState(adapter.getCurrentRoute());
+function useCurrentRoute(storage: RouteStorage): Route {
+  const [currentRoute, setCurrentRoute] = useState(storage.getCurrentRoute());
 
   useLayoutEffect(() => {
-    adapter.onRouteChange(setCurrentRoute);
+    storage.onRouteChange(setCurrentRoute);
 
     return () => {
-      adapter.destroy();
+      storage.destroy();
     };
-  }, [adapter]);
+  }, [storage]);
 
   return currentRoute;
 }
