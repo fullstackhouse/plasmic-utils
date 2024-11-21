@@ -9,12 +9,15 @@ import { buildBrowserRouterAdapter } from "./adapters/browser";
 import { buildMemoryRouterAdapter } from "./adapters/memory";
 import { Query, buildQueryString, parseQueryString } from "./utils/queryString";
 
+type AdapterType = "browser" | "memory";
+
 export interface RouterProps {
   initialQueryString?: string;
+  adapter?: AdapterType;
   children: ReactNode;
 }
 
-export interface RouterContextValue extends RouterActions {
+export interface RouteContext extends RouterActions {
   query: Query;
 }
 
@@ -34,11 +37,14 @@ export interface RouterActions {
   ): void;
 }
 
-export function Router({ initialQueryString, children }: RouterProps) {
-  const adapterRef = useAdapter({ initialQueryString });
+export function Router({ initialQueryString, adapter, children }: RouterProps) {
+  const adapterRef = useAdapter({ initialQueryString, adapter });
   const [query, setQuery] = useCurrentQuery(adapterRef);
 
-  const { context, actions } = useMemo(() => {
+  const { context, actions } = useMemo<{
+    context: RouteContext;
+    actions: RouterActions;
+  }>(() => {
     return {
       context: {
         query,
@@ -64,15 +70,19 @@ export function Router({ initialQueryString, children }: RouterProps) {
 
 function useAdapter({
   initialQueryString,
-}: Pick<RouterProps, "initialQueryString">): RouterAdapter {
+  adapter: adapterProp,
+}: Pick<RouterProps, "initialQueryString" | "adapter">): RouterAdapter {
   const inPlasmic = useInPlasmic();
 
   const adapter: RouterAdapter = useMemo(() => {
-    return inPlasmic || typeof window === "undefined"
+    const adapterType =
+      adapterProp ??
+      (inPlasmic || typeof window === "undefined" ? "memory" : "browser");
+    return adapterType === "memory"
       ? buildMemoryRouterAdapter({ initialQueryString })
       : buildBrowserRouterAdapter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [adapterProp]);
 
   return adapter;
 }
