@@ -34,6 +34,7 @@ import { registerZod } from "./custom-functions/zod.register";
 import { registerMyEvaluationsPlasmicUtils } from "./register";
 import { SentryContext } from "./sentry/SentryContext";
 import { toastContextProviderConfig } from "./ToastContextProvider/config";
+import { registerRouteChangeBlocker } from "./code-components/Router/RouteChangeBlocker.register";
 
 export {
   registerApiMutationProvider,
@@ -55,6 +56,7 @@ export {
   registerRawList,
   registerRawNull,
   registerRawTable,
+  registerRouteChangeBlocker,
   registerRouteQuerySynchronizer,
   registerRouter,
   registerStateProvider,
