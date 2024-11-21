@@ -11,9 +11,9 @@ describe.sequential(Router.name, () => {
     const { result } = renderRouter();
 
     expect(result.current.query).toEqual({ a: "b" });
-    act(() => result.current.setQuery({ c: "d" }, { merge: false }));
+    await act(() => result.current.setQuery({ c: "d" }, { merge: false }));
     expect(result.current.query).toEqual({ c: "d" });
-    act(() => result.current.setQuery({ a: "b" }, { merge: true }));
+    await act(() => result.current.setQuery({ a: "b" }, { merge: true }));
     expect(result.current.query).toEqual({ a: "b", c: "d" });
   });
 });

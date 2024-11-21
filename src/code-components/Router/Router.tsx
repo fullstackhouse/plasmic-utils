@@ -5,6 +5,8 @@ import {
 import { ReactNode } from "react";
 import { RouteStorageType, useStorage } from "./storage/useStorage";
 import { RouterActions, useRouterContext } from "./useRouterContext";
+import { useRouterController } from "./controller/useRouterController";
+import { BlockersContext } from "./controller/useBlockers";
 
 export interface RouterProps {
   initialQueryString?: string;
@@ -18,16 +20,19 @@ export function Router({
   children,
 }: RouterProps) {
   const storage = useStorage({ initialQueryString, type: storageType });
-  const { route, actions } = useRouterContext(storage);
+  const controller = useRouterController(storage);
+  const { route, actions } = useRouterContext(controller);
 
   return (
-    <GlobalActionsProvider
-      contextName="Router"
-      actions={actions as Record<keyof RouterActions, Function>}
-    >
-      <DataProvider name="route" data={route}>
-        {children}
-      </DataProvider>
-    </GlobalActionsProvider>
+    <BlockersContext.Provider value={controller.blockers}>
+      <GlobalActionsProvider
+        contextName="Router"
+        actions={actions as Record<keyof RouterActions, Function>}
+      >
+        <DataProvider name="route" data={route}>
+          {children}
+        </DataProvider>
+      </GlobalActionsProvider>
+    </BlockersContext.Provider>
   );
 }

@@ -17,7 +17,7 @@ export function buildMemoryRouteStorage(
   }
 
   return {
-    getCurrentRoute,
+    getRoute: getCurrentRoute,
 
     pushRoute(route) {
       memory.push(route);
