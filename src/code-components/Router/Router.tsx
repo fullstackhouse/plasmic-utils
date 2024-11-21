@@ -3,13 +3,9 @@ import {
   GlobalActionsProvider,
 } from "@plasmicapp/react-web/lib/host";
 import { ReactNode, useLayoutEffect, useMemo, useState } from "react";
-import { useInPlasmic } from "../../common/useInPlasmic";
 import { Route, RouterAdapter } from "./adapters/base";
-import { buildBrowserRouterAdapter } from "./adapters/browser";
-import { buildMemoryRouterAdapter } from "./adapters/memory";
 import { Query, buildQueryString, parseQueryString } from "./utils/queryString";
-
-type AdapterType = "browser" | "memory";
+import { AdapterType, useAdapter } from "./useAdapter";
 
 export interface RouterProps {
   initialQueryString?: string;
@@ -38,7 +34,7 @@ export interface RouterActions {
 }
 
 export function Router({ initialQueryString, adapter, children }: RouterProps) {
-  const adapterRef = useAdapter({ initialQueryString, adapter });
+  const adapterRef = useAdapter({ initialQueryString, type: adapter });
   const [query, setQuery] = useCurrentQuery(adapterRef);
 
   const { context, actions } = useMemo<{
@@ -66,25 +62,6 @@ export function Router({ initialQueryString, adapter, children }: RouterProps) {
       </DataProvider>
     </GlobalActionsProvider>
   );
-}
-
-function useAdapter({
-  initialQueryString,
-  adapter: adapterProp,
-}: Pick<RouterProps, "initialQueryString" | "adapter">): RouterAdapter {
-  const inPlasmic = useInPlasmic();
-
-  const adapter: RouterAdapter = useMemo(() => {
-    const adapterType =
-      adapterProp ??
-      (inPlasmic || typeof window === "undefined" ? "memory" : "browser");
-    return adapterType === "memory"
-      ? buildMemoryRouterAdapter({ initialQueryString })
-      : buildBrowserRouterAdapter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [adapterProp]);
-
-  return adapter;
 }
 
 function useCurrentQuery(
