@@ -28,6 +28,7 @@ import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 import { registerVirtualScrollList } from "./code-components/VirtualScroll/VirtualScroll.register";
+import { registerRouteChangeBlocker } from "./code-components/Router/RouteChangeBlocker.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
@@ -65,8 +66,11 @@ export function registerMyEvaluationsPlasmicUtils(
   registerRawList(plasmic, modulePath);
   registerRawNull(plasmic, modulePath);
   registerRawTable(plasmic, modulePath);
-  registerRouteQuerySynchronizer(plasmic, modulePath);
-  if (router) registerRouter(plasmic, modulePath);
+  if (router) {
+    registerRouter(plasmic, modulePath);
+    registerRouteChangeBlocker(plasmic, modulePath);
+    registerRouteQuerySynchronizer(plasmic, modulePath);
+  }
   if (toast) registerToastContextProvider(plasmic, modulePath);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);

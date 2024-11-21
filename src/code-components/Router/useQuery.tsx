@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { RouteStorage } from "./storage/base";
+import { Route, RouteStorage } from "./storage/base";
 import { useRoute } from "./useRoute";
 import { RouteContext, RouterActions } from "./useRouterContext";
 import { buildQueryString, parseQueryString } from "./utils/queryString";
@@ -18,14 +18,17 @@ export function useQuery(
     ) => {
       const prevRoute = storage.getCurrentRoute();
       const prevQuery = parseQueryString(prevRoute.queryString ?? "");
-      const newQuery = merge ? { ...prevQuery, ...query } : query;
-      const route = {
-        queryString: buildQueryString(newQuery),
+      const nextQuery = merge ? { ...prevQuery, ...query } : query;
+      const nextRoute: Route = {
+        queryString: buildQueryString(nextQuery),
       };
+
+      // TODO blockers
+
       if (push) {
-        storage.pushRoute(route);
+        storage.pushRoute(nextRoute);
       } else {
-        storage.replaceRoute(route);
+        storage.replaceRoute(nextRoute);
       }
     };
 
