@@ -19,7 +19,7 @@ export function buildBrowserRouteStorage(): RouteStorage {
   }
 
   return {
-    getCurrentRoute,
+    getRoute: getCurrentRoute,
 
     pushRoute(route) {
       const url = buildUrlFromRoute(route);

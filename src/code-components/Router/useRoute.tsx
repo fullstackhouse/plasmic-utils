@@ -2,15 +2,15 @@ import { useState, useLayoutEffect } from "react";
 import { RouteStorage, Route } from "./storage/base";
 
 export function useRoute(storage: RouteStorage): Route {
-  const [currentRoute, setCurrentRoute] = useState(storage.getCurrentRoute());
+  const [route, setRoute] = useState(storage.getRoute());
 
   useLayoutEffect(() => {
-    storage.onRouteChange(setCurrentRoute);
+    storage.onRouteChange(setRoute);
 
     return () => {
       storage.destroy();
     };
   }, [storage]);
 
-  return currentRoute;
+  return route;
 }
