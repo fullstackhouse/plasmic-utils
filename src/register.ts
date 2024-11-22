@@ -1,9 +1,10 @@
-import type { PlasmicLoader } from "./plasmic";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
+import { registerDeferredValue } from "./code-components/DeferredValue/DeferredValue.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
+import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
 import { registerFollowingTooltip } from "./code-components/FollowingTooltip/FollowingTooltip.register";
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
@@ -16,19 +17,19 @@ import { registerRawChildren } from "./code-components/RawChildren/Children.regi
 import { registerRawList } from "./code-components/RawList/RawList.register";
 import { registerRawNull } from "./code-components/RawNull/RawNull.register";
 import { registerRawTable } from "./code-components/RawTable/RawTable.register";
+import { registerRouteChangeBlocker } from "./code-components/Router/RouteChangeBlocker.register";
 import { registerRouteQuerySynchronizer } from "./code-components/Router/RouteQuerySynchronizer.register";
 import { registerRouter } from "./code-components/Router/Router.register";
 import { registerStateProvider } from "./code-components/StateProvider/StateProvider.register";
 import { registerTextLinkOrButton } from "./code-components/TextLinkOrButton/TextLinkOrButton.register";
 import { registerTimeoutProvider } from "./code-components/TimeoutProvider/TimeoutProvider.register";
-import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
+import { registerVirtualScrollList } from "./code-components/VirtualScroll/VirtualScroll.register";
 import { registerDayjs } from "./custom-functions/dayjs.register";
 import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWithoutTimeZone.register";
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
+import type { PlasmicLoader } from "./plasmic";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
-import { registerVirtualScrollList } from "./code-components/VirtualScroll/VirtualScroll.register";
-import { registerRouteChangeBlocker } from "./code-components/Router/RouteChangeBlocker.register";
 
 export function registerMyEvaluationsPlasmicUtils(
   plasmic: PlasmicLoader,
@@ -53,6 +54,7 @@ export function registerMyEvaluationsPlasmicUtils(
   registerCombobox(plasmic, modulePath);
   registerDayjs(plasmic, modulePath);
   registerDebounceProvider(plasmic, modulePath);
+  registerDeferredValue(plasmic, modulePath);
   registerDialogV2(plasmic, modulePath);
   registerFollowingTooltip(plasmic, modulePath);
   registerFormProvider(plasmic, modulePath);
