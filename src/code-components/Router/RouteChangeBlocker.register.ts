@@ -14,6 +14,10 @@ export function registerRouteChangeBlocker(
         type: "string",
         defaultValue: "blocker",
       },
+      enabled: {
+        type: "boolean",
+        defaultValue: true,
+      },
       children: "slot",
     },
     styleSections: false,

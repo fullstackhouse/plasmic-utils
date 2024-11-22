@@ -12,6 +12,7 @@ import { BlockersContext } from "./controller/useBlockers";
 
 export interface RouteChangeBlockerProps {
   name?: string;
+  enabled?: boolean;
   children: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export type BlockerState = "unblocked" | "blocked";
 
 export function RouteChangeBlocker({
   name = "blocker",
+  enabled = true,
   children,
 }: RouteChangeBlockerProps) {
   const blockers = useContext(BlockersContext);
@@ -33,6 +35,10 @@ export function RouteChangeBlocker({
   const resolveBlock = useRef<((blocked: boolean) => void) | null>(null);
 
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     const { deregister } = blockers.registerBlocker({
       check(route) {
         setBlockedRoute(route);
@@ -42,7 +48,7 @@ export function RouteChangeBlocker({
       },
     });
     return deregister;
-  }, [blockers]);
+  }, [enabled, blockers]);
 
   const blocker: RouteChangeBlockerContext = useMemo(() => {
     if (!blockedRoute) {
