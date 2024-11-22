@@ -16,9 +16,10 @@ yarn
 yarn start
 ```
 
-## Deployment
+## Plasmic Host
 
-Automated via Github Actions. Whenever a commit appears on the `main` branch:
+Deployment is automatic. Whenever a commit appears on the `main` branch, new version of the [Plasmic host](https://myevaluations.github.io/myevals-plasmic-utils/plasmic-host) is automatically deployed.
 
-- new version of the Plasmic host is deployed (to https://myevaluations.github.io/myevals-plasmic-utils/plasmic-host ),
-- new version of the `@myevals/myevals-plasmic-utils` node.js package is published.
+## Releasing
+
+**Manual.** Create a release through GH UI to trigger deployment of a new npm `@myevals/myevals-plasmic-utils` package version, which will be named after the release name.

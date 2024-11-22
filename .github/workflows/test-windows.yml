@@ -1,7 +1,6 @@
 name: Test on Windows
 
 on:
-  workflow_call:
   workflow_dispatch:
 
 jobs:

@@ -3,8 +3,6 @@ name: Deploy host
 on:
   workflow_call:
   workflow_dispatch:
-  repository_dispatch:
-    types: [deploy-host]
 
 permissions:
   contents: read

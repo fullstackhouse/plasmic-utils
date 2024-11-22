@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "**"
-  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -52,13 +51,4 @@ jobs:
     needs: test
     if: success() && github.ref_name == 'main'
     uses: ./.github/workflows/deploy-host.yml
-    secrets: inherit
-
-  publish:
-    permissions:
-      contents: read
-      packages: write
-    needs: test
-    if: success() && github.ref_name == 'main'
-    uses: ./.github/workflows/publish.yml
     secrets: inherit
