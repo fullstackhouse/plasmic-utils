@@ -1,37 +1,23 @@
 import { useMemo } from "react";
-import { RouteStorage } from "./storage/base";
-import { useQuery } from "./useQuery";
+import { RouterController } from "./controller/useRouterController";
+import { Query, SetQuery, useQuery } from "./useQuery";
 
 export interface RouteContext extends RouterActions {
-  query: Record<string, string>;
+  query: Query;
 }
 
 export interface RouterActions {
-  setQuery(
-    query: Record<string, string | null>,
-    options?: {
-      /**
-       * @default true
-       */
-      merge?: boolean;
-      /**
-       * @default false
-       */
-      push?: boolean;
-    },
-  ): void;
+  setQuery: SetQuery;
 }
 
-export function useRouterContext(storage: RouteStorage): {
+export function useRouterContext(controller: RouterController): {
   route: RouteContext;
   actions: RouterActions;
 } {
-  const [query, setQuery] = useQuery(storage);
-  const { route, actions } = useMemo<{
-    route: RouteContext;
-    actions: RouterActions;
-  }>(() => {
-    return {
+  const [query, setQuery] = useQuery(controller);
+
+  return useMemo(
+    () => ({
       route: {
         query,
         setQuery,
@@ -39,7 +25,7 @@ export function useRouterContext(storage: RouteStorage): {
       actions: {
         setQuery,
       },
-    };
-  }, [query, setQuery]);
-  return { route, actions };
+    }),
+    [query, setQuery],
+  );
 }
