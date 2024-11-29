@@ -16,6 +16,10 @@ export type SetQuery = (
      * @default false
      */
     push?: boolean;
+    /**
+     * @default false
+     */
+    force?: boolean;
   },
 ) => Promise<void>;
 
@@ -28,7 +32,7 @@ export function useQuery(controller: RouterController): [Query, SetQuery] {
 
     const setQuery: SetQuery = async (
       query,
-      { merge = true, push = false } = {},
+      { merge = true, push = false, force = false } = {},
     ) => {
       const prevRoute = storage.getRoute();
       const prevQuery = parseQueryString(prevRoute.queryString ?? "");
@@ -37,9 +41,11 @@ export function useQuery(controller: RouterController): [Query, SetQuery] {
         queryString: buildQueryString(nextQuery),
       };
 
-      const blocked = await blockers.isBlocking(nextRoute);
-      if (blocked) {
-        return;
+      if (!force) {
+        const blocked = await blockers.isBlocking(nextRoute);
+        if (blocked) {
+          return;
+        }
       }
 
       if (push) {
