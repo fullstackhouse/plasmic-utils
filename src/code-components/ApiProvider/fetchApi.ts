@@ -10,7 +10,6 @@ export interface FetchApiOptions {
   body?: Record<string, any>;
   useNodejsApi?: boolean;
   clientId?: string;
-  clientVersion?: string;
 }
 
 export async function fetchApi<TData>({
@@ -21,7 +20,6 @@ export async function fetchApi<TData>({
   body,
   useNodejsApi,
   clientId,
-  clientVersion,
 }: FetchApiOptions): Promise<TData> {
   const { method: actualMethod, url } = useNodejsApi
     ? buildNewApiUrl({ method, path, query })
@@ -34,10 +32,9 @@ export async function fetchApi<TData>({
       body: body ? JSON.stringify(body) : undefined,
       headers: {
         ...(body ? { "Content-Type": "application/json" } : undefined),
-        ...(useNodejsApi
+        ...(useNodejsApi && clientId
           ? {
               "X-Client-Id": clientId,
-              "X-Client-Version": clientVersion,
             }
           : {}),
         ...headers,

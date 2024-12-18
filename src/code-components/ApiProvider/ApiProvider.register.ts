@@ -13,7 +13,6 @@ export function registerApiProvider(
     importName: "ApiContextProvider",
     props: {
       clientId: { type: "string" },
-      clientVersion: { type: "string" },
     },
   });
 

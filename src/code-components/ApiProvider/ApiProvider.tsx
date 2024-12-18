@@ -46,7 +46,7 @@ export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
 >;
 
 export function ApiProvider(props: ApiProviderProps) {
-  const { clientId, clientVersion } = useContext(ApiContext);
+  const { clientId } = useContext(ApiContext);
   const {
     method,
     path,
@@ -79,7 +79,6 @@ export function ApiProvider(props: ApiProviderProps) {
     query,
     useNodejsApi,
     clientId,
-    clientVersion,
   };
   const response = useSWR(
     enabled && interactive ? cacheKey : null,

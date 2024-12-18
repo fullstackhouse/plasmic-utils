@@ -41,7 +41,7 @@ export function ApiMutationProvider({
   onLoad,
   onError,
 }: ApiMutationProviderProps) {
-  const { clientId, clientVersion } = useContext(ApiContext);
+  const { clientId } = useContext(ApiContext);
   const actualOnError = useOnError({ alertOnError, onError });
   const response = useSWRMutation<
     any,
@@ -57,7 +57,6 @@ export function ApiMutationProvider({
         query,
         useNodejsApi,
         clientId,
-        clientVersion,
         ...options,
       };
       return fetchApi(fetchOptions).then((data) =>

@@ -2,7 +2,6 @@ import { ContextType, createContext, ReactNode } from "react";
 
 export const ApiContext = createContext<{
   clientId?: string;
-  clientVersion?: string;
 }>({});
 
 export function ApiContextProvider({
