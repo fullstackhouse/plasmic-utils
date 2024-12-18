@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { Arguments } from "swr";
 import useSWRMutation from "swr/mutation";
 import { FetchError } from "./FetchError";
@@ -10,6 +10,7 @@ import {
   defaultResponseTransform,
 } from "./transformResponse";
 import { DataProvider } from "@plasmicapp/react-web/lib/host";
+import { ApiContext } from "./ApiContext";
 
 export interface ApiMutationProviderProps {
   method?: string;
@@ -40,6 +41,7 @@ export function ApiMutationProvider({
   onLoad,
   onError,
 }: ApiMutationProviderProps) {
+  const { clientId, clientVersion } = useContext(ApiContext);
   const actualOnError = useOnError({ alertOnError, onError });
   const response = useSWRMutation<
     any,
@@ -54,6 +56,8 @@ export function ApiMutationProvider({
         path,
         query,
         useNodejsApi,
+        clientId,
+        clientVersion,
         ...options,
       };
       return fetchApi(fetchOptions).then((data) =>

@@ -1,4 +1,5 @@
 import type { PlasmicLoader } from "../../plasmic";
+import { ApiContextProvider } from "./ApiContext";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
 
@@ -6,6 +7,16 @@ export function registerApiProvider(
   plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
+  plasmic.registerGlobalContext(ApiContextProvider, {
+    name: "ApiContext",
+    importPath: modulePath + "/code-components/ApiProvider/ApiContext",
+    importName: "ApiContext",
+    props: {
+      clientId: { type: "string" },
+      clientVersion: { type: "string" },
+    },
+  });
+
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",
     importPath: modulePath + "/code-components/ApiProvider/ApiProvider",
