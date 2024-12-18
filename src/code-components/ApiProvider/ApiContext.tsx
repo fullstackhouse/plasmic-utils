@@ -1,8 +1,13 @@
-import { createContext } from "react";
+import { ContextType, createContext, ReactNode } from "react";
 
 export const ApiContext = createContext<{
   clientId?: string;
   clientVersion?: string;
 }>({});
 
-export const ApiContextProvider = ApiContext.Provider;
+export function ApiContextProvider({
+  children,
+  ...context
+}: ContextType<typeof ApiContext> & { children: ReactNode }): ReactNode {
+  return <ApiContext.Provider value={context}>{children}</ApiContext.Provider>;
+}
