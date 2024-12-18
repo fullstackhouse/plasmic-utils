@@ -36,6 +36,7 @@ export function Switch({
   "aria-labelledby": ariaLabelledBy,
 }: SwitchProps) {
   const id = useId();
+  const actualChecked = checked ?? defaultChecked;
 
   return (
     <div
@@ -46,14 +47,13 @@ export function Switch({
         id={id}
         name={name}
         value={value}
-        checked={checked}
-        defaultChecked={defaultChecked}
+        checked={actualChecked}
         disabled={disabled}
         className={[styles.root, rootClassName].join(" ")}
         onCheckedChange={(val) => onChange?.(val)}
         onFocus={onFocus}
         onBlur={onBlur}
-        aria-checked={checked}
+        aria-checked={actualChecked}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
       >
