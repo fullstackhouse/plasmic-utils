@@ -10,7 +10,7 @@ export function registerApiProvider(
   plasmic.registerGlobalContext(ApiContextProvider, {
     name: "ApiContext",
     importPath: modulePath + "/code-components/ApiProvider/ApiContext",
-    importName: "ApiContext",
+    importName: "ApiContextProvider",
     props: {
       clientId: { type: "string" },
       clientVersion: { type: "string" },
