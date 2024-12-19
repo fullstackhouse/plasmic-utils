@@ -2,7 +2,7 @@ import {
   DataProvider,
   usePlasmicCanvasContext,
 } from "@plasmicapp/react-web/lib/host";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import useSWR, { SWRResponse } from "swr";
 import { FetchError } from "./FetchError";
 import { Query, fetchApi } from "./fetchApi";
@@ -15,6 +15,7 @@ import { EditorMode, useMockedResponse } from "./useMockedResponse";
 import { useOnError } from "./useOnError";
 import { useOnLoad } from "./useOnLoad";
 import { useShouldRetry } from "./useShouldRetry";
+import { ApiContext } from "./ApiContext";
 
 export interface ApiProviderProps {
   method?: string;
@@ -45,6 +46,7 @@ export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
 >;
 
 export function ApiProvider(props: ApiProviderProps) {
+  const { clientId } = useContext(ApiContext);
   const {
     method,
     path,
@@ -71,7 +73,13 @@ export function ApiProvider(props: ApiProviderProps) {
   const shouldRetry = useShouldRetry();
   const actualOnError = useOnError({ alertOnError, onError });
 
-  const fetchOptions = { method, path, query, useNodejsApi };
+  const fetchOptions = {
+    method,
+    path,
+    query,
+    useNodejsApi,
+    clientId,
+  };
   const response = useSWR(
     enabled && interactive ? cacheKey : null,
     () =>
