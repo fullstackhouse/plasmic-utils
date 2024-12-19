@@ -5,8 +5,10 @@ export const ApiContext = createContext<{
 }>({});
 
 export function ApiContextProvider({
+  clientId,
   children,
-  ...context
 }: ContextType<typeof ApiContext> & { children: ReactNode }): ReactNode {
-  return <ApiContext.Provider value={context}>{children}</ApiContext.Provider>;
+  return (
+    <ApiContext.Provider value={{ clientId }}>{children}</ApiContext.Provider>
+  );
 }
