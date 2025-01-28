@@ -90,12 +90,9 @@ export function ApiProvider(props: ApiProviderProps) {
     revalidateOnReconnect: refetchOnReconnect,
     shouldRetryOnError: retryOnError && shouldRetry,
     suspense,
+    refreshInterval,
     onError: actualOnError,
   };
-
-  if (refreshInterval !== undefined) {
-    swrOptions.refreshInterval = refreshInterval;
-  }
 
   const response = useSWR(
     enabled && interactive ? cacheKey : null,
