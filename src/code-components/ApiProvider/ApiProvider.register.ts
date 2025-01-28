@@ -119,6 +119,12 @@ export function registerApiProvider(
         advanced: true,
         defaultValue: false,
       },
+      refreshInterval: {
+        type: "number",
+        description:
+          "Optionally specify the interval (in milliseconds), at which data should be automatically refetched.",
+        advanced: true,
+      },
       onLoad: {
         type: "eventHandler",
         argTypes: [{ name: "data", type: "object" }],
