@@ -3,7 +3,7 @@ import {
   usePlasmicCanvasContext,
 } from "@plasmicapp/react-web/lib/host";
 import { ReactNode, useContext } from "react";
-import useSWR, { SWRResponse } from "swr";
+import useSWR, { SWRResponse, SWRConfiguration } from "swr";
 import { FetchError } from "./FetchError";
 import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
@@ -34,6 +34,7 @@ export interface ApiProviderProps {
   alertOnError?: boolean;
   useNodejsApi?: boolean;
   suspense?: boolean;
+  refreshInterval: number;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
   onError?(error: FetchError): void;
@@ -64,6 +65,7 @@ export function ApiProvider(props: ApiProviderProps) {
     alertOnError,
     useNodejsApi,
     suspense,
+    refreshInterval,
     transformResponse,
     onLoad,
     onError,
@@ -80,21 +82,28 @@ export function ApiProvider(props: ApiProviderProps) {
     useNodejsApi,
     clientId,
   };
+
+  const swrOptions: SWRConfiguration = {
+    use: [swrLaggyMiddleware],
+    revalidateIfStale: refetchIfStale,
+    revalidateOnFocus: refetchOnWindowFocus,
+    revalidateOnReconnect: refetchOnReconnect,
+    shouldRetryOnError: retryOnError && shouldRetry,
+    suspense,
+    onError: actualOnError,
+  };
+
+  if (refreshInterval !== undefined) {
+    swrOptions.refreshInterval = refreshInterval;
+  }
+
   const response = useSWR(
     enabled && interactive ? cacheKey : null,
     () =>
       fetchApi(fetchOptions).then((data) =>
         transformResponse(data, fetchOptions),
       ),
-    {
-      use: [swrLaggyMiddleware],
-      revalidateIfStale: refetchIfStale,
-      revalidateOnFocus: refetchOnWindowFocus,
-      revalidateOnReconnect: refetchOnReconnect,
-      shouldRetryOnError: retryOnError && shouldRetry,
-      suspense,
-      onError: actualOnError,
-    },
+    swrOptions,
   );
 
   const mockedResponse: ApiResponse = useMockedResponse({
