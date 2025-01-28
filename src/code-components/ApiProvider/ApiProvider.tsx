@@ -34,7 +34,7 @@ export interface ApiProviderProps {
   alertOnError?: boolean;
   useNodejsApi?: boolean;
   suspense?: boolean;
-  refreshInterval: number;
+  refreshInterval?: number;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
   onError?(error: FetchError): void;
