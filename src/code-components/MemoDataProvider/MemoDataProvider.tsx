@@ -20,7 +20,7 @@ export function MemoDataProvider<T>({
   label,
   children,
 }: MemoDataProviderProps) {
-  const parentContext = useDataEnv() ?? {};
+  const parentContext = useDataEnv();
   const actualMemoKeys =
     memoKey == null
       ? [JSON.stringify(data)]
