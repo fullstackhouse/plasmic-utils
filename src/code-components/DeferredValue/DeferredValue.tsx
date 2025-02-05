@@ -1,6 +1,6 @@
-import { DataProvider } from "@plasmicapp/react-web/lib/host";
-import { ReactNode, useDeferredValue } from "react";
 import isEqual from "lodash.isequal";
+import { ReactNode, useDeferredValue } from "react";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
 interface DeferredValueProps {
   name: string;
@@ -12,14 +12,15 @@ export function DeferredValue({ name, value, children }: DeferredValueProps) {
   const deferredValue = useDeferredValue(value);
 
   return (
-    <DataProvider
+    <MemoDataProvider
       name={name}
       data={{
         pending: !isEqual(deferredValue, value),
         current: deferredValue,
       }}
+      memoKey={[deferredValue, value]}
     >
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }

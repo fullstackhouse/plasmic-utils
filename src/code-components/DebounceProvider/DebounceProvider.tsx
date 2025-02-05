@@ -1,6 +1,6 @@
-import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import { useDebounce } from "use-debounce";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
 interface DebounceProviderProps<T = unknown> {
   name: string;
@@ -25,8 +25,12 @@ export function DebounceProvider<T>({
   const [debouncedValue] = useDebounce(value, delay, options);
 
   return (
-    <DataProvider name={name} data={debouncedValue}>
+    <MemoDataProvider
+      name={name}
+      data={debouncedValue}
+      memoKey={debouncedValue}
+    >
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }

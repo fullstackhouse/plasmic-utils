@@ -1,9 +1,8 @@
-import {
-  DataProvider,
-  usePlasmicCanvasContext,
-} from "@plasmicapp/react-web/lib/host";
+import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
 import { ReactNode, useContext } from "react";
-import useSWR, { SWRResponse, SWRConfiguration } from "swr";
+import useSWR, { SWRConfiguration, SWRResponse } from "swr";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
+import { ApiContext } from "./ApiContext";
 import { FetchError } from "./FetchError";
 import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
@@ -15,7 +14,6 @@ import { EditorMode, useMockedResponse } from "./useMockedResponse";
 import { useOnError } from "./useOnError";
 import { useOnLoad } from "./useOnLoad";
 import { useShouldRetry } from "./useShouldRetry";
-import { ApiContext } from "./ApiContext";
 
 export interface ApiProviderProps {
   method?: string;
@@ -120,9 +118,13 @@ export function ApiProvider(props: ApiProviderProps) {
   }
 
   return (
-    <DataProvider name={name} data={mockedResponse}>
+    <MemoDataProvider
+      name={name}
+      data={mockedResponse}
+      memoKey={mockedResponse}
+    >
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }
 

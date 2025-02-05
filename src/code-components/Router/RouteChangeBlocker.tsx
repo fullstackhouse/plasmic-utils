@@ -1,4 +1,3 @@
-import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import {
   ReactNode,
   useContext,
@@ -7,8 +6,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Route } from "./storage/base";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { BlockersContext } from "./controller/useBlockers";
+import { Route } from "./storage/base";
 
 export interface RouteChangeBlockerProps {
   name?: string;
@@ -75,8 +75,8 @@ export function RouteChangeBlocker({
   }, [blockedRoute]);
 
   return (
-    <DataProvider name={name} data={blocker}>
+    <MemoDataProvider name={name} data={blocker} memoKey={blocker}>
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }

@@ -1,16 +1,16 @@
 import { ReactNode, useContext } from "react";
 import { Arguments } from "swr";
 import useSWRMutation from "swr/mutation";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
+import { ApiContext } from "./ApiContext";
 import { FetchError } from "./FetchError";
 import { FetchApiOptions, Query, fetchApi } from "./fetchApi";
-import { useOnError } from "./useOnError";
-import { useOnLoad } from "./useOnLoad";
 import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
-import { DataProvider } from "@plasmicapp/react-web/lib/host";
-import { ApiContext } from "./ApiContext";
+import { useOnError } from "./useOnError";
+import { useOnLoad } from "./useOnLoad";
 
 export interface ApiMutationProviderProps {
   method?: string;
@@ -79,8 +79,8 @@ export function ApiMutationProvider({
   }
 
   return (
-    <DataProvider name={name} data={response}>
+    <MemoDataProvider name={name} data={response} memoKey={response}>
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }

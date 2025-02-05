@@ -1,12 +1,10 @@
-import {
-  DataProvider,
-  GlobalActionsProvider,
-} from "@plasmicapp/react-web/lib/host";
+import { GlobalActionsProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
+import { BlockersContext } from "./controller/useBlockers";
+import { useRouterController } from "./controller/useRouterController";
 import { RouteStorageType, useStorage } from "./storage/useStorage";
 import { RouterActions, useRouterContext } from "./useRouterContext";
-import { useRouterController } from "./controller/useRouterController";
-import { BlockersContext } from "./controller/useBlockers";
 
 export interface RouterProps {
   initialQueryString?: string;
@@ -29,9 +27,9 @@ export function Router({
         contextName="Router"
         actions={actions as Record<keyof RouterActions, Function>}
       >
-        <DataProvider name="route" data={route}>
+        <MemoDataProvider name="route" data={route} memoKey={route}>
           {children}
-        </DataProvider>
+        </MemoDataProvider>
       </GlobalActionsProvider>
     </BlockersContext.Provider>
   );

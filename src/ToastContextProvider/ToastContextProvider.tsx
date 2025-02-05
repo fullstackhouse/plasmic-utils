@@ -1,7 +1,4 @@
-import {
-  DataProvider,
-  GlobalActionsProvider,
-} from "@plasmicapp/react-web/lib/host";
+import { GlobalActionsProvider } from "@plasmicapp/react-web/lib/host";
 import * as RadixToast from "@radix-ui/react-toast";
 import {
   ReactNode,
@@ -11,10 +8,10 @@ import {
   useRef,
   useState,
 } from "react";
-import styles from "./ToastContextProvider.module.css";
+import { MemoDataProvider } from "../code-components/MemoDataProvider/MemoDataProvider";
 import { SentryContext } from "../sentry/SentryContext";
 import { ToastContext, ToastType } from "./ToastContext";
-import { ToastRenderer } from "./ToastRenderer";
+import styles from "./ToastContextProvider.module.css";
 import { toastContextProviderConfig } from "./config";
 
 export interface ToastContextProviderProps {
@@ -92,7 +89,7 @@ export function ToastContextProvider({
       contextName="ToastContext"
       actions={context as Record<keyof ToastContext, Function>}
     >
-      <DataProvider name="toast" data={context}>
+      <MemoDataProvider name="toast" data={context} memoKey={context}>
         <RadixToast.Provider duration={duration}>
           {children}
 
@@ -122,7 +119,7 @@ export function ToastContextProvider({
 
           <RadixToast.Viewport className={styles.viewport} />
         </RadixToast.Provider>
-      </DataProvider>
+      </MemoDataProvider>
     </GlobalActionsProvider>
   );
 }
