@@ -44,5 +44,6 @@ export function registerMemoDataProvider(
     },
     providesData: true,
     styleSections: false,
+    isAttachment: true,
   });
 }

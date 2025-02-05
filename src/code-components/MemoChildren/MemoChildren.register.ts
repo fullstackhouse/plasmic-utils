@@ -20,5 +20,6 @@ export function registerMemoChildren(
       },
     },
     styleSections: false,
+    isAttachment: true,
   });
 }
