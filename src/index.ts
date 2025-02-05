@@ -14,6 +14,7 @@ import { registerFollowingTooltip } from "./code-components/FollowingTooltip/Fol
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
 import { registerHiddenIfEmptyContainer } from "./code-components/HiddenIfEmptyContainer/HiddenIfEmptyContainer.register";
+import { registerMemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider.register";
 import { registerOnBeforeUnloadProvider } from "./code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider.register";
 import { registerOnBeforeUnmountProvider } from "./code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider.register";
 import { registerOnChangeProvider } from "./code-components/OnChangeProvider/OnChangeProvider.register";
@@ -64,6 +65,7 @@ export {
   registerRouteQuerySynchronizer,
   registerRouter,
   registerStateProvider,
+  registerMemoDataProvider,
   registerSwitch,
   registerTextLinkOrButton,
   registerTimeoutProvider,
