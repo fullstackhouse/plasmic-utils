@@ -15,6 +15,7 @@ import { registerFormProvider } from "./code-components/form/FormProvider.regist
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
 import { registerHiddenIfEmptyContainer } from "./code-components/HiddenIfEmptyContainer/HiddenIfEmptyContainer.register";
 import { registerMemoChildren } from "./code-components/MemoChildren/MemoChildren.register";
+import { MemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider";
 import { registerMemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider.register";
 import { registerOnBeforeUnloadProvider } from "./code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider.register";
 import { registerOnBeforeUnmountProvider } from "./code-components/OnBeforeUnmountProvider/OnBeforeUnmountProvider.register";
@@ -40,7 +41,6 @@ import { toastContextProviderConfig } from "./ToastContextProvider/config";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
 export {
-  dispatchUnauthorizedEvent,
   registerApiMutationProvider,
   registerApiProvider,
   registerCombobox,
@@ -75,7 +75,9 @@ export {
   registerWaitFor,
   registerZod,
   SentryContext,
-  subscribeToUnauthorizedEvents,
   toastContextProviderConfig,
+  subscribeToUnauthorizedEvents,
+  dispatchUnauthorizedEvent,
   unauthorizedEventName,
+  MemoDataProvider,
 };
