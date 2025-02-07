@@ -27,7 +27,7 @@ export function Router({
         contextName="Router"
         actions={actions as Record<keyof RouterActions, Function>}
       >
-        <MemoDataProvider name="route" data={route} memoKey={route}>
+        <MemoDataProvider name="route" data={route} deps={[route]}>
           {children}
         </MemoDataProvider>
       </GlobalActionsProvider>

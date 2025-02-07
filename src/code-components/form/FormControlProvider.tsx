@@ -44,7 +44,7 @@ export function FormControlProvider({
   });
 
   return (
-    <MemoDataProvider name={contextName} data={controller} memoKey={controller}>
+    <MemoDataProvider name={contextName} data={controller} deps={[controller]}>
       {children}
     </MemoDataProvider>
   );

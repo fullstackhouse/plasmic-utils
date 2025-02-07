@@ -89,7 +89,7 @@ export function ToastContextProvider({
       contextName="ToastContext"
       actions={context as Record<keyof ToastContext, Function>}
     >
-      <MemoDataProvider name="toast" data={context} memoKey={context}>
+      <MemoDataProvider name="toast" data={context} deps={[context]}>
         <RadixToast.Provider duration={duration}>
           {children}
 

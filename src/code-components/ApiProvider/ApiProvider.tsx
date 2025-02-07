@@ -129,7 +129,7 @@ export function ApiProvider(props: ApiProviderProps) {
   ]);
 
   return (
-    <MemoDataProvider name={name} data={memoResponse} memoKey={memoResponse}>
+    <MemoDataProvider name={name} data={memoResponse} deps={[memoResponse]}>
       {children}
     </MemoDataProvider>
   );

@@ -1,15 +1,18 @@
 import { ReactNode, useMemo } from "react";
 
 interface MemoChildrenProps {
-  memoKey?: unknown | unknown[];
+  deps?: unknown[];
   children?: ReactNode;
 }
 
-export function MemoChildren<T>({ memoKey, children }: MemoChildrenProps) {
-  const actualMemoKeys = Array.isArray(memoKey) ? memoKey : [memoKey];
+const emptyDeps: unknown[] = [];
 
+export function MemoChildren<T>({
+  deps = emptyDeps,
+  children,
+}: MemoChildrenProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const memoizedChildren = useMemo(() => children, actualMemoKeys);
+  const memoizedChildren = useMemo(() => children, deps);
 
   return <>{memoizedChildren}</>;
 }

@@ -84,7 +84,7 @@ export function ApiMutationProvider({
   }, [response.data, response.error, response.isMutating]);
 
   return (
-    <MemoDataProvider name={name} data={memoResponse} memoKey={memoResponse}>
+    <MemoDataProvider name={name} data={memoResponse} deps={[memoResponse]}>
       {children}
     </MemoDataProvider>
   );

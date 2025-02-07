@@ -18,7 +18,7 @@ export function DeferredValue({ name, value, children }: DeferredValueProps) {
         pending: !isEqual(deferredValue, value),
         current: deferredValue,
       }}
-      memoKey={[deferredValue, value]}
+      deps={[deferredValue, value]}
     >
       {children}
     </MemoDataProvider>

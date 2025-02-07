@@ -25,11 +25,7 @@ export function DebounceProvider<T>({
   const [debouncedValue] = useDebounce(value, delay, options);
 
   return (
-    <MemoDataProvider
-      name={name}
-      data={debouncedValue}
-      memoKey={debouncedValue}
-    >
+    <MemoDataProvider name={name} data={debouncedValue} deps={[debouncedValue]}>
       {children}
     </MemoDataProvider>
   );

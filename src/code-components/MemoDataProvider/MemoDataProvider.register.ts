@@ -32,11 +32,10 @@ export function registerMemoDataProvider(
           },
         ],
       },
-      memoKey: {
-        type: "string",
-        description: "Context data will be updated only when this key changes",
-        defaultValueHint: "JSON.stringify(data)",
-        helpText: "Can be a string or an array.",
+      deps: {
+        type: "array",
+        description:
+          "Context data will be updated only when any of the dependencies change",
       },
       children: {
         type: "slot",

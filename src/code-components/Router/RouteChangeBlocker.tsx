@@ -75,7 +75,7 @@ export function RouteChangeBlocker({
   }, [blockedRoute]);
 
   return (
-    <MemoDataProvider name={name} data={blocker} memoKey={blocker}>
+    <MemoDataProvider name={name} data={blocker} deps={[blocker]}>
       {children}
     </MemoDataProvider>
   );
