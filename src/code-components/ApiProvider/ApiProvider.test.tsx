@@ -1,6 +1,6 @@
 import { DataProvider, useSelector } from "@plasmicapp/react-web/lib/host";
 import { cleanup, render, waitFor } from "@testing-library/react";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SWRConfig } from "swr";
 import { afterEach, describe, it, onTestFinished, vitest } from "vitest";
@@ -13,9 +13,12 @@ import { stubApi } from "./stubApi.test-helper";
 stubApi();
 afterEach(cleanup);
 
+let __renderNumber = 0;
 function TestComponent() {
   const response = useSelector("response");
-  return JSON.stringify(response);
+  return useMemo(() => {
+    return JSON.stringify({ ...response, __renderNumber: ++__renderNumber });
+  }, [response]);
 }
 
 function renderApiProvider(props?: Partial<ApiProviderProps>) {
@@ -23,7 +26,7 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
     show: vitest.fn(),
   };
 
-  const result = render(
+  const getNode = () => (
     <SWRConfig value={{ provider: () => new Map() }}>
       <DataProvider name="toast" data={toast}>
         <ErrorBoundary
@@ -51,14 +54,19 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
           </ApiErrorBoundary>
         </ErrorBoundary>
       </DataProvider>
-    </SWRConfig>,
+    </SWRConfig>
   );
+
+  const result = render(getNode());
 
   return {
     toast,
     result,
     getOutput() {
       return JSON.parse(result.container.innerHTML);
+    },
+    rerender() {
+      result.rerender(getNode());
     },
   };
 }
@@ -84,8 +92,17 @@ describe.sequential(ApiProvider.name, () => {
         isLagging: false,
         isLoading: false,
         isValidating: false,
+        __renderNumber: expect.anything(),
       });
     });
+  });
+
+  it("keeps returning reference to the same object", async ({ expect }) => {
+    const { getOutput, rerender } = renderApiProvider();
+
+    let prevOutput = getOutput();
+    rerender();
+    expect(getOutput().__renderNumber).toEqual(prevOutput.__renderNumber);
   });
 
   it("calls onLoad when data is loaded", async ({ expect }) => {

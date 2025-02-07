@@ -1,5 +1,5 @@
 import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useMemo } from "react";
 import useSWR, { SWRConfiguration, SWRResponse } from "swr";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { ApiContext } from "./ApiContext";
@@ -42,7 +42,7 @@ export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
   Data,
   Error,
   Config
->;
+> & { isLagging: boolean };
 
 export function ApiProvider(props: ApiProviderProps) {
   const { clientId } = useContext(ApiContext);
@@ -99,7 +99,7 @@ export function ApiProvider(props: ApiProviderProps) {
         transformResponse(data, fetchOptions),
       ),
     swrOptions,
-  );
+  ) as ApiResponse;
 
   const mockedResponse: ApiResponse = useMockedResponse({
     response,
@@ -117,12 +117,19 @@ export function ApiProvider(props: ApiProviderProps) {
     throw error;
   }
 
+  const memoResponse = useMemo(() => {
+    return mockedResponse;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    mockedResponse.data,
+    mockedResponse.error,
+    mockedResponse.isLoading,
+    mockedResponse.isLagging,
+    mockedResponse.isValidating,
+  ]);
+
   return (
-    <MemoDataProvider
-      name={name}
-      data={mockedResponse}
-      memoKey={mockedResponse}
-    >
+    <MemoDataProvider name={name} data={memoResponse} memoKey={memoResponse}>
       {children}
     </MemoDataProvider>
   );
