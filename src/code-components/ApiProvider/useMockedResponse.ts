@@ -3,6 +3,7 @@ import { SWRResponse } from "swr";
 import { FetchError } from "./FetchError";
 import { FetchApiOptions } from "./fetchApi";
 import { ResponseTransform } from "./transformResponse";
+import { ApiResponse } from "./ApiProvider";
 
 export enum EditorMode {
   interactive = "interactive",
@@ -19,13 +20,13 @@ export function useMockedResponse<TData>({
   transformResponse,
   fetchOptions,
 }: {
-  response: SWRResponse<TData>;
+  response: ApiResponse<TData>;
   inEditor: boolean;
   editorMode: EditorMode;
   previewData: TData;
   transformResponse: ResponseTransform;
   fetchOptions: FetchApiOptions;
-}): SWRResponse<TData> {
+}): ApiResponse<TData> {
   if (!inEditor) {
     return response;
   }
@@ -33,7 +34,7 @@ export function useMockedResponse<TData>({
   const interactive = editorMode === EditorMode.interactive;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useMemo((): SWRResponse => {
+  return useMemo((): ApiResponse<TData> => {
     if (interactive) {
       return response;
     }
@@ -43,6 +44,7 @@ export function useMockedResponse<TData>({
         data: undefined,
         error: undefined,
         isLoading: true,
+        isLagging: false,
         isValidating: true,
         mutate: () => new Promise(() => {}),
       };
@@ -57,6 +59,7 @@ export function useMockedResponse<TData>({
           "mocked error for inEditor mode",
         ),
         isLoading: true,
+        isLagging: false,
         isValidating: true,
         mutate: () => new Promise(() => {}),
       };
@@ -66,6 +69,7 @@ export function useMockedResponse<TData>({
       data: transformResponse(previewData, fetchOptions),
       error: undefined,
       isLoading: false,
+      isLagging: false,
       isValidating: false,
       mutate: () => new Promise(() => {}),
     };

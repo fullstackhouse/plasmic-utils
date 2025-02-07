@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useMemo } from "react";
 import { Arguments } from "swr";
 import useSWRMutation from "swr/mutation";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
@@ -78,8 +78,13 @@ export function ApiMutationProvider({
     throw error;
   }
 
+  const memoResponse = useMemo(() => {
+    return response;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response.data, response.error, response.isMutating]);
+
   return (
-    <MemoDataProvider name={name} data={response} memoKey={response}>
+    <MemoDataProvider name={name} data={memoResponse} memoKey={memoResponse}>
       {children}
     </MemoDataProvider>
   );

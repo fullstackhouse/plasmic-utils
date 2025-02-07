@@ -13,9 +13,10 @@ import { stubApi } from "./stubApi.test-helper";
 stubApi();
 afterEach(cleanup);
 
+let _renderNumber = 0;
 function TestComponent() {
   const response = useSelector("response");
-  return JSON.stringify(response);
+  return JSON.stringify({ ...response, _renderNumber: ++_renderNumber });
 }
 
 function renderApiProvider(props?: Partial<ApiProviderProps>) {
@@ -23,7 +24,7 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
     show: vitest.fn(),
   };
 
-  const result = render(
+  const node = (
     <SWRConfig value={{ provider: () => new Map() }}>
       <DataProvider name="toast" data={toast}>
         <ErrorBoundary
@@ -51,14 +52,19 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
           </ApiErrorBoundary>
         </ErrorBoundary>
       </DataProvider>
-    </SWRConfig>,
+    </SWRConfig>
   );
+
+  const result = render(node);
 
   return {
     toast,
     result,
     getOutput() {
       return JSON.parse(result.container.innerHTML);
+    },
+    rerender() {
+      result.rerender(node);
     },
   };
 }
@@ -84,8 +90,29 @@ describe.sequential(ApiProvider.name, () => {
         isLagging: false,
         isLoading: false,
         isValidating: false,
+        _renderNumber: expect.anything(),
       });
     });
+  });
+
+  it("keeps returning reference to the same object", async ({ expect }) => {
+    const { result, getOutput, rerender } = renderApiProvider();
+
+    await waitFor(() => {
+      expect(getOutput()).toEqual({
+        data: {
+          foo: "bar",
+        },
+        isLagging: false,
+        isLoading: false,
+        isValidating: false,
+        _renderNumber: expect.anything(),
+      });
+    });
+
+    let prevOutput = getOutput();
+    rerender();
+    expect(getOutput()._renderNumber).toEqual(prevOutput._renderNumber);
   });
 
   it("calls onLoad when data is loaded", async ({ expect }) => {
