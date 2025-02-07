@@ -1,6 +1,6 @@
 import { DataProvider, useSelector } from "@plasmicapp/react-web/lib/host";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SWRConfig } from "swr";
 import { afterEach, describe, it, onTestFinished, vitest } from "vitest";
@@ -24,42 +24,49 @@ function renderApiMutationProvider(props?: Partial<ApiMutationProviderProps>) {
 
   let responseRef: SWRMutationResponse;
 
+  let __renderNumber = 0;
   function TestComponent() {
     const response = useSelector("response") as SWRMutationResponse;
     responseRef = response;
-    return JSON.stringify(response);
+    return useMemo(() => {
+      return JSON.stringify({ ...response, __renderNumber: ++__renderNumber });
+    }, [response]);
   }
 
-  const result = render(
-    <SWRConfig value={{ provider: () => new Map() }}>
-      <DataProvider name="toast" data={toast}>
-        <ErrorBoundary
-          fallbackRender={({ error }) =>
-            JSON.stringify({ error: error.toString() })
-          }
-        >
-          <ApiErrorBoundary
-            fallback={JSON.stringify({ suspended: true, error: true })}
+  function getNode() {
+    return (
+      <SWRConfig value={{ provider: () => new Map() }}>
+        <DataProvider name="toast" data={toast}>
+          <ErrorBoundary
+            fallbackRender={({ error }) =>
+              JSON.stringify({ error: error.toString() })
+            }
           >
-            <Suspense
-              fallback={JSON.stringify({ suspended: true, loading: true })}
+            <ApiErrorBoundary
+              fallback={JSON.stringify({ suspended: true, error: true })}
             >
-              <ApiMutationProvider
-                {...{
-                  path: "http://localhost/foo",
-                  useNodejsApi: false,
-                  retryOnError: false,
-                  ...props,
-                }}
+              <Suspense
+                fallback={JSON.stringify({ suspended: true, loading: true })}
               >
-                <TestComponent />
-              </ApiMutationProvider>
-            </Suspense>
-          </ApiErrorBoundary>
-        </ErrorBoundary>
-      </DataProvider>
-    </SWRConfig>,
-  );
+                <ApiMutationProvider
+                  {...{
+                    path: "http://localhost/foo",
+                    useNodejsApi: false,
+                    retryOnError: false,
+                    ...props,
+                  }}
+                >
+                  <TestComponent />
+                </ApiMutationProvider>
+              </Suspense>
+            </ApiErrorBoundary>
+          </ErrorBoundary>
+        </DataProvider>
+      </SWRConfig>
+    );
+  }
+
+  const result = render(getNode());
 
   return {
     toast,
@@ -70,6 +77,9 @@ function renderApiMutationProvider(props?: Partial<ApiMutationProviderProps>) {
     getOutput() {
       return JSON.parse(result.container.innerHTML);
     },
+    rerender() {
+      result.rerender(getNode());
+    },
   };
 }
 
@@ -79,6 +89,7 @@ describe.sequential(ApiMutationProvider.name, () => {
 
     expect(getOutput()).toEqual({
       isMutating: false,
+      __renderNumber: expect.anything(),
     });
   });
 
@@ -91,6 +102,7 @@ describe.sequential(ApiMutationProvider.name, () => {
 
     expect(getOutput()).toEqual({
       isMutating: true,
+      __renderNumber: expect.anything(),
     });
   });
 
@@ -107,8 +119,17 @@ describe.sequential(ApiMutationProvider.name, () => {
           foo: "bar",
         },
         isMutating: false,
+        __renderNumber: expect.anything(),
       });
     });
+  });
+
+  it("keeps returning reference to the same object", async ({ expect }) => {
+    const { getOutput, rerender } = renderApiMutationProvider();
+
+    let prevOutput = getOutput();
+    rerender();
+    expect(getOutput().__renderNumber).toEqual(prevOutput.__renderNumber);
   });
 
   it("calls onLoad when data is loaded", async ({ expect }) => {
