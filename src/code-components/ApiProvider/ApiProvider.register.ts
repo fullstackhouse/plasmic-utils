@@ -73,6 +73,13 @@ export function registerApiProvider(
         description: "Used when Editor Mode is set to Success State.",
       },
       children: { type: "slot" },
+      revalidateOnMount: {
+        type: "boolean",
+        defaultValue: false,
+        advanced: true,
+        description:
+          "Determines whether data should be re-fetched when a component mounts.",
+      },
       refetchIfStale: {
         type: "boolean",
         defaultValue: true,
