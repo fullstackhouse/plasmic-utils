@@ -25,7 +25,6 @@ export interface ApiProviderProps {
   editorMode?: EditorMode;
   previewData?: any;
   children: ReactNode;
-  revalidateOnMount?: boolean;
   refetchIfStale?: boolean;
   refetchOnWindowFocus?: boolean;
   refetchOnReconnect?: boolean;
@@ -57,7 +56,6 @@ export function ApiProvider(props: ApiProviderProps) {
     editorMode,
     previewData,
     children,
-    revalidateOnMount,
     refetchIfStale,
     refetchOnWindowFocus,
     refetchOnReconnect,
@@ -85,7 +83,6 @@ export function ApiProvider(props: ApiProviderProps) {
 
   const swrOptions: SWRConfiguration = {
     use: [swrLaggyMiddleware],
-    revalidateOnMount: revalidateOnMount,
     revalidateIfStale: refetchIfStale,
     revalidateOnFocus: refetchOnWindowFocus,
     revalidateOnReconnect: refetchOnReconnect,
