@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import { UseFormProps, useForm } from "react-hook-form";
 import { z } from "zod";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
 export interface FormProviderProps {
   contextName: string;
@@ -40,8 +40,8 @@ export function FormProvider({
   });
 
   return (
-    <DataProvider name={contextName} data={form}>
+    <MemoDataProvider name={contextName} data={form} deps={[form]}>
       {children}
-    </DataProvider>
+    </MemoDataProvider>
   );
 }
