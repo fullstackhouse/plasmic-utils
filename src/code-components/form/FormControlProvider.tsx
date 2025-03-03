@@ -1,3 +1,4 @@
+import { DataProvider } from "@plasmicapp/react-web/lib/host";
 import { ReactNode } from "react";
 import {
   Control,
@@ -5,7 +6,6 @@ import {
   useController,
   useForm,
 } from "react-hook-form";
-import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
 export interface FormControlProviderProps {
   contextName: string;
@@ -44,8 +44,8 @@ export function FormControlProvider({
   });
 
   return (
-    <MemoDataProvider name={contextName} data={controller} deps={[controller]}>
+    <DataProvider name={contextName} data={controller}>
       {children}
-    </MemoDataProvider>
+    </DataProvider>
   );
 }
