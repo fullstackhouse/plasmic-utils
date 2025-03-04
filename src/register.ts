@@ -9,6 +9,7 @@ import { registerFollowingTooltip } from "./code-components/FollowingTooltip/Fol
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
 import { registerHiddenIfEmptyContainer } from "./code-components/HiddenIfEmptyContainer/HiddenIfEmptyContainer.register";
+import { registerIntersectionObserver } from "./code-components/IntersectionObserver/IntersectionObserver.register";
 import { registerMemoChildren } from "./code-components/MemoChildren/MemoChildren.register";
 import { registerMemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider.register";
 import { registerOnBeforeUnloadProvider } from "./code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider.register";
@@ -78,6 +79,7 @@ export function registerMyEvaluationsPlasmicUtils(
   if (toast) registerToastContextProvider(plasmic, modulePath);
   registerMemoChildren(plasmic, modulePath);
   registerMemoDataProvider(plasmic, modulePath);
+  registerIntersectionObserver(plasmic, modulePath);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);
   registerTextLinkOrButton(plasmic, modulePath);
