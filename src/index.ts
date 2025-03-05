@@ -14,7 +14,8 @@ import { registerFollowingTooltip } from "./code-components/FollowingTooltip/Fol
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
 import { registerHiddenIfEmptyContainer } from "./code-components/HiddenIfEmptyContainer/HiddenIfEmptyContainer.register";
-import { registerIntersectionObserver } from "./code-components/IntersectionObserver/IntersectionObserver.register";
+import { registerInView } from "./code-components/InView/InView.register";
+import { registerInViewContextProvider } from "./code-components/InView/InViewContextProvider.register";
 import { registerMemoChildren } from "./code-components/MemoChildren/MemoChildren.register";
 import { MemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider";
 import { registerMemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider.register";
@@ -69,7 +70,8 @@ export {
   registerStateProvider,
   registerMemoChildren,
   registerMemoDataProvider,
-  registerIntersectionObserver,
+  registerInView,
+  registerInViewContextProvider,
   registerSwitch,
   registerTextLinkOrButton,
   registerTimeoutProvider,

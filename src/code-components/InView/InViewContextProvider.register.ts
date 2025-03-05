@@ -1,16 +1,17 @@
 import type { PlasmicLoader } from "../../plasmic";
-import { IntersectionObserver } from "./IntersectionObserver";
+import { InViewContextProvider } from "./InViewContextProvider";
 
-export function registerIntersectionObserver(
+export function registerInViewContextProvider(
   plasmic: PlasmicLoader,
   modulePath = "@myevaluations/myevals-plasmic-utils/dist",
 ) {
-  plasmic.registerComponent(IntersectionObserver, {
-    name: "IntersectionObserver",
+  plasmic.registerComponent(InViewContextProvider, {
+    name: "InViewContextProvider",
     description:
-      "Mounts IntersectionObserver to listen whether element is in the client's viewport.",
+      "Mounts InViewContextProvider to listen whether element is in the client's viewport.",
     importPath:
-      modulePath + "/code-components/IntersectionObserver/IntersectionObserver",
+      modulePath +
+      "/code-components/InViewContextProvider/InViewContextProvider",
     props: {
       contextName: {
         type: "string",

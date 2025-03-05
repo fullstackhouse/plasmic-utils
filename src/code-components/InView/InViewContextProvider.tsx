@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import { useInView } from "react-intersection-observer";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
-interface IntersectionObserverProps {
+interface InViewContextProviderProps {
   contextName: string;
   className?: string;
   style?: CSSProperties;
@@ -18,7 +18,7 @@ interface IntersectionObserverProps {
   children: ReactNode;
 }
 
-export function IntersectionObserver({
+export function InViewContextProvider({
   contextName,
   className,
   style,
@@ -30,7 +30,7 @@ export function IntersectionObserver({
   fallbackInView,
   onChange,
   children,
-}: IntersectionObserverProps) {
+}: InViewContextProviderProps) {
   const { ref, inView } = useInView({
     root,
     rootMargin,
