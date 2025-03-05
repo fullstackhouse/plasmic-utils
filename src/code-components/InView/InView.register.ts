@@ -12,6 +12,10 @@ export function registerInView(
     importPath: modulePath + "/code-components/InView/InView",
     props: {
       style: { type: "object", advanced: true },
+      previewFallback: {
+        type: "boolean",
+        defaultValue: false,
+      },
       root: {
         type: "object",
         description:

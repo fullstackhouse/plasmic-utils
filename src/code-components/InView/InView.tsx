@@ -14,6 +14,7 @@ interface InViewProps {
   fallbackInView?: boolean;
   onChange?: (inView: boolean, entry: IntersectionObserverEntry) => void;
 
+  previewFallback?: boolean;
   fallback: ReactNode;
   children: ReactNode;
 }
@@ -28,6 +29,7 @@ export function InView({
   initialInView,
   fallbackInView,
   onChange,
+  previewFallback,
   fallback,
   children,
 }: InViewProps) {
@@ -42,7 +44,7 @@ export function InView({
   });
   return (
     <div ref={ref} className={className} style={style}>
-      {inView ? children : fallback}
+      {previewFallback || !inView ? fallback : children}
     </div>
   );
 }
