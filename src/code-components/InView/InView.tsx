@@ -2,8 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import { useInView } from "react-intersection-observer";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
-interface IntersectionObserverProps {
-  contextName: string;
+interface InViewProps {
   className?: string;
   style?: CSSProperties;
 
@@ -15,11 +14,12 @@ interface IntersectionObserverProps {
   fallbackInView?: boolean;
   onChange?: (inView: boolean, entry: IntersectionObserverEntry) => void;
 
+  previewFallback?: boolean;
+  fallback: ReactNode;
   children: ReactNode;
 }
 
-export function IntersectionObserver({
-  contextName,
+export function InView({
   className,
   style,
   root,
@@ -29,8 +29,10 @@ export function IntersectionObserver({
   initialInView,
   fallbackInView,
   onChange,
+  previewFallback,
+  fallback,
   children,
-}: IntersectionObserverProps) {
+}: InViewProps) {
   const { ref, inView } = useInView({
     root,
     rootMargin,
@@ -42,9 +44,7 @@ export function IntersectionObserver({
   });
   return (
     <div ref={ref} className={className} style={style}>
-      <MemoDataProvider name={contextName} data={inView} deps={[inView]}>
-        {children}
-      </MemoDataProvider>
+      {previewFallback || !inView ? fallback : children}
     </div>
   );
 }
