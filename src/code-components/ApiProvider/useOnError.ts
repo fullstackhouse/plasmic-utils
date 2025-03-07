@@ -56,7 +56,7 @@ function handleApiError(
       type: "warning",
       title: "Session Expired",
       description:
-        "Your session has expired, and we cannot save your changes. Please log in again to continue.",
+        "Your session has expired. The application may not work correctly. Please log in again to continue.",
     });
   }
 
