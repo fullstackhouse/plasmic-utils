@@ -48,8 +48,16 @@ function handleApiError(
 
   onError?.(error);
 
-  if (!error.handled && error.response?.status === 401) {
+  if (!error.handled && error.response?.status === 401 && toast) {
     dispatchUnauthorizedEvent();
+    error.handled = true;
+    toast.show({
+      id: "unauthorized",
+      type: "warning",
+      title: "Session Expired",
+      description:
+        "Your session has expired, and we cannot save your changes. Please log in again to continue.",
+    });
   }
 
   if (!error.handled && !requestCancelled && toast) {
