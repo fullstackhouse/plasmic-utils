@@ -46,11 +46,9 @@ function handleApiError(
     console.error(error);
   }
 
-  // If it's been a 401 error,
-  // redirect the user to authentication page
-  // and don't do anything else.
+  onError?.(error);
+
   if (!error.handled && error.response?.status === 401) {
-    error.handled = true;
     dispatchUnauthorizedEvent();
   }
 
@@ -64,6 +62,4 @@ function handleApiError(
         "There have been some troubles while loading data from the server. If the problem persists, refresh the page or contact support for help.",
     });
   }
-
-  onError?.(error);
 }
