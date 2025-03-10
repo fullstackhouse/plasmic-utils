@@ -46,12 +46,18 @@ function handleApiError(
     console.error(error);
   }
 
-  // If it's been a 401 error,
-  // redirect the user to authentication page
-  // and don't do anything else.
-  if (!error.handled && error.response?.status === 401) {
-    error.handled = true;
+  onError?.(error);
+
+  if (!error.handled && error.response?.status === 401 && toast) {
     dispatchUnauthorizedEvent();
+    error.handled = true;
+    toast.show({
+      id: "unauthorized",
+      type: "warning",
+      title: "Session Expired",
+      description:
+        "Your session has expired. The application may not work correctly. Please log in again to continue.",
+    });
   }
 
   if (!error.handled && !requestCancelled && toast) {
@@ -64,6 +70,4 @@ function handleApiError(
         "There have been some troubles while loading data from the server. If the problem persists, refresh the page or contact support for help.",
     });
   }
-
-  onError?.(error);
 }
