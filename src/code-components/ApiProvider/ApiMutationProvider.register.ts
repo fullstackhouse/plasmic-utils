@@ -3,7 +3,7 @@ import { ApiMutationProvider } from "./ApiMutationProvider";
 
 export function registerApiMutationProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",
@@ -17,6 +17,7 @@ export function registerApiMutationProvider(
       },
       path: { type: "string", defaultValue: "/caw/worksheet" },
       query: { type: "object" },
+      // TODO make it myevals-agnostic - allow to define arbitrary backend targets (along with their connection options)?
       useNodejsApi: {
         type: "boolean",
         defaultValue: true,

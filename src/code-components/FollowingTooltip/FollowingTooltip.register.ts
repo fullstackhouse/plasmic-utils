@@ -3,7 +3,7 @@ import { FollowingTooltip } from "./FollowingTooltip";
 
 export function registerFollowingTooltip(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(FollowingTooltip, {
     name: "RawFollowingTooltip",

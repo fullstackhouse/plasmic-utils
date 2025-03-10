@@ -3,7 +3,7 @@ import { RouteChangeBlocker } from "./RouteChangeBlocker";
 
 export function registerRouteChangeBlocker(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RouteChangeBlocker, {
     name: "RouteChangeBlocker",

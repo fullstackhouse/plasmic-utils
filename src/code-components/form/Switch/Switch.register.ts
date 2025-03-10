@@ -3,7 +3,7 @@ import { Switch } from "./Switch";
 
 export function registerSwitch(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(Switch, {
     name: "RawSwitch",

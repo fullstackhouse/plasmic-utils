@@ -3,7 +3,7 @@ import { dayjs } from "./dayjs";
 
 export function registerDayjs(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerFunction(dayjs, {
     name: "dayjs",

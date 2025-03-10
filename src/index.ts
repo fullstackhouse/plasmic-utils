@@ -37,7 +37,7 @@ import { registerDayjs } from "./custom-functions/dayjs.register";
 import { registerParseDateWithoutTimeZone } from "./custom-functions/parseDateWithoutTimeZone.register";
 import { registerWaitFor } from "./custom-functions/waitFor.register";
 import { registerZod } from "./custom-functions/zod.register";
-import { registerMyEvaluationsPlasmicUtils } from "./register";
+import { registerPlasmicUtils } from "./register";
 import { SentryContext } from "./sentry/SentryContext";
 import { toastContextProviderConfig } from "./ToastContextProvider/config";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
@@ -54,7 +54,7 @@ export {
   registerFollowingTooltip,
   registerFormProvider,
   registerHiddenIfEmptyContainer,
-  registerMyEvaluationsPlasmicUtils,
+  registerPlasmicUtils,
   registerOnBeforeUnloadProvider,
   registerOnBeforeUnmountProvider,
   registerOnChangeProvider,

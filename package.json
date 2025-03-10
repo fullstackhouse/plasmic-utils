@@ -1,5 +1,5 @@
 {
-  "name": "@myevaluations/myevals-plasmic-utils",
+  "name": "@fullstackhouse/plasmic-utils",
   "version": "0.0.1",
   "license": "UNLICENSED",
   "scripts": {
@@ -18,7 +18,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "repository": "github:myevaluations/myevals-plasmic-utils",
+  "repository": "github:fullstackhouse/plasmic-utils",
   "devDependencies": {
     "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^3.3.4",

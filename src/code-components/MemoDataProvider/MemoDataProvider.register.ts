@@ -3,7 +3,7 @@ import { MemoDataProvider } from "./MemoDataProvider";
 
 export function registerMemoDataProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(MemoDataProvider, {
     name: "MemoDataProvider",

@@ -76,9 +76,9 @@ export function ToastContextProvider({
   );
 
   useEffect(() => {
-    window.__myevalsPlasmicUtilsToast = context;
+    window.__fshPlasmicUtilsToast = context;
     return () => {
-      delete window.__myevalsPlasmicUtilsToast;
+      delete window.__fshPlasmicUtilsToast;
     };
   }, [context]);
 

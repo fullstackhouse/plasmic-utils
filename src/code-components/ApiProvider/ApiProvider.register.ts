@@ -5,7 +5,7 @@ import { ApiProvider } from "./ApiProvider";
 
 export function registerApiProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerGlobalContext(ApiContextProvider, {
     name: "ApiContext",
@@ -28,6 +28,7 @@ export function registerApiProvider(
       },
       path: { type: "string", defaultValue: "/caw/departments" },
       query: { type: "object" },
+      // TODO make it myevals-agnostic - allow to define arbitrary backend targets (along with their connection options)?
       useNodejsApi: {
         type: "boolean",
         defaultValue: true,

@@ -3,7 +3,7 @@ import { DeferredValue } from "./DeferredValue";
 
 export function registerDeferredValue(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(DeferredValue, {
     name: "DeferredValue",

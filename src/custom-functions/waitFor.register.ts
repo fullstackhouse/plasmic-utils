@@ -3,7 +3,7 @@ import { waitFor } from "./waitFor";
 
 export function registerWaitFor(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerFunction(waitFor, {
     name: "waitFor",

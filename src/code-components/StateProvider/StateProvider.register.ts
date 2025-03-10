@@ -3,7 +3,7 @@ import { StateProvider } from "./StateProvider";
 
 export function registerStateProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(StateProvider, {
     name: "StateProvider",

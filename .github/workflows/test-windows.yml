@@ -31,7 +31,7 @@ jobs:
         if: failure() && github.ref_name == 'main'
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: "myevals-alerts"
+          channel-id: "fsh-alerts"
           slack-message: ":red_circle: Workflow *<${{env.GITHUB_WORKFLOW_URL}}|${{github.workflow_ref}}>* failed"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.FSH_SLACK_BOT_TOKEN }}

@@ -35,10 +35,10 @@ import { registerZod } from "./custom-functions/zod.register";
 import type { PlasmicLoader } from "./plasmic";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
-export function registerMyEvaluationsPlasmicUtils(
+export function registerPlasmicUtils(
   plasmic: PlasmicLoader,
   {
-    modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+    modulePath = "@fullstackhouse/plasmic-utils/dist",
     router = true,
     toast = true,
   }: {

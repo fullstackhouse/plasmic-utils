@@ -4,7 +4,7 @@ import { DOMEventListener } from "./DOMEventListener";
 
 export function registerDOMEventListener(
   plasmic: PlasmicLoader,
-  modulePath = "@myevaluations/myevals-plasmic-utils/dist",
+  modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(DOMEventListener as FunctionComponent<any>, {
     name: "DOMEventListener",

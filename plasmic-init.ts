@@ -1,5 +1,5 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
-import { registerMyEvaluationsPlasmicUtils } from "./src/register";
+import { registerPlasmicUtils } from "./src/register";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -17,4 +17,4 @@ export const PLASMIC = initPlasmicLoader({
   preview: false,
 });
 
-registerMyEvaluationsPlasmicUtils(PLASMIC, { modulePath: "./src" });
+registerPlasmicUtils(PLASMIC, { modulePath: "./src" });
