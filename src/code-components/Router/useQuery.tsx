@@ -34,20 +34,29 @@ export function useQuery(controller: RouterController): [Query, SetQuery] {
       query,
       { merge = true, push = false, force = false } = {},
     ) => {
-      const prevRoute = storage.getRoute();
-      const prevQuery = parseQueryString(prevRoute.queryString ?? "");
-      const nextQuery = merge ? { ...prevQuery, ...query } : query;
-      const nextRoute: Route = {
-        queryString: buildQueryString(nextQuery),
-      };
+      function getNextRoute() {
+        const prevRoute = storage.getRoute();
+        const prevQuery = parseQueryString(prevRoute.queryString ?? "");
+        const nextQuery = merge ? { ...prevQuery, ...query } : query;
+        const nextRoute: Route = {
+          queryString: buildQueryString(nextQuery),
+        };
+        return nextRoute;
+      }
 
       if (!force) {
-        const blocked = await blockers.isBlocking(nextRoute);
+        const blocked = await blockers.isBlocking(getNextRoute());
         if (blocked) {
           return;
         }
       }
 
+      // We have to build it again here.
+      // In case there are multiple route changes in parallel, with `merge: true`,
+      // and because blocker is async,
+      // we may need to rebuild the next route right before sending it to storage,
+      // as `prevRoute = storage.getRoute()` may have changed in the meantime.
+      const nextRoute = getNextRoute();
       if (push) {
         storage.pushRoute(nextRoute);
       } else {
