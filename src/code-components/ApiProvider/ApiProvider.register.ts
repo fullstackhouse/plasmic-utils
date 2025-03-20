@@ -39,7 +39,7 @@ export function registerApiProvider(
             middleware: {
               type: "choice",
               options: options.middlewares.options,
-              defaultValue: options.middlewares.defaultValue ?? "json",
+              defaultValue: options.middlewares.defaultValue,
               advanced: true,
             },
           }

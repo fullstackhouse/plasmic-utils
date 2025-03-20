@@ -44,9 +44,8 @@ export function ApiMutationProvider({
   onError,
 }: ApiMutationProviderProps) {
   const { middlewares } = useContext(ApiContext);
-  const middlewareName = useNodejsApi
-    ? "myevals-nodejs-backend"
-    : (middlewareProp ?? "json");
+  const middlewareName =
+    middlewareProp ?? (useNodejsApi ? "myevals-nodejs-backend" : "json");
   const middleware = middlewares[middlewareName];
   if (!middleware) {
     throw new Error(
