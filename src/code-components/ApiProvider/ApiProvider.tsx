@@ -31,7 +31,7 @@ export interface ApiProviderProps {
   retryOnError?: boolean;
   alertOnError?: boolean;
   useNodejsApi?: boolean;
-  middleware: string;
+  middleware?: string;
   suspense?: boolean;
   refreshInterval?: number;
   transformResponse?: ResponseTransform;
@@ -70,8 +70,15 @@ export function ApiProvider(props: ApiProviderProps) {
     onError,
   } = fillProps(props);
   const { middlewares } = useContext(ApiContext);
-  const middleware =
-    middlewares[useNodejsApi ? "myevals-nodejs-backend" : middlewareProp];
+  const middlewareName = useNodejsApi
+    ? "myevals-nodejs-backend"
+    : (middlewareProp ?? "json");
+  const middleware = middlewares[middlewareName];
+  if (!middleware) {
+    throw new Error(
+      `middleware "${middlewareName}" not found in registered middlewares: ${Object.keys(middlewares).join(",")}`,
+    );
+  }
 
   const inEditor = !!usePlasmicCanvasContext();
   const interactive = !inEditor || editorMode === EditorMode.interactive;

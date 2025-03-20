@@ -22,7 +22,7 @@ export interface ApiMutationProviderProps {
   alertOnError?: boolean;
   throwOnError?: boolean;
   useNodejsApi?: boolean;
-  middleware: string;
+  middleware?: string;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
   onError?(error: FetchError): void;
@@ -44,8 +44,15 @@ export function ApiMutationProvider({
   onError,
 }: ApiMutationProviderProps) {
   const { middlewares } = useContext(ApiContext);
-  const middleware =
-    middlewares[useNodejsApi ? "myevals-nodejs-backend" : middlewareProp];
+  const middlewareName = useNodejsApi
+    ? "myevals-nodejs-backend"
+    : (middlewareProp ?? "json");
+  const middleware = middlewares[middlewareName];
+  if (!middleware) {
+    throw new Error(
+      `middleware "${middlewareName}" not found in registered middlewares: ${Object.keys(middlewares).join(",")}`,
+    );
+  }
 
   const actualOnError = useOnError({ alertOnError, onError });
   const response = useSWRMutation<any, Error, Arguments, Partial<ApiRequest>>(
