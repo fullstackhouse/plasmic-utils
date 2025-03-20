@@ -1,3 +1,5 @@
+import { ApiContext } from "./code-components/ApiProvider/ApiContext";
+import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { jsonApiMiddleware } from "./code-components/ApiProvider/middlewares/json";
@@ -51,6 +53,8 @@ export type { ApiRequest, ApiMiddleware };
 
 export {
   jsonApiMiddleware,
+  ApiContext,
+  registerApiContextProvider,
   registerApiMutationProvider,
   registerApiProvider,
   registerCombobox,

@@ -1,3 +1,4 @@
+import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import {
   registerApiProvider,
@@ -55,9 +56,24 @@ export function registerPlasmicUtils(
      * @default true
      */
     toast?: boolean;
-    api?: RegisterApiProviderOptions;
+    api?: {
+      /**
+       * @default true
+       */
+      registerContextProvider: boolean;
+      /**
+       * @default { options: ['json'], defaultValue: 'json' }
+       */
+      middlewares?: {
+        options: string[];
+        defaultValue?: string;
+      };
+    };
   } = {},
 ) {
+  if (api?.registerContextProvider ?? true) {
+    registerApiContextProvider(plasmic, modulePath);
+  }
   registerApiMutationProvider(plasmic, modulePath, api);
   registerApiProvider(plasmic, modulePath, api);
   registerCombobox(plasmic, modulePath);
