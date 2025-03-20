@@ -26,13 +26,12 @@ export function registerApiProvider(
       },
       path: { type: "string", defaultValue: "/caw/departments" },
       query: { type: "object" },
-      // TODO make it myevals-agnostic - allow to define arbitrary backend targets (along with their connection options)?
       useNodejsApi: {
         type: "boolean",
-        defaultValue: true,
         advanced: true,
+        hidden: (props: { useNodejsApi?: boolean }) => !props.useNodejsApi,
         description:
-          "If enabled, request will be sent to the myevals-nodejs-backend API.",
+          "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: Use middleware prop instead.",
       },
       ...(options.middlewares
         ? {
