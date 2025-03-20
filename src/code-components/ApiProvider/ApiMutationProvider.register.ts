@@ -7,6 +7,10 @@ export function registerApiMutationProvider(
   modulePath = "@fullstackhouse/plasmic-utils/dist",
   options: RegisterApiProviderOptions = {},
 ) {
+  const containsMyevalsNodejsBackendMiddleware = (
+    options.middlewares?.options ?? []
+  ).includes("myevals-nodejs-backend");
+
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",
     importPath: modulePath + "/code-components/ApiProvider/ApiMutationProvider",
@@ -19,13 +23,17 @@ export function registerApiMutationProvider(
       },
       path: { type: "string", defaultValue: "/caw/worksheet" },
       query: { type: "object" },
-      useNodejsApi: {
-        type: "boolean",
-        advanced: true,
-        hidden: (props: { useNodejsApi?: boolean }) => !props.useNodejsApi,
-        description:
-          "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: Use middleware prop instead.",
-      },
+      ...(containsMyevalsNodejsBackendMiddleware
+        ? {
+            useNodejsApi: {
+              type: "boolean",
+              defaultValue: true,
+              advanced: true,
+              description:
+                "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: use middleware prop instead.",
+            },
+          }
+        : {}),
       ...(options.middlewares
         ? {
             middleware: {

@@ -14,6 +14,10 @@ export function registerApiProvider(
   modulePath = "@fullstackhouse/plasmic-utils/dist",
   options: RegisterApiProviderOptions = {},
 ) {
+  const containsMyevalsNodejsBackendMiddleware = (
+    options.middlewares?.options ?? []
+  ).includes("myevals-nodejs-backend");
+
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",
     importPath: modulePath + "/code-components/ApiProvider/ApiProvider",
@@ -26,13 +30,17 @@ export function registerApiProvider(
       },
       path: { type: "string", defaultValue: "/caw/departments" },
       query: { type: "object" },
-      useNodejsApi: {
-        type: "boolean",
-        advanced: true,
-        hidden: (props: { useNodejsApi?: boolean }) => !props.useNodejsApi,
-        description:
-          "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: Use middleware prop instead.",
-      },
+      ...(containsMyevalsNodejsBackendMiddleware
+        ? {
+            useNodejsApi: {
+              type: "boolean",
+              defaultValue: true,
+              advanced: true,
+              description:
+                "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: use middleware prop instead.",
+            },
+          }
+        : {}),
       ...(options.middlewares
         ? {
             middleware: {
