@@ -2,7 +2,7 @@ import { DataProvider, useSelector } from "@plasmicapp/react-web/lib/host";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { SWRConfig } from "swr";
+import { Key, SWRConfig } from "swr";
 import { afterEach, describe, it, onTestFinished, vitest } from "vitest";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { FetchError } from "./FetchError";
@@ -13,6 +13,9 @@ import {
   ApiMutationProviderProps,
 } from "./ApiMutationProvider";
 import { SWRMutationResponse } from "swr/mutation";
+import { ApiContextProvider } from "./ApiContext";
+import { jsonApiMiddleware } from "./middlewares/json";
+import { ApiRequest } from "./middlewares/middleware";
 
 stubApi();
 afterEach(cleanup);
@@ -22,11 +25,21 @@ function renderApiMutationProvider(props?: Partial<ApiMutationProviderProps>) {
     show: vitest.fn(),
   };
 
-  let responseRef: SWRMutationResponse;
+  let responseRef: SWRMutationResponse<
+    any,
+    any,
+    Key,
+    Partial<ApiRequest> | undefined
+  >;
 
   let __renderNumber = 0;
   function TestComponent() {
-    const response = useSelector("response") as SWRMutationResponse;
+    const response = useSelector("response") as SWRMutationResponse<
+      any,
+      any,
+      Key,
+      Partial<ApiRequest> | undefined
+    >;
     responseRef = response;
     return useMemo(() => {
       return JSON.stringify({ ...response, __renderNumber: ++__renderNumber });
@@ -35,34 +48,49 @@ function renderApiMutationProvider(props?: Partial<ApiMutationProviderProps>) {
 
   function getNode() {
     return (
-      <SWRConfig value={{ provider: () => new Map() }}>
-        <DataProvider name="toast" data={toast}>
-          <ErrorBoundary
-            fallbackRender={({ error }) =>
-              JSON.stringify({ error: error.toString() })
-            }
-          >
-            <ApiErrorBoundary
-              fallback={JSON.stringify({ suspended: true, error: true })}
+      <ApiContextProvider
+        middlewares={[
+          jsonApiMiddleware,
+          {
+            name: "passthrough",
+            fetch(request) {
+              return Promise.resolve({
+                ...request,
+              });
+            },
+          },
+        ]}
+      >
+        <SWRConfig value={{ provider: () => new Map() }}>
+          <DataProvider name="toast" data={toast}>
+            <ErrorBoundary
+              fallbackRender={({ error }) =>
+                JSON.stringify({ error: error.toString() })
+              }
             >
-              <Suspense
-                fallback={JSON.stringify({ suspended: true, loading: true })}
+              <ApiErrorBoundary
+                fallback={JSON.stringify({ suspended: true, error: true })}
               >
-                <ApiMutationProvider
-                  {...{
-                    path: "http://localhost/foo",
-                    useNodejsApi: false,
-                    retryOnError: false,
-                    ...props,
-                  }}
+                <Suspense
+                  fallback={JSON.stringify({ suspended: true, loading: true })}
                 >
-                  <TestComponent />
-                </ApiMutationProvider>
-              </Suspense>
-            </ApiErrorBoundary>
-          </ErrorBoundary>
-        </DataProvider>
-      </SWRConfig>
+                  <ApiMutationProvider
+                    {...{
+                      path: "http://localhost/foo",
+                      useNodejsApi: false,
+                      retryOnError: false,
+                      middleware: "json",
+                      ...props,
+                    }}
+                  >
+                    <TestComponent />
+                  </ApiMutationProvider>
+                </Suspense>
+              </ApiErrorBoundary>
+            </ErrorBoundary>
+          </DataProvider>
+        </SWRConfig>
+      </ApiContextProvider>
     );
   }
 
@@ -268,6 +296,28 @@ describe.sequential(ApiMutationProvider.name, () => {
     await waitFor(() => {
       expect(getOutput()).toMatchObject({
         error: "TypeError: test error (ignore-console)",
+      });
+    });
+  });
+
+  it("uses different middleware if specified", async ({ expect }) => {
+    const { getOutput, getResponse } = renderApiMutationProvider({
+      middleware: "passthrough",
+    });
+
+    act(() => {
+      getResponse().trigger({ body: { abc: "def" } });
+    });
+
+    await waitFor(() => {
+      expect(getOutput()).toEqual({
+        data: {
+          method: "POST",
+          path: "http://localhost/foo",
+          body: { abc: "def" },
+        },
+        isMutating: false,
+        __renderNumber: expect.anything(),
       });
     });
   });

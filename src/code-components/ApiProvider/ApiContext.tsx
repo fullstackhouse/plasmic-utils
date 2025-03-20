@@ -1,14 +1,28 @@
-import { ContextType, createContext, ReactNode } from "react";
+import { ContextType, createContext, ReactNode, useMemo } from "react";
+import { ApiMiddleware } from "./middlewares/middleware";
+import { jsonApiMiddleware } from "./middlewares/json";
 
 export const ApiContext = createContext<{
-  clientId?: string;
-}>({});
+  middlewares: Record<string, ApiMiddleware>;
+}>({ middlewares: { json: jsonApiMiddleware } });
+
+export interface ApiContextProviderProps {
+  middlewares?: ApiMiddleware[];
+  children: ReactNode;
+}
 
 export function ApiContextProvider({
-  clientId,
+  middlewares,
   children,
-}: ContextType<typeof ApiContext> & { children: ReactNode }): ReactNode {
-  return (
-    <ApiContext.Provider value={{ clientId }}>{children}</ApiContext.Provider>
+}: ApiContextProviderProps): ReactNode {
+  const context: ContextType<typeof ApiContext> = useMemo(
+    () => ({
+      middlewares: Object.fromEntries<ApiMiddleware>(
+        (middlewares ?? [jsonApiMiddleware]).map((m) => [m.name, m]),
+      ),
+    }),
+    [middlewares],
   );
+
+  return <ApiContext.Provider value={context}>{children}</ApiContext.Provider>;
 }

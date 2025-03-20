@@ -3,16 +3,24 @@ import { ApiContextProvider } from "./ApiContext";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
 
+export interface RegisterApiProviderOptions {
+  middlewares?: {
+    options: string[];
+    defaultValue?: string;
+  };
+}
+
 export function registerApiProvider(
   plasmic: PlasmicLoader,
   modulePath = "@fullstackhouse/plasmic-utils/dist",
+  options: RegisterApiProviderOptions = {},
 ) {
   plasmic.registerGlobalContext(ApiContextProvider, {
     name: "ApiContext",
     importPath: modulePath + "/code-components/ApiProvider/ApiContext",
     importName: "ApiContextProvider",
     props: {
-      clientId: { type: "string" },
+      middlewares: { type: "array" },
     },
   });
 
@@ -36,6 +44,16 @@ export function registerApiProvider(
         description:
           "If enabled, request will be sent to the myevals-nodejs-backend API.",
       },
+      ...(options.middlewares
+        ? {
+            middleware: {
+              type: "choice",
+              options: options.middlewares.options,
+              defaultValue: options.middlewares.defaultValue ?? "json",
+              advanced: true,
+            },
+          }
+        : {}),
       cacheKey: {
         type: "string",
         displayName: "Cache Key",

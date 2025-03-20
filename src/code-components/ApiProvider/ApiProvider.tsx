@@ -4,7 +4,6 @@ import useSWR, { SWRConfiguration, SWRResponse } from "swr";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { ApiContext } from "./ApiContext";
 import { FetchError } from "./FetchError";
-import { Query, fetchApi } from "./fetchApi";
 import { swrLaggyMiddleware } from "./swrLaggyMiddleware";
 import {
   ResponseTransform,
@@ -14,11 +13,12 @@ import { EditorMode, useMockedResponse } from "./useMockedResponse";
 import { useOnError } from "./useOnError";
 import { useOnLoad } from "./useOnLoad";
 import { useShouldRetry } from "./useShouldRetry";
+import { ApiRequest } from "./middlewares/middleware";
 
 export interface ApiProviderProps {
   method?: string;
   path: string;
-  query?: Query;
+  query?: Record<string, string>;
   cacheKey?: any;
   enabled?: boolean;
   name?: string;
@@ -31,6 +31,7 @@ export interface ApiProviderProps {
   retryOnError?: boolean;
   alertOnError?: boolean;
   useNodejsApi?: boolean;
+  middleware: string;
   suspense?: boolean;
   refreshInterval?: number;
   transformResponse?: ResponseTransform;
@@ -45,7 +46,6 @@ export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<
 > & { isLagging: boolean };
 
 export function ApiProvider(props: ApiProviderProps) {
-  const { clientId } = useContext(ApiContext);
   const {
     method,
     path,
@@ -62,23 +62,26 @@ export function ApiProvider(props: ApiProviderProps) {
     retryOnError,
     alertOnError,
     useNodejsApi,
+    middleware: middlewareProp,
     suspense,
     refreshInterval,
     transformResponse,
     onLoad,
     onError,
   } = fillProps(props);
+  const { middlewares } = useContext(ApiContext);
+  const middleware =
+    middlewares[useNodejsApi ? "myevals-nodejs-backend" : middlewareProp];
+
   const inEditor = !!usePlasmicCanvasContext();
   const interactive = !inEditor || editorMode === EditorMode.interactive;
   const shouldRetry = useShouldRetry();
   const actualOnError = useOnError({ alertOnError, onError });
 
-  const fetchOptions = {
+  const request: ApiRequest = {
     method,
     path,
     query,
-    useNodejsApi,
-    clientId,
   };
 
   const swrOptions: SWRConfiguration = {
@@ -95,9 +98,9 @@ export function ApiProvider(props: ApiProviderProps) {
   const response = useSWR(
     enabled && interactive ? cacheKey : null,
     () =>
-      fetchApi(fetchOptions).then((data) =>
-        transformResponse(data, fetchOptions),
-      ),
+      middleware
+        .fetch(request)
+        .then((data: any) => transformResponse(data, request)),
     swrOptions,
   ) as ApiResponse;
 
@@ -107,7 +110,7 @@ export function ApiProvider(props: ApiProviderProps) {
     editorMode,
     previewData,
     transformResponse,
-    fetchOptions,
+    request,
   });
 
   useOnLoad({ onLoad, data: mockedResponse.data });
@@ -147,7 +150,6 @@ function fillProps(props: ApiProviderProps) {
     refetchOnReconnect: false,
     retryOnError: true,
     alertOnError: true,
-    useNodejsApi: true,
     suspense: false,
     transformResponse: defaultResponseTransform,
     ...props,

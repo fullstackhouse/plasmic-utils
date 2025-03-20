@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { SWRResponse } from "swr";
-import { FetchError } from "./FetchError";
-import { FetchApiOptions } from "./fetchApi";
-import { ResponseTransform } from "./transformResponse";
 import { ApiResponse } from "./ApiProvider";
+import { FetchError } from "./FetchError";
+import { ResponseTransform } from "./transformResponse";
+import { ApiRequest } from "./middlewares/middleware";
 
 export enum EditorMode {
   interactive = "interactive",
@@ -18,14 +17,14 @@ export function useMockedResponse<TData>({
   editorMode,
   previewData,
   transformResponse,
-  fetchOptions,
+  request,
 }: {
   response: ApiResponse<TData>;
   inEditor: boolean;
   editorMode: EditorMode;
   previewData: TData;
   transformResponse: ResponseTransform;
-  fetchOptions: FetchApiOptions;
+  request: ApiRequest;
 }): ApiResponse<TData> {
   if (!inEditor) {
     return response;
@@ -66,7 +65,7 @@ export function useMockedResponse<TData>({
     }
 
     return {
-      data: transformResponse(previewData, fetchOptions),
+      data: transformResponse(previewData, request),
       error: undefined,
       isLoading: false,
       isLagging: false,
@@ -80,6 +79,6 @@ export function useMockedResponse<TData>({
     previewData,
     response,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(fetchOptions),
+    JSON.stringify(request),
   ]);
 }

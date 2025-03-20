@@ -1,9 +1,11 @@
 import type { PlasmicLoader } from "../../plasmic";
 import { ApiMutationProvider } from "./ApiMutationProvider";
+import { RegisterApiProviderOptions } from "./ApiProvider.register";
 
 export function registerApiMutationProvider(
   plasmic: PlasmicLoader,
   modulePath = "@fullstackhouse/plasmic-utils/dist",
+  options: RegisterApiProviderOptions = {},
 ) {
   plasmic.registerComponent(ApiMutationProvider, {
     name: "ApiMutationProvider",
@@ -25,6 +27,16 @@ export function registerApiMutationProvider(
         description:
           "If enabled, request will be sent to the myevals-nodejs-backend API.",
       },
+      ...(options.middlewares
+        ? {
+            middleware: {
+              type: "choice",
+              options: options.middlewares.options,
+              defaultValue: options.middlewares.defaultValue ?? "json",
+              advanced: true,
+            },
+          }
+        : {}),
       cacheKey: {
         type: "string",
         displayName: "Cache Key",

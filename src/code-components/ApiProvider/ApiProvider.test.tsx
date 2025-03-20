@@ -9,6 +9,8 @@ import { ApiProvider, ApiProviderProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
 import { subscribeToUnauthorizedEvents } from "./UnauthorizedEvent";
 import { stubApi } from "./stubApi.test-helper";
+import { ApiContextProvider } from "./ApiContext";
+import { jsonApiMiddleware } from "./middlewares/json";
 
 stubApi();
 afterEach(cleanup);
@@ -27,34 +29,49 @@ function renderApiProvider(props?: Partial<ApiProviderProps>) {
   };
 
   const getNode = () => (
-    <SWRConfig value={{ provider: () => new Map() }}>
-      <DataProvider name="toast" data={toast}>
-        <ErrorBoundary
-          fallbackRender={({ error }) =>
-            JSON.stringify({ error: error.toString() })
-          }
-        >
-          <ApiErrorBoundary
-            fallback={JSON.stringify({ suspended: true, error: true })}
+    <ApiContextProvider
+      middlewares={[
+        jsonApiMiddleware,
+        {
+          name: "passthrough",
+          fetch(request) {
+            return Promise.resolve({
+              ...request,
+            });
+          },
+        },
+      ]}
+    >
+      <SWRConfig value={{ provider: () => new Map() }}>
+        <DataProvider name="toast" data={toast}>
+          <ErrorBoundary
+            fallbackRender={({ error }) =>
+              JSON.stringify({ error: error.toString() })
+            }
           >
-            <Suspense
-              fallback={JSON.stringify({ suspended: true, loading: true })}
+            <ApiErrorBoundary
+              fallback={JSON.stringify({ suspended: true, error: true })}
             >
-              <ApiProvider
-                {...{
-                  path: "http://localhost/foo",
-                  useNodejsApi: false,
-                  retryOnError: false,
-                  ...props,
-                }}
+              <Suspense
+                fallback={JSON.stringify({ suspended: true, loading: true })}
               >
-                <TestComponent />
-              </ApiProvider>
-            </Suspense>
-          </ApiErrorBoundary>
-        </ErrorBoundary>
-      </DataProvider>
-    </SWRConfig>
+                <ApiProvider
+                  {...{
+                    path: "http://localhost/foo",
+                    useNodejsApi: false,
+                    retryOnError: false,
+                    middleware: "json",
+                    ...props,
+                  }}
+                >
+                  <TestComponent />
+                </ApiProvider>
+              </Suspense>
+            </ApiErrorBoundary>
+          </ErrorBoundary>
+        </DataProvider>
+      </SWRConfig>
+    </ApiContextProvider>
   );
 
   const result = render(getNode());
@@ -266,11 +283,7 @@ describe.sequential(ApiProvider.name, () => {
   it("if suspense is enabled, and fetch fails because of an application error in transformResponse, an error is thrown during the render, and it is not caught by ApiErrorBoundary", async ({
     expect,
   }) => {
-    const {
-      toast,
-
-      getOutput,
-    } = renderApiProvider({
+    const { toast, getOutput } = renderApiProvider({
       suspense: true,
       transformResponse() {
         throw new TypeError("test error");
@@ -280,6 +293,23 @@ describe.sequential(ApiProvider.name, () => {
     await waitFor(() => {
       expect(getOutput()).toMatchObject({
         error: "TypeError: test error",
+      });
+    });
+  });
+
+  it("uses different middleware if specified", async ({ expect }) => {
+    const { getOutput } = renderApiProvider({ middleware: "passthrough" });
+
+    await waitFor(() => {
+      expect(getOutput()).toEqual({
+        data: {
+          method: "GET",
+          path: "http://localhost/foo",
+        },
+        isLagging: false,
+        isLoading: false,
+        isValidating: false,
+        __renderNumber: expect.anything(),
       });
     });
   });
