@@ -8,5 +8,5 @@ export interface ApiRequest {
 
 export interface ApiMiddleware<TResponseData = any> {
   name: string;
-  fetch(request: ApiRequest): TResponseData;
+  fetch(request: ApiRequest): Promise<TResponseData>;
 }
