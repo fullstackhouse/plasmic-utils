@@ -1,5 +1,4 @@
 import type { PlasmicLoader } from "../../plasmic";
-import { ApiContextProvider } from "./ApiContext";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
 
@@ -15,15 +14,6 @@ export function registerApiProvider(
   modulePath = "@fullstackhouse/plasmic-utils/dist",
   options: RegisterApiProviderOptions = {},
 ) {
-  plasmic.registerGlobalContext(ApiContextProvider, {
-    name: "ApiContext",
-    importPath: modulePath + "/code-components/ApiProvider/ApiContext",
-    importName: "ApiContextProvider",
-    props: {
-      middlewares: { type: "array" },
-    },
-  });
-
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",
     importPath: modulePath + "/code-components/ApiProvider/ApiProvider",
