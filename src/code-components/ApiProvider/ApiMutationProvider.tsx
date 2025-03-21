@@ -4,24 +4,25 @@ import useSWRMutation from "swr/mutation";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { ApiContext } from "./ApiContext";
 import { FetchError } from "./FetchError";
-import { FetchApiOptions, Query, fetchApi } from "./fetchApi";
 import {
   ResponseTransform,
   defaultResponseTransform,
 } from "./transformResponse";
 import { useOnError } from "./useOnError";
 import { useOnLoad } from "./useOnLoad";
+import { ApiRequest } from "./middlewares/middleware";
 
 export interface ApiMutationProviderProps {
   method?: string;
   path: string;
-  query?: Query;
+  query?: Record<string, string>;
   cacheKey?: Arguments;
   name?: string;
   children: ReactNode;
   alertOnError?: boolean;
   throwOnError?: boolean;
-  useNodejsApi: boolean;
+  useNodejsApi?: boolean;
+  middleware?: string;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
   onError?(error: FetchError): void;
@@ -37,31 +38,34 @@ export function ApiMutationProvider({
   alertOnError = true,
   throwOnError = true,
   useNodejsApi,
+  middleware: middlewareProp,
   transformResponse = defaultResponseTransform,
   onLoad,
   onError,
 }: ApiMutationProviderProps) {
-  const { clientId } = useContext(ApiContext);
+  const { middlewares } = useContext(ApiContext);
+  const middlewareName =
+    middlewareProp ?? (useNodejsApi ? "myevals-nodejs-backend" : "json");
+  const middleware = middlewares[middlewareName];
+  if (!middleware) {
+    throw new Error(
+      `middleware "${middlewareName}" not found in registered middlewares: ${Object.keys(middlewares).join(",")}`,
+    );
+  }
+
   const actualOnError = useOnError({ alertOnError, onError });
-  const response = useSWRMutation<
-    any,
-    Error,
-    Arguments,
-    Partial<FetchApiOptions>
-  >(
+  const response = useSWRMutation<any, Error, Arguments, Partial<ApiRequest>>(
     cacheKey,
-    (key: string, { arg: options }: { arg: Partial<FetchApiOptions> }) => {
-      const fetchOptions = {
+    (key: string, { arg: options }: { arg: Partial<ApiRequest> }) => {
+      const request: ApiRequest = {
         method,
         path,
         query,
-        useNodejsApi,
-        clientId,
         ...options,
       };
-      return fetchApi(fetchOptions).then((data) =>
-        transformResponse(data, fetchOptions),
-      );
+      return middleware
+        .fetch(request)
+        .then((data: any) => transformResponse(data, request));
     },
     {
       // swr accepts either `true` or `false` but not `boolean` in here

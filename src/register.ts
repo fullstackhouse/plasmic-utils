@@ -1,5 +1,9 @@
+import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
-import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
+import {
+  registerApiProvider,
+  RegisterApiProviderOptions,
+} from "./code-components/ApiProvider/ApiProvider.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDeferredValue } from "./code-components/DeferredValue/DeferredValue.register";
@@ -41,6 +45,7 @@ export function registerPlasmicUtils(
     modulePath = "@fullstackhouse/plasmic-utils/dist",
     router = true,
     toast = true,
+    api,
   }: {
     modulePath?: string;
     /**
@@ -51,10 +56,26 @@ export function registerPlasmicUtils(
      * @default true
      */
     toast?: boolean;
+    api?: {
+      /**
+       * @default true
+       */
+      registerContextProvider?: boolean;
+      /**
+       * @default { options: ['json'], defaultValue: 'json' }
+       */
+      middlewares?: {
+        options: string[];
+        defaultValue?: string;
+      };
+    };
   } = {},
 ) {
-  registerApiMutationProvider(plasmic, modulePath);
-  registerApiProvider(plasmic, modulePath);
+  if (api?.registerContextProvider ?? true) {
+    registerApiContextProvider(plasmic, modulePath);
+  }
+  registerApiMutationProvider(plasmic, modulePath, api);
+  registerApiProvider(plasmic, modulePath, api);
   registerCombobox(plasmic, modulePath);
   registerDayjs(plasmic, modulePath);
   registerDebounceProvider(plasmic, modulePath);

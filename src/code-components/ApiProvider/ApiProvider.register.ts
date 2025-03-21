@@ -1,20 +1,22 @@
 import type { PlasmicLoader } from "../../plasmic";
-import { ApiContextProvider } from "./ApiContext";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { ApiProvider } from "./ApiProvider";
+
+export interface RegisterApiProviderOptions {
+  middlewares?: {
+    options: string[];
+    defaultValue?: string;
+  };
+}
 
 export function registerApiProvider(
   plasmic: PlasmicLoader,
   modulePath = "@fullstackhouse/plasmic-utils/dist",
+  options: RegisterApiProviderOptions = {},
 ) {
-  plasmic.registerGlobalContext(ApiContextProvider, {
-    name: "ApiContext",
-    importPath: modulePath + "/code-components/ApiProvider/ApiContext",
-    importName: "ApiContextProvider",
-    props: {
-      clientId: { type: "string" },
-    },
-  });
+  const containsMyevalsNodejsBackendMiddleware = (
+    options.middlewares?.options ?? []
+  ).includes("myevals-nodejs-backend");
 
   plasmic.registerComponent(ApiProvider, {
     name: "ApiProvider",
@@ -28,14 +30,27 @@ export function registerApiProvider(
       },
       path: { type: "string", defaultValue: "/caw/departments" },
       query: { type: "object" },
-      // TODO make it myevals-agnostic - allow to define arbitrary backend targets (along with their connection options)?
-      useNodejsApi: {
-        type: "boolean",
-        defaultValue: true,
-        advanced: true,
-        description:
-          "If enabled, request will be sent to the myevals-nodejs-backend API.",
-      },
+      ...(containsMyevalsNodejsBackendMiddleware
+        ? {
+            useNodejsApi: {
+              type: "boolean",
+              defaultValue: true,
+              advanced: true,
+              description:
+                "If enabled, request will be sent to the myevals-nodejs-backend API. DEPRECATED: use middleware prop instead.",
+            },
+          }
+        : {}),
+      ...(options.middlewares
+        ? {
+            middleware: {
+              type: "choice",
+              options: options.middlewares.options,
+              defaultValue: options.middlewares.defaultValue,
+              advanced: true,
+            },
+          }
+        : {}),
       cacheKey: {
         type: "string",
         displayName: "Cache Key",

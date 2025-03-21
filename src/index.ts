@@ -1,5 +1,12 @@
+import { ApiContext } from "./code-components/ApiProvider/ApiContext";
+import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
+import { jsonApiMiddleware } from "./code-components/ApiProvider/middlewares/json";
+import {
+  ApiMiddleware,
+  ApiRequest,
+} from "./code-components/ApiProvider/middlewares/middleware";
 import {
   dispatchUnauthorizedEvent,
   subscribeToUnauthorizedEvents,
@@ -42,7 +49,12 @@ import { SentryContext } from "./sentry/SentryContext";
 import { toastContextProviderConfig } from "./ToastContextProvider/config";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
+export type { ApiRequest, ApiMiddleware };
+
 export {
+  jsonApiMiddleware,
+  ApiContext,
+  registerApiContextProvider,
   registerApiMutationProvider,
   registerApiProvider,
   registerCombobox,

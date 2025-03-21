@@ -1,8 +1,8 @@
-import { FetchApiOptions } from "./fetchApi";
+import { ApiRequest } from "./middlewares/middleware";
 
 export type ResponseTransform<TData = any, TFinalData = TData> = (
   data: TData,
-  options: FetchApiOptions,
+  request: ApiRequest,
 ) => TFinalData;
 
 export function defaultResponseTransform<TData>(data: TData) {
