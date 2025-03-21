@@ -7,7 +7,7 @@ import {
 } from "@plasmicapp/react-web/lib/host";
 import { useMemo } from "react";
 
-interface MemoDataProviderProps extends DataProviderProps {
+export interface MemoDataProviderProps extends DataProviderProps {
   deps?: unknown[];
 }
 

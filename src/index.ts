@@ -1,6 +1,8 @@
 import { ApiContext } from "./code-components/ApiProvider/ApiContext";
 import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
+import { ApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
+import { ApiProvider } from "./code-components/ApiProvider/ApiProvider";
 import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import { jsonApiMiddleware } from "./code-components/ApiProvider/middlewares/json";
 import {
@@ -49,11 +51,15 @@ import { SentryContext } from "./sentry/SentryContext";
 import { toastContextProviderConfig } from "./ToastContextProvider/config";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
+export * from "./code-components/ApiProvider/ApiContext";
+export * from "./code-components/ApiProvider/ApiProvider";
+export * from "./code-components/ApiProvider/ApiMutationProvider";
+export * from "./code-components/MemoDataProvider/MemoDataProvider";
+
 export type { ApiRequest, ApiMiddleware };
 
 export {
   jsonApiMiddleware,
-  ApiContext,
   registerApiContextProvider,
   registerApiMutationProvider,
   registerApiProvider,
@@ -95,5 +101,4 @@ export {
   subscribeToUnauthorizedEvents,
   dispatchUnauthorizedEvent,
   unauthorizedEventName,
-  MemoDataProvider,
 };
