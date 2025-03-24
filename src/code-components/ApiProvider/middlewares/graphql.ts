@@ -3,12 +3,22 @@ import { ApiMiddleware, ApiRequest } from "./middleware";
 
 class ApiError extends Error {}
 
-export const jsonApiMiddleware: ApiMiddleware = {
-  name: "json",
+export const graphqlApiMiddleware: ApiMiddleware = {
+  name: "graphql",
   async fetch(request) {
     let response: Response | null = null;
+
     try {
       response = await fetchResponse(request);
+      const body = await parseResponseBody(response);
+      if (body == null || typeof body !== "object") {
+        throw new ApiError(`invalid response body`);
+      }
+
+      const error = findGraphqlErrorMessage(body);
+      if (error) {
+        throw new ApiError(error);
+      }
 
       if (!response.ok) {
         throw new ApiError(
@@ -16,7 +26,11 @@ export const jsonApiMiddleware: ApiMiddleware = {
         );
       }
 
-      return await parseResponseBody(response);
+      if (!("data" in body)) {
+        throw new ApiError("response body is missing `data` property");
+      }
+
+      return body.data;
     } catch (error) {
       if (error instanceof ApiError) {
         throw new FetchError(request.path, response, error);
@@ -28,16 +42,20 @@ export const jsonApiMiddleware: ApiMiddleware = {
 };
 
 async function fetchResponse(request: ApiRequest): Promise<Response> {
-  const url = addQueryToPath(request.path, request.query);
+  if (request.body) {
+    throw new Error(
+      `\`request.body\` is not accepted in GraphQL requests. Use \`request.query\` instead`,
+    );
+  }
 
   try {
-    return await fetch(url, {
+    return await fetch(request.path, {
       headers: {
-        ...(request.body ? { "Content-Type": "application/json" } : undefined),
+        "Content-Type": "application/json",
         ...request.headers,
       },
       method: request.method,
-      body: request.body ? JSON.stringify(request.body) : undefined,
+      body: JSON.stringify(request.query),
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -56,10 +74,17 @@ async function parseResponseBody(response: Response): Promise<unknown> {
   }
 }
 
-function addQueryToPath(path: string, query?: Record<string, string>): string {
-  return query
-    ? `${path}?${new URLSearchParams(
-        JSON.parse(JSON.stringify(query)),
-      ).toString()}`
-    : path;
+function findGraphqlErrorMessage(body: object): string | undefined {
+  if (
+    !("errors" in body && Array.isArray(body.errors) && body.errors.length > 0)
+  ) {
+    return;
+  }
+
+  const error = body.errors[0];
+  if ("message" in error && typeof error.message === "string") {
+    return error.message;
+  }
+
+  return JSON.stringify(error);
 }
