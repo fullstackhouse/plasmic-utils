@@ -146,19 +146,19 @@ export function ApiProvider(props: ApiProviderProps) {
 
 function fillProps(props: ApiProviderProps) {
   return {
-    method: "GET",
-    cacheKey: [props.path, props.query],
-    enabled: true,
-    name: "response",
-    editorMode: EditorMode.interactive,
-    refetchIfStale: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    retryOnError: true,
-    alertOnError: true,
-    suspense: false,
-    transformResponse: defaultResponseTransform,
     ...props,
+    method: props.method ?? "GET",
+    cacheKey: props.cacheKey ?? [props.path, props.query],
+    enabled: props.enabled ?? true,
+    name: props.name ?? "response",
+    editorMode: props.editorMode ?? EditorMode.interactive,
+    refetchIfStale: props.refetchIfStale ?? true,
+    refetchOnWindowFocus: props.refetchOnWindowFocus ?? false,
+    refetchOnReconnect: props.refetchOnReconnect ?? false,
+    retryOnError: props.retryOnError ?? true,
+    alertOnError: props.alertOnError ?? true,
+    suspense: props.suspense ?? false,
+    transformResponse: props.transformResponse ?? defaultResponseTransform,
   };
 }
 
