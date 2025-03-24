@@ -1,9 +1,10 @@
 import { registerApiContextProvider } from "./code-components/ApiProvider/ApiContext.register";
 import { registerApiMutationProvider } from "./code-components/ApiProvider/ApiMutationProvider.register";
+import { registerApiProvider } from "./code-components/ApiProvider/ApiProvider.register";
 import {
-  registerApiProvider,
-  RegisterApiProviderOptions,
-} from "./code-components/ApiProvider/ApiProvider.register";
+  registerGraphqlApiProvider,
+  RegisterGraphqlApiProviderOptions,
+} from "./code-components/ApiProvider/GraphqlApiProvider/GraphqlApiProvider.register";
 import { registerCombobox } from "./code-components/Combobox/Combobox.register";
 import { registerDebounceProvider } from "./code-components/DebounceProvider/DebounceProvider.register";
 import { registerDeferredValue } from "./code-components/DeferredValue/DeferredValue.register";
@@ -68,6 +69,7 @@ export function registerPlasmicUtils(
         options: string[];
         defaultValue?: string;
       };
+      graphql?: RegisterGraphqlApiProviderOptions;
     };
   } = {},
 ) {
@@ -76,6 +78,7 @@ export function registerPlasmicUtils(
   }
   registerApiMutationProvider(plasmic, modulePath, api);
   registerApiProvider(plasmic, modulePath, api);
+  registerGraphqlApiProvider(plasmic, modulePath, api?.graphql);
   registerCombobox(plasmic, modulePath);
   registerDayjs(plasmic, modulePath);
   registerDebounceProvider(plasmic, modulePath);
