@@ -115,6 +115,32 @@ export function registerRichTextArea(
           },
         ],
       },
+      onBlur: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "range",
+            type: "object",
+          },
+          {
+            name: "source",
+            type: "string",
+          },
+        ],
+      },
+      onFocus: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "range",
+            type: "object",
+          },
+          {
+            name: "source",
+            type: "string",
+          },
+        ],
+      },
       placeholder: {
         type: "string",
       },

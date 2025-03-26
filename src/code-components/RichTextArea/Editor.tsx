@@ -11,6 +11,8 @@ interface EditorProps {
   toolbar?: ToolbarConfigs;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
+  onBlur?: (range: Range, source: EmitterSource) => void;
+  onFocus?: (range: Range, source: EmitterSource) => void;
   placeholder?: string;
   readOnly?: boolean;
 }
@@ -22,6 +24,8 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       toolbar,
       onTextChange,
       onSelectionChange,
+      onBlur,
+      onFocus,
       placeholder,
       readOnly,
     },
@@ -31,6 +35,8 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+    const onBlurRef = useRef(onBlur);
+    const onFocusRef = useRef(onFocus);
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
@@ -85,6 +91,12 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
         Quill.events.SELECTION_CHANGE,
         (range: Range, _: Range, source: EmitterSource) => {
           onSelectionChangeRef.current?.(range, source);
+
+          if (!range) {
+            onBlurRef.current?.(range, source);
+          } else {
+            onFocusRef.current?.(range, source);
+          }
         },
       );
 

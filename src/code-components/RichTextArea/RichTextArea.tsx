@@ -13,6 +13,8 @@ interface RichTextAreaProps {
   customToolbar?: ToolbarConfigs;
   onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
+  onBlur?: (range: Range | null, source: string) => void;
+  onFocus?: (range: Range | null, source: string) => void;
   placeholder?: string;
   readOnly: boolean;
 }
@@ -23,6 +25,8 @@ export function RichTextArea({
   customToolbar,
   onSelectionChange,
   onChange,
+  onBlur,
+  onFocus,
   placeholder,
   readOnly,
 }: RichTextAreaProps) {
@@ -48,6 +52,8 @@ export function RichTextArea({
           onSelectionChange?.(range, source)
         }
         onTextChange={(content, source) => onChange?.(content, source)}
+        onBlur={(range, source) => onBlur?.(range, source)}
+        onFocus={(range, source) => onFocus?.(range, source)}
       />
     </div>
   );
