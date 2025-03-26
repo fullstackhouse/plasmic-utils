@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Editor } from './Editor';
+import Delta from "quill-delta";
 
 export function RichTextArea() {
   const [range, setRange] = useState();
@@ -13,6 +14,14 @@ export function RichTextArea() {
       <Editor
         ref={quillRef}
         readOnly={readOnly}
+        defaultValue={new Delta()
+            .insert("Hello")
+            .insert("\n", { header: 1 })
+            .insert("Some ")
+            .insert("initial", { bold: true })
+            .insert(" ")
+            .insert("content", { underline: true })
+            .insert("\n")}
         onSelectionChange={setRange}
         onTextChange={setLastChange}
       />
