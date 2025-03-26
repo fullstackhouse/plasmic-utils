@@ -14,6 +14,51 @@ export function registerRichTextArea(
         displayName: "HTML Value",
         description: "Contents of the editor"
       },
+      toolbar: {
+        type: 'object',
+        fields: {
+          textStyle: {
+            type: 'choice',
+            options: ["bold", "italic", "underline", "strikethrough"],
+            multiSelect: true,
+          },
+          colors: {
+            type: "choice",
+            options: ["text color", "text background"],
+            multiSelect: true,
+          },
+          superSubScript: {
+            type: "boolean",
+            defaultValue: true,
+            displayName: "Super/SubScript"
+          },
+          fontFamily: {
+            type: "boolean",
+            defaultValue: true,
+          },
+          heading: {
+            type: "choice",
+            options: ["Heading 1", "Heading 2", "Heading 3", "Heading 4", "Heading 5", "Heading 6", "Body"],
+            multiSelect: true,
+          },
+          fontSizes: {
+            type: "choice",
+            options: ["small", "medium", "large", "huge"],
+            multiSelect: true,
+          },
+          formatting: {
+            type: "choice",
+            options: ["alignment", "list", "indentation", "text direction", "clear formatting"],
+            multiSelect: true,
+          },
+          inputTypes: {
+            type: "choice",
+            options: ["link", "blockquote", "image", "video", "code-block", "formula"],
+            multiSelect: true,
+          }
+        },
+        description: "Customize the toolbar to show/hide controls",
+      },
       onChange: {
         type: "eventHandler",
         argTypes: [

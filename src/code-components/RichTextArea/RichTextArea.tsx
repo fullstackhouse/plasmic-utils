@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Editor } from './Editor';
 import { Range } from 'quill/core';
+import { formatDefaultToolbarConfigs, Toolbar } from './formatDefaultToolbarConfigs';
 
 interface RichTextAreaProps {
   htmlValue: string;
+  toolbar: Toolbar;
   onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
   placeholder: string;
@@ -12,6 +14,7 @@ interface RichTextAreaProps {
 
 export function RichTextArea({
   htmlValue,
+  toolbar,
   onSelectionChange,
   onChange,
   placeholder,
@@ -22,10 +25,13 @@ export function RichTextArea({
 
   const quillRef = useRef();
 
+  const formattedToolbar = useMemo(() => formatDefaultToolbarConfigs(toolbar), [JSON.stringify(toolbar)]);
+
   return (
     <div>
       <Editor
         ref={quillRef}
+        toolbar={formattedToolbar}
         readOnly={readOnly}
         defaultValue={htmlValue}
         placeholder={placeholder}

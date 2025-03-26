@@ -1,11 +1,13 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import 'quill/dist/quill.snow.css'
 import { Delta as DeltaType, EmitterSource, Range } from 'quill/core';
+import { ToolbarConfigs } from './formatDefaultToolbarConfigs';
 
 const Quill = typeof window === 'object' ? require('quill').default : () => false;
 
 interface EditorProps {
   defaultValue?: DeltaType | string;
+  toolbar?: ToolbarConfigs;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (
     range: Range,
@@ -16,7 +18,7 @@ interface EditorProps {
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
-  ({ readOnly, defaultValue, onTextChange, onSelectionChange, placeholder }, ref) => {
+  ({ defaultValue, toolbar, onTextChange, onSelectionChange, placeholder, readOnly }, ref) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -42,6 +44,9 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       );
       const quill = new Quill(editorContainer, {
         theme: 'snow',
+        modules: {
+          toolbar,
+        },
         readOnly,
         placeholder,
       });
