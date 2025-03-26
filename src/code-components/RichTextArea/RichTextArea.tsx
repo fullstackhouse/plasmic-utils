@@ -47,21 +47,19 @@ export function RichTextArea({
     : formattedToolbar;
 
   return (
-    <div>
-      <Editor
-        ref={quillRef}
-        toolbar={currentToolbarConfigs}
-        readOnly={readOnly}
-        defaultValue={htmlValue}
-        placeholder={placeholder}
+    <Editor
+      ref={quillRef}
+      toolbar={currentToolbarConfigs}
+      readOnly={readOnly}
+      defaultValue={htmlValue}
+      placeholder={placeholder}
       onSelectionChange={(range, source) => onSelectionChange?.(range, source)}
-        onTextChange={(content, source) => onChange?.(content, source)}
-        onBlur={(range, source) => onBlur?.(range, source)}
-        onFocus={(range, source) => onFocus?.(range, source)}
-        onKeyDown={(event) => onKeyDown?.(event)}
-        onKeyUp={(event) => onKeyUp?.(event)}
+      onTextChange={(content, source) => onChange?.(content, source)}
+      onBlur={(range, source) => onBlur?.(range, source)}
+      onFocus={(range, source) => onFocus?.(range, source)}
+      onKeyDown={(event) => onKeyDown?.(event)}
+      onKeyUp={(event) => onKeyUp?.(event)}
       wrapperClassName={wrapperClassName}
-      />
-    </div>
+    />
   );
 }
