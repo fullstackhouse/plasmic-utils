@@ -3,21 +3,20 @@ import { Editor } from './Editor';
 import { Range } from 'quill/core';
 
 interface RichTextAreaProps {
-  disabled: boolean;
   htmlValue: string;
   onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
+  readOnly: boolean;
 }
 
 export function RichTextArea({
-  disabled,
+  readOnly,
   htmlValue,
   onSelectionChange,
   onChange,
 }: RichTextAreaProps) {
   const [range, setRange] = useState<Range | null>(null);
   const [lastChange, setLastChange] = useState<string>();
-  const [readOnly, setReadOnly] = useState(false);
 
   const quillRef = useRef();
 
@@ -25,7 +24,7 @@ export function RichTextArea({
     <div>
       <Editor
         ref={quillRef}
-        readOnly={disabled}
+        readOnly={readOnly}
         defaultValue={htmlValue}
         onSelectionChange={(range, source) => {
           setRange(range);
@@ -37,14 +36,6 @@ export function RichTextArea({
         }}
       />
       <div>
-        <label>
-          Read Only:{' '}
-          <input
-            type="checkbox"
-            value={readOnly}
-            onChange={(e) => setReadOnly(e.target.checked)}
-          />
-        </label>
         <button
           className="controls-right"
           type="button"

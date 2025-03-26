@@ -5,13 +5,13 @@ import { Delta as DeltaType, EmitterSource, Range } from 'quill/core';
 const Quill = typeof window === 'object' ? require('quill').default : () => false;
 
 interface EditorProps {
-  readOnly?: boolean;
   defaultValue?: DeltaType | string;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (
     range: Range,
     source: EmitterSource,
   ) => void;
+  readOnly?: boolean;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
@@ -41,6 +41,7 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       );
       const quill = new Quill(editorContainer, {
         theme: 'snow',
+        readOnly,
       });
 
       if (typeof ref === "function") {

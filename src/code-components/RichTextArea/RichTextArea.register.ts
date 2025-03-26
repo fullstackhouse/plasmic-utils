@@ -39,7 +39,13 @@ export function registerRichTextArea(
             type: "string"
           },
         ]
-      }
+      },
+      readOnly: {
+        type: "boolean",
+        defaultValue: false,
+        displayName: "Read only",
+        description: "Prevents user from changing the contents of the editor"
+      },
     },
   });
 }
