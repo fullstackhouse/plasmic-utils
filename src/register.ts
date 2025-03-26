@@ -26,6 +26,7 @@ import { registerRawChildren } from "./code-components/RawChildren/Children.regi
 import { registerRawList } from "./code-components/RawList/RawList.register";
 import { registerRawNull } from "./code-components/RawNull/RawNull.register";
 import { registerRawTable } from "./code-components/RawTable/RawTable.register";
+import { registerRichTextArea } from "./code-components/RichTextArea/RichTextArea.register";
 import { registerRouteChangeBlocker } from "./code-components/Router/RouteChangeBlocker.register";
 import { registerRouteQuerySynchronizer } from "./code-components/Router/RouteQuerySynchronizer.register";
 import { registerRouter } from "./code-components/Router/Router.register";
@@ -96,6 +97,7 @@ export function registerPlasmicUtils(
   registerRawList(plasmic, modulePath);
   registerRawNull(plasmic, modulePath);
   registerRawTable(plasmic, modulePath);
+  registerRichTextArea(plasmic, modulePath);
   if (router) {
     registerRouter(plasmic, modulePath);
     registerRouteChangeBlocker(plasmic, modulePath);
