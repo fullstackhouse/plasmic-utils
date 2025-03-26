@@ -20,6 +20,9 @@ interface RichTextAreaProps {
   placeholder?: string;
   readOnly: boolean;
   wrapperClassName: string;
+  ariaLabel?: string;
+  ariaLabeledby?: string;
+  role?: string;
 }
 
 export function RichTextArea({
@@ -35,6 +38,9 @@ export function RichTextArea({
   placeholder,
   readOnly,
   wrapperClassName,
+  ariaLabel,
+  ariaLabeledby,
+  role,
 }: RichTextAreaProps) {
   const quillRef = useRef();
 
@@ -60,6 +66,9 @@ export function RichTextArea({
       onKeyDown={(event) => onKeyDown?.(event)}
       onKeyUp={(event) => onKeyUp?.(event)}
       wrapperClassName={wrapperClassName}
+      ariaLabel={ariaLabel}
+      ariaLabeledby={ariaLabeledby}
+      role={role}
     />
   );
 }

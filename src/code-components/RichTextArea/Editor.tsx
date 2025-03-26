@@ -18,6 +18,9 @@ interface EditorProps {
   placeholder?: string;
   readOnly?: boolean;
   wrapperClassName?: string;
+  ariaLabel?: string;
+  ariaLabeledby?: string;
+  role?: string;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
@@ -34,6 +37,9 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       placeholder,
       readOnly,
       wrapperClassName,
+      ariaLabel,
+      ariaLabeledby,
+      role,
     },
     ref,
   ) => {
@@ -128,7 +134,16 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       };
     }, [ref]);
 
-    return <div className={wrapperClassName} ref={containerRef}></div>;
+    return (
+      <div
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabeledby}
+        role={role}
+        aria-readonly={readOnly}
+        className={wrapperClassName}
+        ref={containerRef}
+      ></div>
+    );
   },
 );
 

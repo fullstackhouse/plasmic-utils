@@ -170,6 +170,16 @@ export function registerRichTextArea(
       wrapperClassName: {
         type: "class",
       },
+      ariaLabel: {
+        type: "string",
+      },
+      ariaLabeledby: {
+        type: "string",
+      },
+      role: {
+        type: "string",
+        defaultValue: "textbox",
+      },
     },
   });
 }
