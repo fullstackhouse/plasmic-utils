@@ -10,7 +10,6 @@ interface EditorProps {
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (
     range: Range,
-    oldRange: Range,
     source: EmitterSource,
   ) => void;
 }
@@ -66,8 +65,8 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
         },
       );
 
-      quill.on(Quill.events.SELECTION_CHANGE, (range: Range, oldRange: Range, source: EmitterSource) => {
-        onSelectionChangeRef.current?.(range, oldRange, source);
+      quill.on(Quill.events.SELECTION_CHANGE, (range: Range, _: Range, source: EmitterSource) => {
+        onSelectionChangeRef.current?.(range, source);
       });
 
       return () => {

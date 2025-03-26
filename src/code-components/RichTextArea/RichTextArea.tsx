@@ -5,7 +5,7 @@ import { Range } from 'quill/core';
 interface RichTextAreaProps {
   disabled: boolean;
   defaultValue: string;
-  onSelectionChange?: (range: Range | null) => void;
+  onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
 }
 
@@ -27,9 +27,9 @@ export function RichTextArea({
         ref={quillRef}
         readOnly={disabled}
         defaultValue={defaultValue}
-        onSelectionChange={(r) => {
-          setRange(r);
-          onSelectionChange?.(r);
+        onSelectionChange={(range, source) => {
+          setRange(range);
+          onSelectionChange?.(range, source);
         }}
         onTextChange={(content, source) => {
           setLastChange(content);

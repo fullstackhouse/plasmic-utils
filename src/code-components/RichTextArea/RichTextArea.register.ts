@@ -22,6 +22,19 @@ export function registerRichTextArea(
           },
         ],
       },
+      onSelectionChange: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "range",
+            type: "object"
+          },
+          {
+            name: "source",
+            type: "string"
+          },
+        ]
+      }
     },
   });
 }
