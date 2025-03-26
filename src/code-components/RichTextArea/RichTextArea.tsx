@@ -6,14 +6,16 @@ interface RichTextAreaProps {
   htmlValue: string;
   onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
+  placeholder: string;
   readOnly: boolean;
 }
 
 export function RichTextArea({
-  readOnly,
   htmlValue,
   onSelectionChange,
   onChange,
+  placeholder,
+  readOnly,
 }: RichTextAreaProps) {
   const [range, setRange] = useState<Range | null>(null);
   const [lastChange, setLastChange] = useState<string>();
@@ -26,6 +28,7 @@ export function RichTextArea({
         ref={quillRef}
         readOnly={readOnly}
         defaultValue={htmlValue}
+        placeholder={placeholder}
         onSelectionChange={(range, source) => {
           setRange(range);
           onSelectionChange?.(range, source);

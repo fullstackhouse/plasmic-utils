@@ -40,6 +40,10 @@ export function registerRichTextArea(
           },
         ]
       },
+      placeholder: {
+        type: "string",
+        displayName: "Placeholder",
+      },
       readOnly: {
         type: "boolean",
         defaultValue: false,

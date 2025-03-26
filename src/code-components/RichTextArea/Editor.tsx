@@ -11,11 +11,12 @@ interface EditorProps {
     range: Range,
     source: EmitterSource,
   ) => void;
+  placeholder?: string;
   readOnly?: boolean;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
-  ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
+  ({ readOnly, defaultValue, onTextChange, onSelectionChange, placeholder }, ref) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -42,6 +43,7 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       const quill = new Quill(editorContainer, {
         theme: 'snow',
         readOnly,
+        placeholder,
       });
 
       if (typeof ref === "function") {
