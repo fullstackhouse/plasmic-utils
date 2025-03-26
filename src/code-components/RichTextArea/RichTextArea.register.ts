@@ -58,6 +58,13 @@ export function registerRichTextArea(
           }
         },
         description: "Customize the toolbar to show/hide controls",
+        helpText: "Custom toolbar need to be null for it to work."
+      },
+      customToolbar: {
+        type: "object",
+        description: "Custom toolbar configuration for Quill editor. Overrides the existing toolbar.",
+        helpText: "Check toolbarOptions here: https://quilljs.com/docs/modules/toolbar",
+        advanced: true,
       },
       onChange: {
         type: "eventHandler",
