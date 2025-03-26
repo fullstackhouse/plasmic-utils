@@ -9,6 +9,19 @@ export function registerRichTextArea(
     name: "RichTextArea",
     importPath: modulePath + "/code-components/RichTextArea/RichTextArea",
     props: {
+      onChange: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "content",
+            type: "string",
+          },
+          {
+            name: "source",
+            type: "string",
+          },
+        ],
+      },
     },
   });
 }

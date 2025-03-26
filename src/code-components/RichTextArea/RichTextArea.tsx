@@ -1,10 +1,22 @@
 import React, { useRef, useState } from 'react';
 import { Editor } from './Editor';
-import Delta from "quill-delta";
+import { Range } from 'quill/core';
 
-export function RichTextArea() {
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState();
+interface RichTextAreaProps {
+  disabled: boolean;
+  defaultValue: string;
+  onSelectionChange?: (range: Range | null) => void;
+  onChange?: (content: string, source: string) => void;
+}
+
+export function RichTextArea({
+  disabled,
+  defaultValue,
+  onSelectionChange,
+  onChange,
+}: RichTextAreaProps) {
+  const [range, setRange] = useState<Range | null>(null);
+  const [lastChange, setLastChange] = useState<string>();
   const [readOnly, setReadOnly] = useState(false);
 
   const quillRef = useRef();
@@ -13,17 +25,16 @@ export function RichTextArea() {
     <div>
       <Editor
         ref={quillRef}
-        readOnly={readOnly}
-        defaultValue={new Delta()
-            .insert("Hello")
-            .insert("\n", { header: 1 })
-            .insert("Some ")
-            .insert("initial", { bold: true })
-            .insert(" ")
-            .insert("content", { underline: true })
-            .insert("\n")}
-        onSelectionChange={setRange}
-        onTextChange={setLastChange}
+        readOnly={disabled}
+        defaultValue={defaultValue}
+        onSelectionChange={(r) => {
+          setRange(r);
+          onSelectionChange?.(r);
+        }}
+        onTextChange={(content, source) => {
+          setLastChange(content);
+          onChange?.(content, source);
+        }}
       />
       <div>
         <label>

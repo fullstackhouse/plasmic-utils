@@ -1,15 +1,18 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import 'quill/dist/quill.snow.css'
-import { Delta as DeltaType } from "quill"
-import { EmitterSource, Range } from 'quill';
+import { Delta as DeltaType, EmitterSource, Range } from 'quill/core';
 
 const Quill = typeof window === 'object' ? require('quill').default : () => false;
 
 interface EditorProps {
   readOnly?: boolean;
   defaultValue?: DeltaType | string;
-  onTextChange?: (delta: DeltaType, oldContent: DeltaType, source: EmitterSource) => void;
-  onSelectionChange?: (range: Range, oldRange: Range, source: EmitterSource) => void;
+  onTextChange?: (content: string, source: EmitterSource) => void;
+  onSelectionChange?: (
+    range: Range,
+    oldRange: Range,
+    source: EmitterSource,
+  ) => void;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
@@ -48,12 +51,20 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       }
 
       if (defaultValueRef.current) {
-        quill.setContents(defaultValueRef.current);
+        if (typeof defaultValueRef.current === "string") {
+          quill.clipboard.dangerouslyPasteHTML(defaultValueRef.current);
+        } else {
+          quill.setContents(defaultValueRef.current);
+        }
       }
 
-      quill.on(Quill.events.TEXT_CHANGE, (delta: DeltaType, oldContent: DeltaType, source: EmitterSource) => {
-        onTextChangeRef.current?.(delta, oldContent, source);
-      });
+      quill.on(
+        Quill.events.TEXT_CHANGE,
+        (_: DeltaType, __: DeltaType, source: EmitterSource) => {
+          const content = quill.root.innerHTML;
+          onTextChangeRef.current?.(content, source);
+        },
+      );
 
       quill.on(Quill.events.SELECTION_CHANGE, (range: Range, oldRange: Range, source: EmitterSource) => {
         onSelectionChangeRef.current?.(range, oldRange, source);
