@@ -19,6 +19,7 @@ interface RichTextAreaProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly: boolean;
+  wrapperClassName: string;
 }
 
 export function RichTextArea({
@@ -33,6 +34,7 @@ export function RichTextArea({
   onKeyUp,
   placeholder,
   readOnly,
+  wrapperClassName,
 }: RichTextAreaProps) {
   const quillRef = useRef();
 
@@ -52,14 +54,13 @@ export function RichTextArea({
         readOnly={readOnly}
         defaultValue={htmlValue}
         placeholder={placeholder}
-        onSelectionChange={(range, source) =>
-          onSelectionChange?.(range, source)
-        }
+      onSelectionChange={(range, source) => onSelectionChange?.(range, source)}
         onTextChange={(content, source) => onChange?.(content, source)}
         onBlur={(range, source) => onBlur?.(range, source)}
         onFocus={(range, source) => onFocus?.(range, source)}
         onKeyDown={(event) => onKeyDown?.(event)}
         onKeyUp={(event) => onKeyUp?.(event)}
+      wrapperClassName={wrapperClassName}
       />
     </div>
   );

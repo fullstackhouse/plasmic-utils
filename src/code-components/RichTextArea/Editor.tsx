@@ -17,6 +17,7 @@ interface EditorProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly?: boolean;
+  wrapperClassName?: string;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
@@ -32,6 +33,7 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       onKeyUp,
       placeholder,
       readOnly,
+      wrapperClassName,
     },
     ref,
   ) => {
@@ -126,7 +128,7 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       };
     }, [ref]);
 
-    return <div ref={containerRef}></div>;
+    return <div className={wrapperClassName} ref={containerRef}></div>;
   },
 );
 
