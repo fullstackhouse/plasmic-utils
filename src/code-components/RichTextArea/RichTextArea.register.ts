@@ -12,13 +12,13 @@ export function registerRichTextArea(
       htmlValue: {
         type: "string",
         displayName: "HTML Value",
-        description: "Contents of the editor"
+        description: "Contents of the editor",
       },
       toolbar: {
-        type: 'object',
+        type: "object",
         fields: {
           textStyle: {
-            type: 'choice',
+            type: "choice",
             options: ["bold", "italic", "underline", "strikethrough"],
             multiSelect: true,
           },
@@ -30,7 +30,7 @@ export function registerRichTextArea(
           superSubScript: {
             type: "boolean",
             defaultValue: true,
-            displayName: "Super/SubScript"
+            displayName: "Super/SubScript",
           },
           fontFamily: {
             type: "boolean",
@@ -38,7 +38,15 @@ export function registerRichTextArea(
           },
           heading: {
             type: "choice",
-            options: ["Heading 1", "Heading 2", "Heading 3", "Heading 4", "Heading 5", "Heading 6", "Body"],
+            options: [
+              "Heading 1",
+              "Heading 2",
+              "Heading 3",
+              "Heading 4",
+              "Heading 5",
+              "Heading 6",
+              "Body",
+            ],
             multiSelect: true,
           },
           fontSizes: {
@@ -48,22 +56,37 @@ export function registerRichTextArea(
           },
           formatting: {
             type: "choice",
-            options: ["alignment", "list", "indentation", "text direction", "clear formatting"],
+            options: [
+              "alignment",
+              "list",
+              "indentation",
+              "text direction",
+              "clear formatting",
+            ],
             multiSelect: true,
           },
           inputTypes: {
             type: "choice",
-            options: ["link", "blockquote", "image", "video", "code-block", "formula"],
+            options: [
+              "link",
+              "blockquote",
+              "image",
+              "video",
+              "code-block",
+              "formula",
+            ],
             multiSelect: true,
-          }
+          },
         },
         description: "Customize the toolbar to show/hide controls",
-        helpText: "Custom toolbar need to be null for it to work."
+        helpText: "Custom toolbar need to be null for it to work.",
       },
       customToolbar: {
         type: "object",
-        description: "Custom toolbar configuration for Quill editor. Overrides the existing toolbar.",
-        helpText: "Check toolbarOptions here: https://quilljs.com/docs/modules/toolbar",
+        description:
+          "Custom toolbar configuration for Quill editor. Overrides the existing toolbar.",
+        helpText:
+          "Check toolbarOptions here: https://quilljs.com/docs/modules/toolbar",
         advanced: true,
       },
       onChange: {
@@ -84,13 +107,13 @@ export function registerRichTextArea(
         argTypes: [
           {
             name: "range",
-            type: "object"
+            type: "object",
           },
           {
             name: "source",
-            type: "string"
+            type: "string",
           },
-        ]
+        ],
       },
       placeholder: {
         type: "string",
@@ -98,7 +121,7 @@ export function registerRichTextArea(
       readOnly: {
         type: "boolean",
         defaultValue: false,
-        description: "Prevents user from changing the contents of the editor"
+        description: "Prevents user from changing the contents of the editor",
       },
     },
   });

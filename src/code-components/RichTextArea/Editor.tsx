@@ -1,24 +1,32 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
-import 'quill/dist/quill.snow.css'
-import { Delta as DeltaType, EmitterSource, Range } from 'quill/core';
-import { ToolbarConfigs } from './formatDefaultToolbarConfigs';
+import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
+import "quill/dist/quill.snow.css";
+import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
+import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 
-const Quill = typeof window === 'object' ? require('quill').default : () => false;
+const Quill =
+  typeof window === "object" ? require("quill").default : () => false;
 
 interface EditorProps {
   defaultValue?: DeltaType | string;
   toolbar?: ToolbarConfigs;
   onTextChange?: (content: string, source: EmitterSource) => void;
-  onSelectionChange?: (
-    range: Range,
-    source: EmitterSource,
-  ) => void;
+  onSelectionChange?: (range: Range, source: EmitterSource) => void;
   placeholder?: string;
   readOnly?: boolean;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
-  ({ defaultValue, toolbar, onTextChange, onSelectionChange, placeholder, readOnly }, ref) => {
+  (
+    {
+      defaultValue,
+      toolbar,
+      onTextChange,
+      onSelectionChange,
+      placeholder,
+      readOnly,
+    },
+    ref,
+  ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -40,10 +48,10 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       if (!container) return;
 
       const editorContainer = container.appendChild(
-        container.ownerDocument.createElement('div'),
+        container.ownerDocument.createElement("div"),
       );
       const quill = new Quill(editorContainer, {
-        theme: 'snow',
+        theme: "snow",
         modules: {
           toolbar,
         },
@@ -73,9 +81,12 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
         },
       );
 
-      quill.on(Quill.events.SELECTION_CHANGE, (range: Range, _: Range, source: EmitterSource) => {
-        onSelectionChangeRef.current?.(range, source);
-      });
+      quill.on(
+        Quill.events.SELECTION_CHANGE,
+        (range: Range, _: Range, source: EmitterSource) => {
+          onSelectionChangeRef.current?.(range, source);
+        },
+      );
 
       return () => {
         if (typeof ref === "function") {
@@ -91,4 +102,4 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
   },
 );
 
-Editor.displayName = 'Editor';
+Editor.displayName = "Editor";
