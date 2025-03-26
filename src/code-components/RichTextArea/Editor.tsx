@@ -13,6 +13,8 @@ interface EditorProps {
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
   onBlur?: (range: Range, source: EmitterSource) => void;
   onFocus?: (range: Range, source: EmitterSource) => void;
+  onKeyDown?: (event: KeyboardEvent) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly?: boolean;
 }
@@ -26,6 +28,8 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
       onSelectionChange,
       onBlur,
       onFocus,
+      onKeyDown,
+      onKeyUp,
       placeholder,
       readOnly,
     },
@@ -37,6 +41,8 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
     const onSelectionChangeRef = useRef(onSelectionChange);
     const onBlurRef = useRef(onBlur);
     const onFocusRef = useRef(onFocus);
+    const onKeyDownRef = useRef(onKeyDown);
+    const onKeyUpRef = useRef(onKeyUp);
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
@@ -98,6 +104,16 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
             onFocusRef.current?.(range, source);
           }
         },
+      );
+
+      const editorRoot = quill.root;
+
+      editorRoot.addEventListener("keydown", (event: KeyboardEvent) =>
+        onKeyDownRef.current?.(event),
+      );
+
+      editorRoot.addEventListener("keyup", (event: KeyboardEvent) =>
+        onKeyUpRef.current?.(event),
       );
 
       return () => {

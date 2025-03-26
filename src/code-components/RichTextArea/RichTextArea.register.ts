@@ -141,6 +141,24 @@ export function registerRichTextArea(
           },
         ],
       },
+      onKeyDown: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "event",
+            type: "object",
+          },
+        ],
+      },
+      onKeyUp: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "event",
+            type: "object",
+          },
+        ],
+      },
       placeholder: {
         type: "string",
       },

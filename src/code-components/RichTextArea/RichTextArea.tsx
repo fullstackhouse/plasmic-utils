@@ -15,6 +15,8 @@ interface RichTextAreaProps {
   onChange?: (content: string, source: string) => void;
   onBlur?: (range: Range | null, source: string) => void;
   onFocus?: (range: Range | null, source: string) => void;
+  onKeyDown?: (event: KeyboardEvent) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly: boolean;
 }
@@ -27,6 +29,8 @@ export function RichTextArea({
   onChange,
   onBlur,
   onFocus,
+  onKeyDown,
+  onKeyUp,
   placeholder,
   readOnly,
 }: RichTextAreaProps) {
@@ -54,6 +58,8 @@ export function RichTextArea({
         onTextChange={(content, source) => onChange?.(content, source)}
         onBlur={(range, source) => onBlur?.(range, source)}
         onFocus={(range, source) => onFocus?.(range, source)}
+        onKeyDown={(event) => onKeyDown?.(event)}
+        onKeyUp={(event) => onKeyUp?.(event)}
       />
     </div>
   );
