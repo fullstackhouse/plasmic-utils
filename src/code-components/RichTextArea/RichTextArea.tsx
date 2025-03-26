@@ -1,11 +1,11 @@
 import React, { useMemo, useRef } from "react";
-import { Editor } from "./Editor";
-import { Range } from "quill/core";
+import Quill, { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
   Toolbar,
   ToolbarConfigs,
 } from "./formatDefaultToolbarConfigs";
+import dynamic from "next/dynamic";
 
 interface RichTextAreaProps {
   htmlValue?: string;
@@ -42,7 +42,12 @@ export function RichTextArea({
   ariaLabeledby,
   role,
 }: RichTextAreaProps) {
-  const quillRef = useRef();
+  const Editor = useMemo(() => {
+    return dynamic(() => import("./Editor").then((module) => module.Editor), {
+      ssr: false,
+    });
+  }, []);
+  const quillRef = useRef<Quill | null>(null);
 
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),

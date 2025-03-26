@@ -2,9 +2,7 @@ import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
-
-const Quill =
-  typeof window === "object" ? require("quill").default : () => false;
+import Quill from "quill";
 
 interface EditorProps {
   defaultValue?: DeltaType | string;
@@ -23,7 +21,7 @@ interface EditorProps {
   role?: string;
 }
 
-export const Editor = forwardRef<typeof Quill | null, EditorProps>(
+export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
       defaultValue,
