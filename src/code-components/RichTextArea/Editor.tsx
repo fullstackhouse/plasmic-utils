@@ -1,14 +1,15 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import 'quill/dist/quill.snow.css'
-import { Delta } from "quill"
+import { Delta as DeltaType } from "quill"
+import { EmitterSource, Range } from 'quill';
 
 const Quill = typeof window === 'object' ? require('quill').default : () => false;
 
 interface EditorProps {
   readOnly?: boolean;
-  defaultValue?: Delta | string;
-  onTextChange?: (...args: any[]) => void;
-  onSelectionChange?: (...args: any[]) => void;
+  defaultValue?: DeltaType | string;
+  onTextChange?: (delta: DeltaType, oldContent: DeltaType, source: EmitterSource) => void;
+  onSelectionChange?: (range: Range, oldRange: Range, source: EmitterSource) => void;
 }
 
 export const Editor = forwardRef<typeof Quill | null, EditorProps>(
@@ -50,12 +51,12 @@ export const Editor = forwardRef<typeof Quill | null, EditorProps>(
         quill.setContents(defaultValueRef.current);
       }
 
-      quill.on(Quill.events.TEXT_CHANGE, (...args: any[]) => {
-        onTextChangeRef.current?.(...args);
+      quill.on(Quill.events.TEXT_CHANGE, (delta: DeltaType, oldContent: DeltaType, source: EmitterSource) => {
+        onTextChangeRef.current?.(delta, oldContent, source);
       });
 
-      quill.on(Quill.events.SELECTION_CHANGE, (...args: any[]) => {
-        onSelectionChangeRef.current?.(...args);
+      quill.on(Quill.events.SELECTION_CHANGE, (range: Range, oldRange: Range, source: EmitterSource) => {
+        onSelectionChangeRef.current?.(range, oldRange, source);
       });
 
       return () => {
