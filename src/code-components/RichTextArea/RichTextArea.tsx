@@ -4,14 +4,14 @@ import { Range } from 'quill/core';
 
 interface RichTextAreaProps {
   disabled: boolean;
-  defaultValue: string;
+  htmlValue: string;
   onSelectionChange?: (range: Range | null, source: string) => void;
   onChange?: (content: string, source: string) => void;
 }
 
 export function RichTextArea({
   disabled,
-  defaultValue,
+  htmlValue,
   onSelectionChange,
   onChange,
 }: RichTextAreaProps) {
@@ -26,7 +26,7 @@ export function RichTextArea({
       <Editor
         ref={quillRef}
         readOnly={disabled}
-        defaultValue={defaultValue}
+        defaultValue={htmlValue}
         onSelectionChange={(range, source) => {
           setRange(range);
           onSelectionChange?.(range, source);
