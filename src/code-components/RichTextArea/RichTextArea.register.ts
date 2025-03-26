@@ -42,12 +42,10 @@ export function registerRichTextArea(
       },
       placeholder: {
         type: "string",
-        displayName: "Placeholder",
       },
       readOnly: {
         type: "boolean",
         defaultValue: false,
-        displayName: "Read only",
         description: "Prevents user from changing the contents of the editor"
       },
     },
