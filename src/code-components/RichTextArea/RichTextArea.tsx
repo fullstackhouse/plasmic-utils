@@ -1,11 +1,14 @@
-import React, { useMemo, useRef } from "react";
-import Quill, { Range } from "quill/core";
+import { useMemo, Suspense, lazy, ReactNode } from "react";
+import { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
   Toolbar,
   ToolbarConfigs,
 } from "./formatDefaultToolbarConfigs";
-import dynamic from "next/dynamic";
+
+const Editor = lazy(() =>
+  import("./Editor").then((module) => ({ default: module.Editor })),
+);
 
 interface RichTextAreaProps {
   htmlValue?: string;
@@ -22,6 +25,7 @@ interface RichTextAreaProps {
   wrapperClassName: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
+  fallback: ReactNode;
 }
 
 export function RichTextArea({
@@ -39,12 +43,8 @@ export function RichTextArea({
   wrapperClassName,
   ariaLabel,
   ariaLabeledby,
+  fallback,
 }: RichTextAreaProps) {
-  const Editor = useMemo(() => {
-    return dynamic(() => import("./Editor").then((module) => module.Editor), {
-      ssr: false,
-    });
-  }, []);
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
     [JSON.stringify(toolbar)],
@@ -56,20 +56,22 @@ export function RichTextArea({
       : false;
 
   return (
-    <Editor
-      toolbarConfigs={currentToolbarConfigs}
-      readOnly={readOnly}
-      defaultValue={htmlValue}
-      placeholder={placeholder}
-      onSelectionChange={onSelectionChange}
-      onTextChange={onChange}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      onKeyDown={onKeyDown}
-      onKeyUp={onKeyUp}
-      wrapperClassName={wrapperClassName}
-      ariaLabel={ariaLabel}
-      ariaLabeledby={ariaLabeledby}
-    />
+    <Suspense fallback={fallback}>
+      <Editor
+        toolbarConfigs={currentToolbarConfigs}
+        readOnly={readOnly}
+        defaultValue={htmlValue}
+        placeholder={placeholder}
+        onSelectionChange={onSelectionChange}
+        onTextChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        wrapperClassName={wrapperClassName}
+        ariaLabel={ariaLabel}
+        ariaLabeledby={ariaLabeledby}
+      />
+    </Suspense>
   );
 }
