@@ -206,5 +206,13 @@ export function registerRichTextArea(
         type: "string",
       },
     },
+    states: {
+      value: {
+        type: "writable",
+        variableType: "text",
+        valueProp: "htmlValue",
+        onChangeProp: "onChange",
+      },
+    },
   });
 }
