@@ -60,7 +60,7 @@ export function RichTextArea({
       <Editor
         toolbarConfigs={currentToolbarConfigs}
         readOnly={readOnly}
-        defaultValue={htmlValue}
+        htmlValue={htmlValue}
         placeholder={placeholder}
         onSelectionChange={onSelectionChange}
         onTextChange={onChange}

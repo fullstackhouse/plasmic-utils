@@ -6,7 +6,7 @@ import Quill from "quill";
 import Toolbar from "quill/modules/toolbar";
 
 interface EditorProps {
-  defaultValue?: DeltaType | string;
+  htmlValue?: DeltaType | string;
   toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
@@ -24,7 +24,7 @@ interface EditorProps {
 export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
-      defaultValue,
+      htmlValue,
       toolbarConfigs,
       onTextChange,
       onSelectionChange,
@@ -41,7 +41,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const defaultValueRef = useRef(defaultValue);
+    const htmlValueRef = useRef(htmlValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
     const onBlurRef = useRef(onBlur);
@@ -77,11 +77,11 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         ref.current = quill;
       }
 
-      if (defaultValueRef.current) {
-        if (typeof defaultValueRef.current === "string") {
-          quill.clipboard.dangerouslyPasteHTML(defaultValueRef.current);
+      if (htmlValueRef.current) {
+        if (typeof htmlValueRef.current === "string") {
+          quill.clipboard.dangerouslyPasteHTML(htmlValueRef.current);
         } else {
-          quill.setContents(defaultValueRef.current);
+          quill.setContents(htmlValueRef.current);
         }
       }
 
