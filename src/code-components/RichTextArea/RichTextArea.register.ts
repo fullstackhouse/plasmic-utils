@@ -29,12 +29,10 @@ export function registerRichTextArea(
           },
           superSubScript: {
             type: "boolean",
-            defaultValue: true,
             displayName: "Super/SubScript",
           },
           fontFamily: {
             type: "boolean",
-            defaultValue: true,
           },
           heading: {
             type: "choice",
@@ -80,6 +78,37 @@ export function registerRichTextArea(
         },
         description: "Customize the toolbar to show/hide controls",
         helpText: "Custom toolbar need to be null for it to work.",
+        defaultValue: {
+          textStyle: ["bold", "italic", "underline", "strikethrough"],
+          colors: ["text color", "text background"],
+          superSubScript: true,
+          fontFamily: true,
+          heading: [
+            "Heading 1",
+            "Heading 2",
+            "Heading 3",
+            "Heading 4",
+            "Heading 5",
+            "Heading 6",
+            "Body",
+          ],
+          fontSizes: ["small", "medium", "large", "huge"],
+          formatting: [
+            "alignment",
+            "list",
+            "indentation",
+            "text direction",
+            "clear formatting",
+          ],
+          inputTypes: [
+            "link",
+            "blockquote",
+            "image",
+            "video",
+            "code-block",
+            "formula",
+          ],
+        },
       },
       customToolbar: {
         type: "object",
