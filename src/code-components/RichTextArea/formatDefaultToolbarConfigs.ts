@@ -1,12 +1,12 @@
 export type Toolbar = {
-  textStyle?: string[];
-  colors?: string[];
-  superSubScript?: boolean;
-  fontFamily?: boolean;
-  heading?: string[];
-  fontSizes?: string[];
-  formatting?: string[];
-  inputTypes?: string[];
+  textStyle: string[];
+  colors: string[];
+  superSubScript: boolean;
+  fontFamily: boolean;
+  heading: string[];
+  fontSizes: string[];
+  formatting: string[];
+  inputTypes: string[];
 };
 
 export type ToolbarConfigs = (string | Record<string, any>)[][];
@@ -14,7 +14,7 @@ export type ToolbarConfigs = (string | Record<string, any>)[][];
 export function formatDefaultToolbarConfigs(toolbar: Toolbar): ToolbarConfigs {
   const formattedToolbar: ToolbarConfigs = [];
 
-  if (toolbar.textStyle) {
+  if (toolbar.textStyle?.length) {
     formattedToolbar.push(
       toolbar.textStyle.map((style) =>
         style === "strikethrough" ? "strike" : style,
@@ -22,7 +22,7 @@ export function formatDefaultToolbarConfigs(toolbar: Toolbar): ToolbarConfigs {
     );
   }
 
-  if (toolbar.colors) {
+  if (toolbar.colors?.length) {
     formattedToolbar.push([{ color: [] }, { background: [] }]);
   }
 
@@ -34,31 +34,31 @@ export function formatDefaultToolbarConfigs(toolbar: Toolbar): ToolbarConfigs {
     formattedToolbar.push([{ font: [] }]);
   }
 
-  if (toolbar.fontSizes) {
+  if (toolbar.fontSizes?.length) {
     formattedToolbar.push([{ size: toolbar.fontSizes }]);
   }
 
-  if (toolbar.inputTypes) {
+  if (toolbar.inputTypes?.length) {
     formattedToolbar.push(toolbar.inputTypes);
   }
 
-  if (toolbar.heading) {
-    const headerMapping: Record<string, number | false> = {
-      "Heading 1": 1,
-      "Heading 2": 2,
-      "Heading 3": 3,
-      "Heading 4": 4,
-      "Heading 5": 5,
-      "Heading 6": 6,
-      Body: false,
-    };
+  if (toolbar.heading?.length) {
+    const headerMapping = new Map<string, number | false>([
+      ["Heading 1", 1],
+      ["Heading 2", 2],
+      ["Heading 3", 3],
+      ["Heading 4", 4],
+      ["Heading 5", 5],
+      ["Heading 6", 6],
+      ["Body", false],
+    ]);
     const filteredHeaders = toolbar.heading
-      .map((h) => headerMapping[h])
+      .map((h) => headerMapping.get(h))
       .filter((h) => h !== undefined);
     formattedToolbar.push([{ header: filteredHeaders }]);
   }
 
-  if (toolbar.formatting) {
+  if (toolbar.formatting?.length) {
     if (toolbar.formatting.includes("list")) {
       formattedToolbar.push([{ list: "ordered" }, { list: "bullet" }]);
     }

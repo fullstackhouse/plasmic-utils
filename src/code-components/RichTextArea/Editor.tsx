@@ -6,7 +6,7 @@ import Quill from "quill";
 
 interface EditorProps {
   defaultValue?: DeltaType | string;
-  toolbar?: ToolbarConfigs;
+  toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
   onBlur?: (range: Range, source: EmitterSource) => void;
@@ -25,7 +25,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
       defaultValue,
-      toolbar,
+      toolbarConfigs,
       onTextChange,
       onSelectionChange,
       onBlur,
@@ -71,7 +71,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       const quill = new Quill(editorContainer, {
         theme: "snow",
         modules: {
-          toolbar,
+          toolbar: toolbarConfigs,
         },
         readOnly,
         placeholder,

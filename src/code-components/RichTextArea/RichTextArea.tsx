@@ -53,14 +53,16 @@ export function RichTextArea({
     () => formatDefaultToolbarConfigs(toolbar),
     [JSON.stringify(toolbar)],
   );
-  const currentToolbarConfigs = customToolbar
+  const currentToolbarConfigs = customToolbar?.length
     ? customToolbar
-    : formattedToolbar;
+    : formattedToolbar.length
+      ? formattedToolbar
+      : false;
 
   return (
     <Editor
       ref={quillRef}
-      toolbar={currentToolbarConfigs}
+      toolbarConfigs={currentToolbarConfigs}
       readOnly={readOnly}
       defaultValue={htmlValue}
       placeholder={placeholder}
