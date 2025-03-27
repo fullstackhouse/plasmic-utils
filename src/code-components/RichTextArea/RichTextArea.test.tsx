@@ -5,13 +5,27 @@ import { RichTextArea } from "./RichTextArea";
 
 afterEach(cleanup);
 
+const emptyToolbar = {
+  textStyle: [],
+  colors: [],
+  superSubScript: false,
+  fontFamily: false,
+  heading: [],
+  fontSizes: [],
+  formatting: [],
+  inputTypes: [],
+};
+
+const fallback = <div>Example fallback</div>;
+
 describe.sequential(RichTextArea.name, () => {
   it("should render component correctly", async () => {
     render(
       <RichTextArea
-        toolbar={{ textStyle: ["bold", "italic"] }}
+        toolbar={emptyToolbar}
         readOnly={false}
         wrapperClassName="editor-wrapper"
+        fallback={fallback}
       />,
     );
 
@@ -26,10 +40,11 @@ describe.sequential(RichTextArea.name, () => {
 
     render(
       <RichTextArea
-        toolbar={{ textStyle: ["bold", "italic"] }}
+        toolbar={emptyToolbar}
         onChange={handleChange}
         readOnly={false}
         wrapperClassName="editor-wrapper"
+        fallback={fallback}
       />,
     );
 
@@ -47,11 +62,12 @@ describe.sequential(RichTextArea.name, () => {
 
     render(
       <RichTextArea
-        toolbar={{ textStyle: ["bold", "italic"] }}
+        toolbar={emptyToolbar}
         onFocus={onFocus}
         onBlur={onBlur}
         readOnly={false}
         wrapperClassName="editor-wrapper"
+        fallback={fallback}
       />,
     );
 
@@ -76,7 +92,7 @@ describe.sequential(RichTextArea.name, () => {
   it("should display custom toolbar correctly", async () => {
     render(
       <RichTextArea
-        toolbar={{ textStyle: ["underline", "strikethrough"] }}
+        toolbar={emptyToolbar}
         customToolbar={[
           ["bold", "italic"],
           [
@@ -100,6 +116,7 @@ describe.sequential(RichTextArea.name, () => {
         ]}
         readOnly={false}
         wrapperClassName="editor-wrapper"
+        fallback={fallback}
       />,
     );
 
