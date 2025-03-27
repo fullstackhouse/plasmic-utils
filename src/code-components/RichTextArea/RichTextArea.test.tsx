@@ -5,15 +5,29 @@ import { RichTextArea } from "./RichTextArea";
 
 afterEach(cleanup);
 
-const emptyToolbar = {
-  textStyle: [],
-  colors: [],
-  superSubScript: false,
-  fontFamily: false,
-  heading: [],
-  fontSizes: [],
-  formatting: [],
-  inputTypes: [],
+const defaultToolbar = {
+  textStyle: ["bold", "italic", "underline", "strikethrough"],
+  colors: ["text color", "text background"],
+  superSubScript: true,
+  fontFamily: true,
+  heading: [
+    "Heading 1",
+    "Heading 2",
+    "Heading 3",
+    "Heading 4",
+    "Heading 5",
+    "Heading 6",
+    "Body",
+  ],
+  fontSizes: ["small", "medium", "large", "huge"],
+  formatting: [
+    "alignment",
+    "list",
+    "indentation",
+    "text direction",
+    "clear formatting",
+  ],
+  inputTypes: ["link", "blockquote", "image", "video", "code-block", "formula"],
 };
 
 const fallback = <div>Example fallback</div>;
@@ -22,7 +36,7 @@ describe.sequential(RichTextArea.name, () => {
   it("should render component correctly", async () => {
     render(
       <RichTextArea
-        toolbar={emptyToolbar}
+        toolbar={defaultToolbar}
         readOnly={false}
         wrapperClassName="editor-wrapper"
         fallback={fallback}
@@ -40,7 +54,7 @@ describe.sequential(RichTextArea.name, () => {
 
     render(
       <RichTextArea
-        toolbar={emptyToolbar}
+        toolbar={defaultToolbar}
         onChange={handleChange}
         readOnly={false}
         wrapperClassName="editor-wrapper"
@@ -62,7 +76,7 @@ describe.sequential(RichTextArea.name, () => {
 
     render(
       <RichTextArea
-        toolbar={emptyToolbar}
+        toolbar={defaultToolbar}
         onFocus={onFocus}
         onBlur={onBlur}
         readOnly={false}
@@ -75,8 +89,6 @@ describe.sequential(RichTextArea.name, () => {
     const editor = document.querySelector(".ql-editor") as HTMLElement;
 
     userEvent.click(editor);
-
-    screen.debug();
 
     await waitFor(() => {
       expect(onFocus).toHaveBeenCalled();
@@ -92,7 +104,7 @@ describe.sequential(RichTextArea.name, () => {
   it("should display custom toolbar correctly", async () => {
     render(
       <RichTextArea
-        toolbar={emptyToolbar}
+        toolbar={defaultToolbar}
         customToolbar={[
           ["bold", "italic"],
           [
