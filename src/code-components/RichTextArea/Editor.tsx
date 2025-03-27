@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
@@ -47,11 +47,6 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     const onFocusRef = useRef(onFocus);
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
-
-    useLayoutEffect(() => {
-      onTextChangeRef.current = onTextChange;
-      onSelectionChangeRef.current = onSelectionChange;
-    });
 
     useEffect(() => {
       if (ref && "current" in ref && ref.current) {
