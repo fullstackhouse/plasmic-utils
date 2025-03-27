@@ -66,12 +66,12 @@ export function RichTextArea({
       readOnly={readOnly}
       defaultValue={htmlValue}
       placeholder={placeholder}
-      onSelectionChange={(range, source) => onSelectionChange?.(range, source)}
-      onTextChange={(content, source) => onChange?.(content, source)}
-      onBlur={(range, source) => onBlur?.(range, source)}
-      onFocus={(range, source) => onFocus?.(range, source)}
-      onKeyDown={(event) => onKeyDown?.(event)}
-      onKeyUp={(event) => onKeyUp?.(event)}
+      onSelectionChange={onSelectionChange}
+      onTextChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
       wrapperClassName={wrapperClassName}
       ariaLabel={ariaLabel}
       ariaLabeledby={ariaLabeledby}
