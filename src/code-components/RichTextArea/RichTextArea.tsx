@@ -47,8 +47,6 @@ export function RichTextArea({
       ssr: false,
     });
   }, []);
-  const quillRef = useRef<Quill | null>(null);
-
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
     [JSON.stringify(toolbar)],
@@ -61,7 +59,6 @@ export function RichTextArea({
 
   return (
     <Editor
-      ref={quillRef}
       toolbarConfigs={currentToolbarConfigs}
       readOnly={readOnly}
       defaultValue={htmlValue}
