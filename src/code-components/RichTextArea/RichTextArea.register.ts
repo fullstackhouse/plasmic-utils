@@ -205,10 +205,6 @@ export function registerRichTextArea(
       ariaLabeledby: {
         type: "string",
       },
-      role: {
-        type: "string",
-        defaultValue: "textbox",
-      },
     },
   });
 }

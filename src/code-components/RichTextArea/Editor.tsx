@@ -18,7 +18,6 @@ interface EditorProps {
   wrapperClassName?: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  role?: string;
 }
 
 export const Editor = forwardRef<Quill | null, EditorProps>(
@@ -37,7 +36,6 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       wrapperClassName,
       ariaLabel,
       ariaLabeledby,
-      role,
     },
     ref,
   ) => {
@@ -134,9 +132,9 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
 
     return (
       <div
+        role="textbox"
         aria-label={ariaLabel}
         aria-labelledby={ariaLabeledby}
-        role={role}
         aria-readonly={readOnly}
         className={wrapperClassName}
         ref={containerRef}

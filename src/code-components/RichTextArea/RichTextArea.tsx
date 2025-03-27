@@ -22,7 +22,6 @@ interface RichTextAreaProps {
   wrapperClassName: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  role?: string;
 }
 
 export function RichTextArea({
@@ -40,7 +39,6 @@ export function RichTextArea({
   wrapperClassName,
   ariaLabel,
   ariaLabeledby,
-  role,
 }: RichTextAreaProps) {
   const Editor = useMemo(() => {
     return dynamic(() => import("./Editor").then((module) => module.Editor), {
@@ -72,7 +70,6 @@ export function RichTextArea({
       wrapperClassName={wrapperClassName}
       ariaLabel={ariaLabel}
       ariaLabeledby={ariaLabeledby}
-      role={role}
     />
   );
 }
