@@ -88,7 +88,9 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       quill.on(
         Quill.events.TEXT_CHANGE,
         (_: DeltaType, __: DeltaType, source: EmitterSource) => {
-          const content = quill.root.innerHTML;
+          const content = quill.root.innerHTML
+            .replace(/(^([ ]*<p><br><\/p>)*)|((<p><br><\/p>)*[ ]*$)/gi, "")
+            .trim();
           onTextChangeRef.current?.(content, source);
         },
       );
