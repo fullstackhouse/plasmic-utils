@@ -7,7 +7,7 @@ import { RichTextArea } from "./RichTextArea";
 afterEach(cleanup);
 
 describe.sequential(RichTextArea.name, () => {
-  it("should render component correctly", async () => {
+  it("renders fallback initially and removes it after editor is visible", async () => {
     render(
       <RichTextArea
         toolbar={defaultToolbar}
@@ -16,8 +16,11 @@ describe.sequential(RichTextArea.name, () => {
         fallback={fallback}
       />,
     );
+    expect(screen.queryByText("Example fallback")).not.toBeNull();
 
     await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+
+    expect(screen.queryByText("Example fallback")).toBeNull();
   });
 
   it("should update content and call onChange on user input", async () => {
