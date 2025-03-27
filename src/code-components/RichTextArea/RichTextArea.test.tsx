@@ -1,36 +1,10 @@
 import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { Screen } from "@testing-library/react";
 import { RichTextArea } from "./RichTextArea";
 
 afterEach(cleanup);
-
-const defaultToolbar = {
-  textStyle: ["bold", "italic", "underline", "strikethrough"],
-  colors: ["text color", "text background"],
-  superSubScript: true,
-  fontFamily: true,
-  heading: [
-    "Heading 1",
-    "Heading 2",
-    "Heading 3",
-    "Heading 4",
-    "Heading 5",
-    "Heading 6",
-    "Body",
-  ],
-  fontSizes: ["small", "medium", "large", "huge"],
-  formatting: [
-    "alignment",
-    "list",
-    "indentation",
-    "text direction",
-    "clear formatting",
-  ],
-  inputTypes: ["link", "blockquote", "image", "video", "code-block", "formula"],
-};
-
-const fallback = <div>Example fallback</div>;
 
 describe.sequential(RichTextArea.name, () => {
   it("should render component correctly", async () => {
@@ -43,10 +17,7 @@ describe.sequential(RichTextArea.name, () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole("textbox"));
-
-    const editor = screen.getByRole("textbox");
-    expect(editor).toBeDefined();
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
   });
 
   it("should update content and call onChange on user input", async () => {
@@ -62,7 +33,7 @@ describe.sequential(RichTextArea.name, () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole("textbox"));
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
     const editor = document.querySelector(".ql-editor") as HTMLElement;
 
     await userEvent.type(editor, "Test typing");
@@ -85,7 +56,7 @@ describe.sequential(RichTextArea.name, () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole("textbox"));
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
     const editor = document.querySelector(".ql-editor") as HTMLElement;
 
     userEvent.click(editor);
@@ -132,7 +103,7 @@ describe.sequential(RichTextArea.name, () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole("textbox"));
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
 
     const underlineButton = screen.queryByRole("button", {
       name: /underline/i,
@@ -168,3 +139,38 @@ describe.sequential(RichTextArea.name, () => {
     expect(cleanButton).toBeDefined();
   });
 });
+
+const defaultToolbar = {
+  textStyle: ["bold", "italic", "underline", "strikethrough"],
+  colors: ["text color", "text background"],
+  superSubScript: true,
+  fontFamily: true,
+  heading: [
+    "Heading 1",
+    "Heading 2",
+    "Heading 3",
+    "Heading 4",
+    "Heading 5",
+    "Heading 6",
+    "Body",
+  ],
+  fontSizes: ["small", "medium", "large", "huge"],
+  formatting: [
+    "alignment",
+    "list",
+    "indentation",
+    "text direction",
+    "clear formatting",
+  ],
+  inputTypes: ["link", "blockquote", "image", "video", "code-block", "formula"],
+};
+
+const fallback = <div>Example fallback</div>;
+
+function expectRichTextAreaToBeOnPage(screen: Screen) {
+  const richTextArea = screen
+    .queryAllByRole("textbox")
+    .some((el) => el.tagName === "DIV");
+
+  expect(richTextArea).toBeTruthy();
+}
