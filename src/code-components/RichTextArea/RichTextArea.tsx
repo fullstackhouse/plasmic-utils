@@ -1,11 +1,14 @@
-import React, { useMemo, useRef } from "react";
-import Quill, { Range } from "quill/core";
+import { useMemo, Suspense, lazy, ReactNode } from "react";
+import { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
   Toolbar,
   ToolbarConfigs,
 } from "./formatDefaultToolbarConfigs";
-import dynamic from "next/dynamic";
+
+const Editor = lazy(() =>
+  import("./Editor").then((module) => ({ default: module.Editor })),
+);
 
 interface RichTextAreaProps {
   htmlValue?: string;
@@ -22,7 +25,7 @@ interface RichTextAreaProps {
   wrapperClassName: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  role?: string;
+  fallback: ReactNode;
 }
 
 export function RichTextArea({
@@ -40,40 +43,35 @@ export function RichTextArea({
   wrapperClassName,
   ariaLabel,
   ariaLabeledby,
-  role,
+  fallback,
 }: RichTextAreaProps) {
-  const Editor = useMemo(() => {
-    return dynamic(() => import("./Editor").then((module) => module.Editor), {
-      ssr: false,
-    });
-  }, []);
-  const quillRef = useRef<Quill | null>(null);
-
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
     [JSON.stringify(toolbar)],
   );
-  const currentToolbarConfigs = customToolbar
+  const currentToolbarConfigs = customToolbar?.length
     ? customToolbar
-    : formattedToolbar;
+    : formattedToolbar.length
+      ? formattedToolbar
+      : false;
 
   return (
-    <Editor
-      ref={quillRef}
-      toolbar={currentToolbarConfigs}
-      readOnly={readOnly}
-      defaultValue={htmlValue}
-      placeholder={placeholder}
-      onSelectionChange={(range, source) => onSelectionChange?.(range, source)}
-      onTextChange={(content, source) => onChange?.(content, source)}
-      onBlur={(range, source) => onBlur?.(range, source)}
-      onFocus={(range, source) => onFocus?.(range, source)}
-      onKeyDown={(event) => onKeyDown?.(event)}
-      onKeyUp={(event) => onKeyUp?.(event)}
-      wrapperClassName={wrapperClassName}
-      ariaLabel={ariaLabel}
-      ariaLabeledby={ariaLabeledby}
-      role={role}
-    />
+    <Suspense fallback={fallback}>
+      <Editor
+        toolbarConfigs={currentToolbarConfigs}
+        readOnly={readOnly}
+        htmlValue={htmlValue}
+        placeholder={placeholder}
+        onSelectionChange={onSelectionChange}
+        onTextChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        wrapperClassName={wrapperClassName}
+        ariaLabel={ariaLabel}
+        ariaLabeledby={ariaLabeledby}
+      />
+    </Suspense>
   );
 }

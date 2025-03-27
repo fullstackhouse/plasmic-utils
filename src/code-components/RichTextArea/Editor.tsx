@@ -1,12 +1,13 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
+import Toolbar from "quill/modules/toolbar";
 
 interface EditorProps {
-  defaultValue?: DeltaType | string;
-  toolbar?: ToolbarConfigs;
+  htmlValue?: DeltaType | string;
+  toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
   onBlur?: (range: Range, source: EmitterSource) => void;
@@ -18,14 +19,13 @@ interface EditorProps {
   wrapperClassName?: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  role?: string;
 }
 
 export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
-      defaultValue,
-      toolbar,
+      htmlValue,
+      toolbarConfigs,
       onTextChange,
       onSelectionChange,
       onBlur,
@@ -37,23 +37,17 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       wrapperClassName,
       ariaLabel,
       ariaLabeledby,
-      role,
     },
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const defaultValueRef = useRef(defaultValue);
+    const htmlValueRef = useRef(htmlValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
     const onBlurRef = useRef(onBlur);
     const onFocusRef = useRef(onFocus);
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
-
-    useLayoutEffect(() => {
-      onTextChangeRef.current = onTextChange;
-      onSelectionChangeRef.current = onSelectionChange;
-    });
 
     useEffect(() => {
       if (ref && "current" in ref && ref.current) {
@@ -71,7 +65,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       const quill = new Quill(editorContainer, {
         theme: "snow",
         modules: {
-          toolbar,
+          toolbar: toolbarConfigs,
         },
         readOnly,
         placeholder,
@@ -83,18 +77,20 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         ref.current = quill;
       }
 
-      if (defaultValueRef.current) {
-        if (typeof defaultValueRef.current === "string") {
-          quill.clipboard.dangerouslyPasteHTML(defaultValueRef.current);
+      if (htmlValueRef.current) {
+        if (typeof htmlValueRef.current === "string") {
+          quill.clipboard.dangerouslyPasteHTML(htmlValueRef.current);
         } else {
-          quill.setContents(defaultValueRef.current);
+          quill.setContents(htmlValueRef.current);
         }
       }
 
       quill.on(
         Quill.events.TEXT_CHANGE,
         (_: DeltaType, __: DeltaType, source: EmitterSource) => {
-          const content = quill.root.innerHTML;
+          const content = quill.root.innerHTML
+            .replace(/(^([ ]*<p><br><\/p>)*)|((<p><br><\/p>)*[ ]*$)/gi, "")
+            .trim();
           onTextChangeRef.current?.(content, source);
         },
       );
@@ -122,6 +118,19 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         onKeyUpRef.current?.(event),
       );
 
+      const toolbar = quill.getModule("toolbar") as Toolbar;
+      if (toolbar) {
+        const dropdowns = toolbar?.container?.querySelectorAll(".ql-picker");
+        (dropdowns || []).forEach((dropdown) => {
+          dropdown.addEventListener("mousedown", (event) => {
+            event.preventDefault();
+            setTimeout(() => {
+              quill.focus();
+            }, 0);
+          });
+        });
+      }
+
       return () => {
         if (typeof ref === "function") {
           ref(null);
@@ -134,9 +143,9 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
 
     return (
       <div
+        role="textbox"
         aria-label={ariaLabel}
         aria-labelledby={ariaLabeledby}
-        role={role}
         aria-readonly={readOnly}
         className={wrapperClassName}
         ref={containerRef}
