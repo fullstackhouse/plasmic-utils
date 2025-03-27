@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
+import Toolbar from "quill/modules/toolbar";
 
 interface EditorProps {
   defaultValue?: DeltaType | string;
@@ -114,6 +115,19 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       editorRoot.addEventListener("keyup", (event: KeyboardEvent) =>
         onKeyUpRef.current?.(event),
       );
+
+      const toolbar = quill.getModule("toolbar") as Toolbar;
+      if (toolbar) {
+        const dropdowns = toolbar?.container?.querySelectorAll(".ql-picker");
+        (dropdowns || []).forEach((dropdown) => {
+          dropdown.addEventListener("mousedown", (event) => {
+            event.preventDefault();
+            setTimeout(() => {
+              quill.focus();
+            }, 0);
+          });
+        });
+      }
 
       return () => {
         if (typeof ref === "function") {
