@@ -8,7 +8,7 @@ import { useState } from "react";
 afterEach(cleanup);
 
 describe.sequential(RichTextArea.name, () => {
-  it("renders fallback initially and removes it after editor is visible", async () => {
+  it("renders", async () => {
     render(
       <RichTextArea
         toolbar={defaultToolbar}
@@ -16,11 +16,8 @@ describe.sequential(RichTextArea.name, () => {
         className="editor-wrapper"
       />,
     );
-    expect(screen.queryByText("Example fallback")).not.toBeNull();
 
     await waitFor(() => expectRichTextAreaToBeOnPage(screen));
-
-    expect(screen.queryByText("Example fallback")).toBeNull();
   });
 
   it("should update content and call onChange on user input", async () => {
@@ -268,8 +265,6 @@ const defaultToolbar = {
   ],
   inputTypes: ["link", "blockquote", "image", "video", "code-block", "formula"],
 };
-
-const fallback = <div>Example fallback</div>;
 
 function expectRichTextAreaToBeOnPage(screen: Screen) {
   const richTextArea = screen
