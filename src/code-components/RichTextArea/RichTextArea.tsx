@@ -1,4 +1,4 @@
-import { useMemo, Suspense, lazy, ReactNode } from "react";
+import { useMemo, lazy } from "react";
 import { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
@@ -11,7 +11,7 @@ const Editor = lazy(() =>
 );
 
 interface RichTextAreaProps {
-  htmlValue?: string;
+  value?: string;
   toolbar: Toolbar;
   customToolbar?: ToolbarConfigs;
   onSelectionChange?: (range: Range | null, source: string) => void;
@@ -22,14 +22,13 @@ interface RichTextAreaProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly: boolean;
-  wrapperClassName: string;
+  className: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  fallback: ReactNode;
 }
 
 export function RichTextArea({
-  htmlValue,
+  value,
   toolbar,
   customToolbar,
   onSelectionChange,
@@ -40,10 +39,9 @@ export function RichTextArea({
   onKeyUp,
   placeholder,
   readOnly,
-  wrapperClassName,
+  className,
   ariaLabel,
   ariaLabeledby,
-  fallback,
 }: RichTextAreaProps) {
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
@@ -56,22 +54,20 @@ export function RichTextArea({
       : false;
 
   return (
-    <Suspense fallback={fallback}>
-      <Editor
-        toolbarConfigs={currentToolbarConfigs}
-        readOnly={readOnly}
-        htmlValue={htmlValue}
-        placeholder={placeholder}
-        onSelectionChange={onSelectionChange}
-        onTextChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        wrapperClassName={wrapperClassName}
-        ariaLabel={ariaLabel}
-        ariaLabeledby={ariaLabeledby}
-      />
-    </Suspense>
+    <Editor
+      toolbarConfigs={currentToolbarConfigs}
+      readOnly={readOnly}
+      value={value}
+      placeholder={placeholder}
+      onSelectionChange={onSelectionChange}
+      onTextChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
+      className={className}
+      ariaLabel={ariaLabel}
+      ariaLabeledby={ariaLabeledby}
+    />
   );
 }

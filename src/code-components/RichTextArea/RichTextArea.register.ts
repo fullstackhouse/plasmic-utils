@@ -9,9 +9,8 @@ export function registerRichTextArea(
     name: "RichTextArea",
     importPath: modulePath + "/code-components/RichTextArea/RichTextArea",
     props: {
-      htmlValue: {
+      value: {
         type: "string",
-        displayName: "HTML Value",
         description: "Contents of the editor",
       },
       toolbar: {
@@ -196,7 +195,7 @@ export function registerRichTextArea(
         defaultValue: false,
         description: "Prevents user from changing the contents of the editor",
       },
-      wrapperClassName: {
+      className: {
         type: "class",
       },
       ariaLabel: {
@@ -205,26 +204,12 @@ export function registerRichTextArea(
       ariaLabeledby: {
         type: "string",
       },
-      fallback: {
-        type: "slot",
-        defaultValue: [
-          {
-            type: "vbox",
-            styles: {
-              width: "100%",
-              height: "100%",
-              background: "grey",
-            },
-            children: "Placeholder",
-          },
-        ],
-      },
     },
     states: {
       value: {
         type: "writable",
         variableType: "text",
-        valueProp: "htmlValue",
+        valueProp: "value",
         onChangeProp: "onChange",
       },
     },

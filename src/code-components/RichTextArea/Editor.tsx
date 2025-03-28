@@ -3,10 +3,9 @@ import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
-import Toolbar from "quill/modules/toolbar";
 
 export interface EditorProps {
-  htmlValue?: string;
+  value?: string;
   toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
@@ -16,7 +15,7 @@ export interface EditorProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly?: boolean;
-  wrapperClassName?: string;
+  className?: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
 }
@@ -24,7 +23,7 @@ export interface EditorProps {
 export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
-      htmlValue,
+      value,
       toolbarConfigs,
       onTextChange,
       onSelectionChange,
@@ -34,7 +33,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       onKeyUp,
       placeholder,
       readOnly,
-      wrapperClassName,
+      className,
       ariaLabel,
       ariaLabeledby,
     },
@@ -55,11 +54,11 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         const quill = quillRef.current;
         const editorHtml = quill.root.innerHTML.trim();
 
-        if (htmlValue?.trim() !== editorHtml) {
-          quill.clipboard.dangerouslyPasteHTML(htmlValue || "");
+        if (value?.trim() !== editorHtml) {
+          quill.clipboard.dangerouslyPasteHTML(value || "");
         }
       }
-    }, [htmlValue]);
+    }, [value]);
 
     useEffect(() => {
       if (quillRef.current) {
@@ -92,8 +91,8 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         ref.current = quill;
       }
 
-      if (htmlValue) {
-        quill.clipboard.dangerouslyPasteHTML(htmlValue);
+      if (value) {
+        quill.clipboard.dangerouslyPasteHTML(value);
       }
 
       quill.on(
@@ -129,19 +128,6 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         onKeyUpRef.current?.(event),
       );
 
-      const toolbar = quill.getModule("toolbar") as Toolbar;
-      if (toolbar) {
-        const dropdowns = toolbar?.container?.querySelectorAll(".ql-picker");
-        (dropdowns || []).forEach((dropdown) => {
-          dropdown.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-            setTimeout(() => {
-              quill.focus();
-            }, 0);
-          });
-        });
-      }
-
       return () => {
         if (typeof ref === "function") {
           ref(null);
@@ -158,9 +144,9 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         aria-label={ariaLabel}
         aria-labelledby={ariaLabeledby}
         aria-readonly={readOnly}
-        className={wrapperClassName}
+        className={className}
         ref={containerRef}
-      ></div>
+      />
     );
   },
 );
