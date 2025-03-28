@@ -1,4 +1,4 @@
-import { useMemo, Suspense, lazy, ReactNode } from "react";
+import { useMemo, lazy } from "react";
 import { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
@@ -25,7 +25,6 @@ interface RichTextAreaProps {
   wrapperClassName: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
-  fallback: ReactNode;
 }
 
 export function RichTextArea({
@@ -43,7 +42,6 @@ export function RichTextArea({
   wrapperClassName,
   ariaLabel,
   ariaLabeledby,
-  fallback,
 }: RichTextAreaProps) {
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
@@ -56,22 +54,20 @@ export function RichTextArea({
       : false;
 
   return (
-    <Suspense fallback={fallback}>
-      <Editor
-        toolbarConfigs={currentToolbarConfigs}
-        readOnly={readOnly}
-        htmlValue={htmlValue}
-        placeholder={placeholder}
-        onSelectionChange={onSelectionChange}
-        onTextChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        wrapperClassName={wrapperClassName}
-        ariaLabel={ariaLabel}
-        ariaLabeledby={ariaLabeledby}
-      />
-    </Suspense>
+    <Editor
+      toolbarConfigs={currentToolbarConfigs}
+      readOnly={readOnly}
+      htmlValue={htmlValue}
+      placeholder={placeholder}
+      onSelectionChange={onSelectionChange}
+      onTextChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
+      wrapperClassName={wrapperClassName}
+      ariaLabel={ariaLabel}
+      ariaLabeledby={ariaLabeledby}
+    />
   );
 }

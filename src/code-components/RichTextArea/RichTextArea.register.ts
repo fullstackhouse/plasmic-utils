@@ -205,20 +205,6 @@ export function registerRichTextArea(
       ariaLabeledby: {
         type: "string",
       },
-      fallback: {
-        type: "slot",
-        defaultValue: [
-          {
-            type: "vbox",
-            styles: {
-              width: "100%",
-              height: "100%",
-              background: "grey",
-            },
-            children: "Placeholder",
-          },
-        ],
-      },
     },
     states: {
       value: {
