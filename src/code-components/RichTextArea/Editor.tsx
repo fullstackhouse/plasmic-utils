@@ -144,7 +144,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         aria-readonly={readOnly}
         className={className}
         ref={containerRef}
-      ></div>
+      />
     );
   },
 );
