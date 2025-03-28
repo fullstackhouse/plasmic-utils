@@ -13,8 +13,7 @@ describe.sequential(RichTextArea.name, () => {
       <RichTextArea
         toolbar={defaultToolbar}
         readOnly={false}
-        wrapperClassName="editor-wrapper"
-        fallback={fallback}
+        className="editor-wrapper"
       />,
     );
     expect(screen.queryByText("Example fallback")).not.toBeNull();
@@ -32,8 +31,7 @@ describe.sequential(RichTextArea.name, () => {
         toolbar={defaultToolbar}
         onChange={handleChange}
         readOnly={false}
-        wrapperClassName="editor-wrapper"
-        fallback={fallback}
+        className="editor-wrapper"
       />,
     );
 
@@ -55,8 +53,7 @@ describe.sequential(RichTextArea.name, () => {
         onFocus={onFocus}
         onBlur={onBlur}
         readOnly={false}
-        wrapperClassName="editor-wrapper"
-        fallback={fallback}
+        className="editor-wrapper"
       />,
     );
 
@@ -102,8 +99,7 @@ describe.sequential(RichTextArea.name, () => {
           ["clean"],
         ]}
         readOnly={false}
-        wrapperClassName="editor-wrapper"
-        fallback={fallback}
+        className="editor-wrapper"
       />,
     );
 
@@ -154,11 +150,10 @@ describe.sequential(RichTextArea.name, () => {
         <>
           <button onClick={() => setValue(updatedHtmlValue)}>Update</button>
           <RichTextArea
-            htmlValue={value}
+            value={value}
             toolbar={defaultToolbar}
             readOnly={false}
-            wrapperClassName="editor-wrapper"
-            fallback={fallback}
+            className="editor-wrapper"
           />
         </>
       );
@@ -195,8 +190,7 @@ describe.sequential(RichTextArea.name, () => {
       <RichTextArea
         toolbar={defaultToolbar}
         readOnly={false}
-        wrapperClassName="editor-wrapper"
-        fallback={fallback}
+        className="editor-wrapper"
       />,
     );
 
@@ -224,8 +218,7 @@ describe.sequential(RichTextArea.name, () => {
           <RichTextArea
             toolbar={defaultToolbar}
             readOnly={readOnly}
-            wrapperClassName="editor-wrapper"
-            fallback={fallback}
+            className="editor-wrapper"
           />
         </>
       );
