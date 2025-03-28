@@ -1,11 +1,11 @@
-import React, { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
 import Toolbar from "quill/modules/toolbar";
 
-interface EditorProps {
+export interface EditorProps {
   htmlValue?: string;
   toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
@@ -41,12 +41,25 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
+    const quillRef = useRef<Quill | null>(null);
+
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
     const onBlurRef = useRef(onBlur);
     const onFocusRef = useRef(onFocus);
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
+
+    useEffect(() => {
+      if (quillRef.current) {
+        const quill = quillRef.current;
+        const editorHtml = quill.root.innerHTML.trim();
+
+        if (htmlValue?.trim() !== editorHtml) {
+          quill.clipboard.dangerouslyPasteHTML(htmlValue || "");
+        }
+      }
+    }, [htmlValue]);
 
     useEffect(() => {
       if (ref && "current" in ref && ref.current) {
@@ -69,6 +82,8 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         readOnly,
         placeholder,
       });
+
+      quillRef.current = quill;
 
       if (typeof ref === "function") {
         ref(quill);
