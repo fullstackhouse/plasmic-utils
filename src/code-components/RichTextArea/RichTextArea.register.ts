@@ -9,9 +9,8 @@ export function registerRichTextArea(
     name: "RichTextArea",
     importPath: modulePath + "/code-components/RichTextArea/RichTextArea",
     props: {
-      htmlValue: {
+      value: {
         type: "string",
-        displayName: "HTML Value",
         description: "Contents of the editor",
       },
       toolbar: {
@@ -210,7 +209,7 @@ export function registerRichTextArea(
       value: {
         type: "writable",
         variableType: "text",
-        valueProp: "htmlValue",
+        valueProp: "value",
         onChangeProp: "onChange",
       },
     },

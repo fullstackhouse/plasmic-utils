@@ -11,7 +11,7 @@ const Editor = lazy(() =>
 );
 
 interface RichTextAreaProps {
-  htmlValue?: string;
+  value?: string;
   toolbar: Toolbar;
   customToolbar?: ToolbarConfigs;
   onSelectionChange?: (range: Range | null, source: string) => void;
@@ -28,7 +28,7 @@ interface RichTextAreaProps {
 }
 
 export function RichTextArea({
-  htmlValue,
+  value,
   toolbar,
   customToolbar,
   onSelectionChange,
@@ -57,7 +57,7 @@ export function RichTextArea({
     <Editor
       toolbarConfigs={currentToolbarConfigs}
       readOnly={readOnly}
-      htmlValue={htmlValue}
+      value={value}
       placeholder={placeholder}
       onSelectionChange={onSelectionChange}
       onTextChange={onChange}

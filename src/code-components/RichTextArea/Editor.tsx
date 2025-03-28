@@ -5,7 +5,7 @@ import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
 
 export interface EditorProps {
-  htmlValue?: string;
+  value?: string;
   toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
@@ -23,7 +23,7 @@ export interface EditorProps {
 export const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
-      htmlValue,
+      value,
       toolbarConfigs,
       onTextChange,
       onSelectionChange,
@@ -54,11 +54,11 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         const quill = quillRef.current;
         const editorHtml = quill.root.innerHTML.trim();
 
-        if (htmlValue?.trim() !== editorHtml) {
-          quill.clipboard.dangerouslyPasteHTML(htmlValue || "");
+        if (value?.trim() !== editorHtml) {
+          quill.clipboard.dangerouslyPasteHTML(value || "");
         }
       }
-    }, [htmlValue]);
+    }, [value]);
 
     useEffect(() => {
       if (quillRef.current) {
@@ -91,8 +91,8 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         ref.current = quill;
       }
 
-      if (htmlValue) {
-        quill.clipboard.dangerouslyPasteHTML(htmlValue);
+      if (value) {
+        quill.clipboard.dangerouslyPasteHTML(value);
       }
 
       quill.on(
