@@ -22,7 +22,7 @@ interface RichTextAreaProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly: boolean;
-  wrapperClassName: string;
+  className: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
 }
@@ -39,7 +39,7 @@ export function RichTextArea({
   onKeyUp,
   placeholder,
   readOnly,
-  wrapperClassName,
+  className,
   ariaLabel,
   ariaLabeledby,
 }: RichTextAreaProps) {
@@ -65,7 +65,7 @@ export function RichTextArea({
       onFocus={onFocus}
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
-      wrapperClassName={wrapperClassName}
+      className={className}
       ariaLabel={ariaLabel}
       ariaLabeledby={ariaLabeledby}
     />

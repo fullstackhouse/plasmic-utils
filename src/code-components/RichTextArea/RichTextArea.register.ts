@@ -195,7 +195,7 @@ export function registerRichTextArea(
         defaultValue: false,
         description: "Prevents user from changing the contents of the editor",
       },
-      wrapperClassName: {
+      className: {
         type: "class",
       },
       ariaLabel: {

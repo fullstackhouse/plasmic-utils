@@ -15,7 +15,7 @@ export interface EditorProps {
   onKeyUp?: (event: KeyboardEvent) => void;
   placeholder?: string;
   readOnly?: boolean;
-  wrapperClassName?: string;
+  className?: string;
   ariaLabel?: string;
   ariaLabeledby?: string;
 }
@@ -33,7 +33,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
       onKeyUp,
       placeholder,
       readOnly,
-      wrapperClassName,
+      className,
       ariaLabel,
       ariaLabeledby,
     },
@@ -142,7 +142,7 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         aria-label={ariaLabel}
         aria-labelledby={ariaLabeledby}
         aria-readonly={readOnly}
-        className={wrapperClassName}
+        className={className}
         ref={containerRef}
       ></div>
     );
