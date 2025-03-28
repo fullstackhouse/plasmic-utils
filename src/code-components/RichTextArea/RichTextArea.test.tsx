@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Screen } from "@testing-library/react";
 import { RichTextArea } from "./RichTextArea";
+import { useState } from "react";
 
 afterEach(cleanup);
 
@@ -140,6 +141,44 @@ describe.sequential(RichTextArea.name, () => {
 
     const cleanButton = screen.queryByRole("button", { name: /clean/i });
     expect(cleanButton).toBeDefined();
+  });
+
+  it("editor content gets updated when rich text area receives a new value", async () => {
+    const initialHtmlValue = "<p>Initial content</p>";
+    const updatedHtmlValue = "<p>Updated content</p>";
+
+    function WrapperComponent() {
+      const [value, setValue] = useState(initialHtmlValue);
+
+      return (
+        <>
+          <button onClick={() => setValue(updatedHtmlValue)}>Update</button>
+          <RichTextArea
+            htmlValue={value}
+            toolbar={defaultToolbar}
+            readOnly={false}
+            wrapperClassName="editor-wrapper"
+            fallback={fallback}
+          />
+        </>
+      );
+    }
+
+    render(<WrapperComponent />);
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+
+    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    expect(editor).not.toBeNull();
+
+    await waitFor(() => {
+      expect(editor?.innerHTML).toContain("Initial content");
+    });
+
+    userEvent.click(screen.getByRole("button", { name: /update/i }));
+
+    await waitFor(() => {
+      expect(editor?.innerHTML).toContain("Updated content");
+    });
   });
 });
 
