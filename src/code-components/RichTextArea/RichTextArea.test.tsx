@@ -213,6 +213,42 @@ describe.sequential(RichTextArea.name, () => {
       expect(editor?.innerHTML).toContain("Pasted data");
     });
   });
+
+  it("editor should respond to change read only value", async () => {
+    function WrapperComponent() {
+      const [readOnly, setReadOnly] = useState(false);
+
+      return (
+        <>
+          <button onClick={() => setReadOnly(true)}>Update</button>
+          <RichTextArea
+            toolbar={defaultToolbar}
+            readOnly={readOnly}
+            wrapperClassName="editor-wrapper"
+            fallback={fallback}
+          />
+        </>
+      );
+    }
+
+    render(<WrapperComponent />);
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+
+    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    expect(editor).not.toBeNull();
+
+    await userEvent.type(editor as HTMLElement, "First");
+    await waitFor(() => {
+      expect(editor?.innerHTML).toContain("First");
+    });
+
+    userEvent.click(screen.getByRole("button", { name: /update/i }));
+
+    await userEvent.type(editor as HTMLElement, "Second");
+    await waitFor(() => {
+      expect(editor?.innerHTML).toContain("First");
+    });
+  });
 });
 
 const defaultToolbar = {
