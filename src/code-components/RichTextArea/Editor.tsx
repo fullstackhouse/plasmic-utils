@@ -1,12 +1,12 @@
-import React, { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
 import Toolbar from "quill/modules/toolbar";
 
-interface EditorProps {
-  htmlValue?: DeltaType | string;
+export interface EditorProps {
+  htmlValue?: string;
   toolbarConfigs?: ToolbarConfigs | false;
   onTextChange?: (content: string, source: EmitterSource) => void;
   onSelectionChange?: (range: Range, source: EmitterSource) => void;
@@ -41,7 +41,8 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const htmlValueRef = useRef(htmlValue);
+    const quillRef = useRef<Quill | null>(null);
+
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
     const onBlurRef = useRef(onBlur);
@@ -50,10 +51,22 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     const onKeyUpRef = useRef(onKeyUp);
 
     useEffect(() => {
-      if (ref && "current" in ref && ref.current) {
-        ref.current.enable(!readOnly);
+      if (quillRef.current) {
+        const quill = quillRef.current;
+        const editorHtml = quill.root.innerHTML.trim();
+
+        if (htmlValue?.trim() !== editorHtml) {
+          quill.clipboard.dangerouslyPasteHTML(htmlValue || "");
+        }
       }
-    }, [ref, readOnly]);
+    }, [htmlValue]);
+
+    useEffect(() => {
+      if (quillRef.current) {
+        const quill = quillRef.current;
+        quill.enable(!readOnly);
+      }
+    }, [readOnly]);
 
     useEffect(() => {
       const container = containerRef.current;
@@ -71,18 +84,16 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
         placeholder,
       });
 
+      quillRef.current = quill;
+
       if (typeof ref === "function") {
         ref(quill);
       } else if (ref) {
         ref.current = quill;
       }
 
-      if (htmlValueRef.current) {
-        if (typeof htmlValueRef.current === "string") {
-          quill.clipboard.dangerouslyPasteHTML(htmlValueRef.current);
-        } else {
-          quill.setContents(htmlValueRef.current);
-        }
+      if (htmlValue) {
+        quill.clipboard.dangerouslyPasteHTML(htmlValue);
       }
 
       quill.on(
