@@ -62,10 +62,11 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
     }, [htmlValue]);
 
     useEffect(() => {
-      if (ref && "current" in ref && ref.current) {
-        ref.current.enable(!readOnly);
+      if (quillRef.current) {
+        const quill = quillRef.current;
+        quill.enable(!readOnly);
       }
-    }, [ref, readOnly]);
+    }, [readOnly]);
 
     useEffect(() => {
       const container = containerRef.current;
