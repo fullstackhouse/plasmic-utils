@@ -49,6 +49,7 @@ import { SentryContext } from "./sentry/SentryContext";
 import { toastContextProviderConfig } from "./ToastContextProvider/config";
 import { registerToastContextProvider } from "./ToastContextProvider/ToastContextProvider.register";
 
+export * from "./prepass";
 export * from "./code-components/ApiProvider/ApiContext";
 export * from "./code-components/ApiProvider/ApiMutationProvider";
 export * from "./code-components/ApiProvider/ApiProvider";
