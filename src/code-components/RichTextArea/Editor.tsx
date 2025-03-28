@@ -20,7 +20,7 @@ export interface EditorProps {
   ariaLabeledby?: string;
 }
 
-export const Editor = forwardRef<Quill | null, EditorProps>(
+const Editor = forwardRef<Quill | null, EditorProps>(
   (
     {
       value,
@@ -149,4 +149,4 @@ export const Editor = forwardRef<Quill | null, EditorProps>(
   },
 );
 
-Editor.displayName = "Editor";
+export default Editor;

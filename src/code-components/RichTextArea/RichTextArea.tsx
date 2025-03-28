@@ -1,14 +1,11 @@
-import { useMemo, lazy } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Range } from "quill/core";
 import {
   formatDefaultToolbarConfigs,
   Toolbar,
   ToolbarConfigs,
 } from "./formatDefaultToolbarConfigs";
-
-const Editor = lazy(() =>
-  import("./Editor").then((module) => ({ default: module.Editor })),
-);
+import { EditorFallback } from "./EditorFallback";
 
 interface RichTextAreaProps {
   value?: string;
@@ -52,6 +49,30 @@ export function RichTextArea({
     : formattedToolbar.length
       ? formattedToolbar
       : false;
+
+  const [isMounted, setIsMounted] = useState(false);
+  const [Editor, setEditor] = useState<
+    null | typeof import("./Editor").default
+  >(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+    import("./Editor").then((mod) => setEditor(() => mod.default));
+
+    () => {
+      setIsMounted(false);
+    };
+  }, []);
+
+  if (!isMounted || !Editor) {
+    return (
+      <EditorFallback
+        value={value}
+        placeholder={placeholder}
+        className={className}
+      />
+    );
+  }
 
   return (
     <Editor
