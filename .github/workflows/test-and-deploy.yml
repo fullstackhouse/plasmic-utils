@@ -30,7 +30,7 @@ jobs:
       - run: npm run build-host
         if: steps.npm-install.conclusion == 'success' && (success() || failure())
 
-      - run: npm run build-package
+      - run: npm run build
         if: steps.npm-install.conclusion == 'success' && (success() || failure())
 
       - name: Notify FSH Slack on failure
