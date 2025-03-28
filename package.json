@@ -6,9 +6,9 @@
     "start": "next dev",
     "lint": "next lint",
     "test": "vitest",
+    "build": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json",
     "build-host": "next build",
-    "build-package": "rimraf dist && cp -r src dist && rimraf --glob 'dist/**/*.{ts,tsx}' && tsc -p tsconfig.package.json",
-    "prepublishOnly": "npm run build-package"
+    "prepublishOnly": "npm run build"
   },
   "main": "dist/index.js",
   "files": [
