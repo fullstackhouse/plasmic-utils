@@ -180,6 +180,39 @@ describe.sequential(RichTextArea.name, () => {
       expect(editor?.innerHTML).toContain("Updated content");
     });
   });
+
+  it("editor correctly updates on paste", async () => {
+    document.createRange = () => {
+      const range = new Range();
+
+      range.getBoundingClientRect = () => new DOMRect(0, 0, 0, 0);
+      range.getClientRects = () => [] as unknown as DOMRectList;
+
+      return range;
+    };
+
+    render(
+      <RichTextArea
+        toolbar={defaultToolbar}
+        readOnly={false}
+        wrapperClassName="editor-wrapper"
+        fallback={fallback}
+      />,
+    );
+
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    expect(editor).not.toBeNull();
+
+    await waitFor(() => {
+      editor?.focus();
+      userEvent.paste("Pasted data");
+    });
+
+    await waitFor(() => {
+      expect(editor?.innerHTML).toContain("Pasted data");
+    });
+  });
 });
 
 const defaultToolbar = {
