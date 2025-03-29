@@ -58,10 +58,6 @@ export function RichTextArea({
   useEffect(() => {
     setIsMounted(true);
     import("./Editor").then((mod) => setEditor(() => mod.default));
-
-    () => {
-      setIsMounted(false);
-    };
   }, []);
 
   if (!isMounted || !Editor) {
