@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiProviderFilledProps } from "./ApiProvider";
 import { FetchError } from "./FetchError";
-import { ToastContext } from "../../ToastContextProvider/ToastContext";
+import { ToastService } from "../../ToastContextProvider/ToastContext";
 import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
 import { useSelector } from "@plasmicapp/react-web/lib/host";
 import { useTrackBeforeUnload } from "./useTrackBeforeUnload";
@@ -13,7 +13,7 @@ export function useOnError({
   onError,
 }: Pick<ApiProviderFilledProps, "alertOnError" | "onError">): OnError {
   const requestCancelled = useTrackBeforeUnload();
-  const toast = useSelector("toast") as ToastContext | undefined;
+  const toast = useSelector("toast") as ToastService | undefined;
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
 
@@ -34,7 +34,7 @@ function handleApiError(
     onError,
   }: {
     requestCancelled: boolean;
-    toast: ToastContext | undefined;
+    toast: ToastService | undefined;
     onError: ApiProviderFilledProps["onError"];
   },
 ) {

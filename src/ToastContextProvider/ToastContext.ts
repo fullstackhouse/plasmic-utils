@@ -1,6 +1,8 @@
+import { createContext } from "react";
+
 export type ToastType = "info" | "error" | "success" | "warning";
 
-export interface ToastContext {
+export interface ToastService {
   show(toast: {
     id?: string;
     type?: ToastType;
@@ -16,3 +18,5 @@ export interface ToastContext {
 
   hide(toastId: string | number): void;
 }
+
+export const ToastContext = createContext<ToastService | null>(null);
