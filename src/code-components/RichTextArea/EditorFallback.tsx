@@ -1,3 +1,5 @@
+import "quill/dist/quill.snow.css";
+
 export function EditorFallback({
   value,
   placeholder,
@@ -7,6 +9,7 @@ export function EditorFallback({
   placeholder?: string;
   className?: string;
 }) {
+  const actualValue = value ? value : placeholder ? placeholder : "<p></p>";
   return (
     <div className={className}>
       <div
@@ -14,9 +17,10 @@ export function EditorFallback({
         style={{ height: "44px", boxSizing: "border-box" }}
       ></div>
       <div className="ql-container ql-snow">
-        <div className="ql-editor">
-          {value ? value : placeholder ? placeholder : ""}
-        </div>
+        <div
+          className="ql-editor"
+          dangerouslySetInnerHTML={{ __html: actualValue }}
+        />
       </div>
     </div>
   );

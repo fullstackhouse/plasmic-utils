@@ -42,6 +42,7 @@ export function RichTextArea({
 }: RichTextAreaProps) {
   const formattedToolbar = useMemo(
     () => formatDefaultToolbarConfigs(toolbar),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(toolbar)],
   );
   const currentToolbarConfigs = customToolbar?.length
@@ -58,10 +59,6 @@ export function RichTextArea({
   useEffect(() => {
     setIsMounted(true);
     import("./Editor").then((mod) => setEditor(() => mod.default));
-
-    () => {
-      setIsMounted(false);
-    };
   }, []);
 
   if (!isMounted || !Editor) {

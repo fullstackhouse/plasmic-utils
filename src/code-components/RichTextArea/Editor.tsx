@@ -136,6 +136,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         }
         container.innerHTML = "";
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref]);
 
     return (
@@ -150,5 +151,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
     );
   },
 );
+
+Editor.displayName = "Editor";
 
 export default Editor;
