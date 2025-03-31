@@ -13,6 +13,7 @@ import { SentryContext } from "../sentry/SentryContext";
 import { ToastContext, ToastService, ToastType } from "./ToastContext";
 import styles from "./ToastContextProvider.module.css";
 import { toastContextProviderConfig } from "./config";
+import { useIsMounted } from "../common/useIsMounted";
 
 export interface ToastContextProviderProps {
   duration: number;
@@ -40,6 +41,7 @@ export function ToastContextProvider({
   const idRef = useRef(1);
   const [toasts, setToasts] = useState<ToastState[]>([]);
   const sentry = useContext(SentryContext);
+  const isMounted = useIsMounted();
 
   const service = useMemo<ToastService>(
     () => ({
@@ -111,7 +113,10 @@ export function ToastContextProvider({
               </RadixToast.Root>
             ))}
 
-            <RadixToast.Viewport className={styles.viewport} />
+            {/* As a workaround for https://github.com/radix-ui/primitives/issues/3301 ,
+                we mount the toast viewport only once client mounts the component.
+                (No toasts should be visible on the server-side render anyways.) */}
+            {isMounted && <RadixToast.Viewport className={styles.viewport} />}
           </RadixToast.Provider>
         </MemoDataProvider>
       </GlobalActionsProvider>
