@@ -11,6 +11,6 @@
     "esModuleInterop": true,
     "jsx": "preserve"
   },
-  "include": ["package-env.d.ts", "src", "global.d.ts"],
+  "include": ["package-env.d.ts", "src"],
   "exclude": ["node_modules"]
 }

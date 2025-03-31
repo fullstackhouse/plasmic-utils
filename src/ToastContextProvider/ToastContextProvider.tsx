@@ -75,13 +75,6 @@ export function ToastContextProvider({
     [sentry],
   );
 
-  useEffect(() => {
-    window.__fshPlasmicUtilsToast = context;
-    return () => {
-      delete window.__fshPlasmicUtilsToast;
-    };
-  }, [context]);
-
   const ToastRenderer = toastContextProviderConfig.toastRenderer;
 
   return (
