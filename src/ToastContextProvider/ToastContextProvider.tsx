@@ -10,9 +10,10 @@ import {
 } from "react";
 import { MemoDataProvider } from "../code-components/MemoDataProvider/MemoDataProvider";
 import { SentryContext } from "../sentry/SentryContext";
-import { ToastContext, ToastType } from "./ToastContext";
+import { ToastContext, ToastService, ToastType } from "./ToastContext";
 import styles from "./ToastContextProvider.module.css";
 import { toastContextProviderConfig } from "./config";
+import { useIsMounted } from "../common/useIsMounted";
 
 export interface ToastContextProviderProps {
   duration: number;
@@ -40,8 +41,9 @@ export function ToastContextProvider({
   const idRef = useRef(1);
   const [toasts, setToasts] = useState<ToastState[]>([]);
   const sentry = useContext(SentryContext);
+  const isMounted = useIsMounted();
 
-  const context = useMemo<ToastContext>(
+  const service = useMemo<ToastService>(
     () => ({
       show({ id, type, title, description, action, duration }) {
         sentry?.addBreadcrumb({
@@ -75,51 +77,49 @@ export function ToastContextProvider({
     [sentry],
   );
 
-  useEffect(() => {
-    window.__fshPlasmicUtilsToast = context;
-    return () => {
-      delete window.__fshPlasmicUtilsToast;
-    };
-  }, [context]);
-
   const ToastRenderer = toastContextProviderConfig.toastRenderer;
 
   return (
-    <GlobalActionsProvider
-      contextName="ToastContext"
-      actions={context as Record<keyof ToastContext, Function>}
-    >
-      <MemoDataProvider name="toast" data={context} deps={[context]}>
-        <RadixToast.Provider duration={duration}>
-          {children}
+    <ToastContext.Provider value={service}>
+      <GlobalActionsProvider
+        contextName="ToastContext"
+        actions={service as Record<keyof ToastService, Function>}
+      >
+        <MemoDataProvider name="toast" data={service} deps={[service]}>
+          <RadixToast.Provider duration={duration}>
+            {children}
 
-          {toasts.map((toast) => (
-            <RadixToast.Root
-              style={{ userSelect: "auto" }}
-              onSwipeEnd={(event) => event.preventDefault()}
-              key={toast.id}
-              open={toast.open}
-              className={styles.root}
-              duration={toast.duration}
-              onOpenChange={(open) =>
-                setToasts((toasts) =>
-                  toasts.map((t) => (t.id === toast.id ? { ...t, open } : t)),
-                )
-              }
-            >
-              <ToastRenderer
-                type={toast.type}
-                title={toast.title}
-                description={toast.description}
-                action={toast.action}
-                onClose={() => context.hide(toast.id)}
-              />
-            </RadixToast.Root>
-          ))}
+            {toasts.map((toast) => (
+              <RadixToast.Root
+                style={{ userSelect: "auto" }}
+                onSwipeEnd={(event) => event.preventDefault()}
+                key={toast.id}
+                open={toast.open}
+                className={styles.root}
+                duration={toast.duration}
+                onOpenChange={(open) =>
+                  setToasts((toasts) =>
+                    toasts.map((t) => (t.id === toast.id ? { ...t, open } : t)),
+                  )
+                }
+              >
+                <ToastRenderer
+                  type={toast.type}
+                  title={toast.title}
+                  description={toast.description}
+                  action={toast.action}
+                  onClose={() => service.hide(toast.id)}
+                />
+              </RadixToast.Root>
+            ))}
 
-          <RadixToast.Viewport className={styles.viewport} />
-        </RadixToast.Provider>
-      </MemoDataProvider>
-    </GlobalActionsProvider>
+            {/* As a workaround for https://github.com/radix-ui/primitives/issues/3301 ,
+                we mount the toast viewport only once client mounts the component.
+                (No toasts should be visible on the server-side render anyways.) */}
+            {isMounted && <RadixToast.Viewport className={styles.viewport} />}
+          </RadixToast.Provider>
+        </MemoDataProvider>
+      </GlobalActionsProvider>
+    </ToastContext.Provider>
   );
 }
