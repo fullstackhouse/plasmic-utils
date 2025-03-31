@@ -31,12 +31,15 @@ export async function plasmicPrepassExtract(
   // the value is exected to be only loaded in client-side and not possible to
   // extract from server-side.
   const filteredCache = Object.fromEntries(
-    Array.from(cache.entries()).filter(
-      ([key, val]) =>
-        !key.startsWith("$swr$") &&
-        !key.startsWith("$csq$") &&
-        val !== undefined,
-    ),
+    Array.from(cache.entries())
+      .filter(
+        ([key, val]) =>
+          !key.startsWith("$swr$") &&
+          !key.startsWith("$csq$") &&
+          val &&
+          val.data,
+      )
+      .map(([key, val]) => [key, val.data]),
   );
 
   const queryData = (() => {
