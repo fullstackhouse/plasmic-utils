@@ -76,6 +76,7 @@
     "zod": "^3.22.4"
   },
   "dependencies": {
-    "@fullstackhouse/react-ssr-prepass": "^2.0.11"
+    "@fullstackhouse/react-ssr-prepass": "^2.0.11",
+    "quill": "2.0.3"
   }
 }
