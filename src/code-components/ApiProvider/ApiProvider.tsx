@@ -149,7 +149,7 @@ function fillProps(props: ApiProviderProps) {
     ...props,
     method: props.method ?? "GET",
     cacheKey: props.cacheKey ?? [props.path, props.query],
-    enabled: props.enabled ?? true,
+    enabled: props.enabled ?? false,
     name: props.name ?? "response",
     editorMode: props.editorMode ?? EditorMode.interactive,
     refetchIfStale: props.refetchIfStale ?? true,
