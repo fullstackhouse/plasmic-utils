@@ -55,7 +55,8 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         const editorHtml = quill.root.innerHTML.trim();
 
         if (value?.trim() !== editorHtml) {
-          quill.root.innerHTML = value ?? "";
+          const contents = quill.clipboard.convert({ html: value ?? "" });
+          quill.setContents(contents);
         }
       }
     }, [value]);
@@ -92,7 +93,8 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       }
 
       if (value) {
-        quill.root.innerHTML = value;
+        const contents = quill.clipboard.convert({ html: value });
+        quill.setContents(contents);
       }
 
       quill.on(
