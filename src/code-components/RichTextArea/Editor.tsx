@@ -55,7 +55,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         const editorHtml = quill.root.innerHTML.trim();
 
         if (value?.trim() !== editorHtml) {
-          value ? (quill.root.innerHTML = value) : (quill.root.innerHTML = "");
+          quill.root.innerHTML = value ?? "";
         }
       }
     }, [value]);
