@@ -239,6 +239,38 @@ describe.sequential(RichTextArea.name, () => {
       expect(editor?.innerHTML).toContain("First");
     });
   });
+
+  it("editor doesnt allow to input not allowed tags", async () => {
+    render(
+      <RichTextArea
+        toolbar={defaultToolbar}
+        readOnly={false}
+        className="editor-wrapper"
+      />,
+    );
+
+    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    const editor = document.querySelector(".ql-editor") as HTMLElement;
+
+    await userEvent.type(editor, "TEST: Test typing");
+    expect(screen.queryByText("TEST: Test typing")).not.toBeNull();
+
+    await userEvent.type(editor, '<img src="test url" />');
+    expect(screen.queryByText('<img src="test url" />')).not.toBeNull();
+
+    await userEvent.type(editor, "<script>alert(1)</script>");
+    expect(screen.queryByText("<script>alert(1)</script>")).toBeNull();
+
+    await userEvent.type(
+      editor,
+      '<img src="http://www.erorerer.com/a.jpg" onerror="alert(1)" />',
+    );
+    expect(
+      screen.queryByText(
+        '<img src="http://www.erorerer.com/a.jpg" onerror="alert(1)" />',
+      ),
+    ).toBeNull();
+  });
 });
 
 const defaultToolbar = {
