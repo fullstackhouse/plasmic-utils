@@ -196,6 +196,15 @@ export function registerRichTextArea(
           },
         ],
       },
+      onLoading: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "loading",
+            type: "boolean",
+          },
+        ],
+      },
       onDrop: {
         type: "code",
         lang: "javascript",
@@ -230,6 +239,12 @@ export function registerRichTextArea(
         variableType: "object",
         onChangeProp: "onError",
         initVal: undefined,
+      },
+      loading: {
+        type: "readonly",
+        variableType: "boolean",
+        onChangeProp: "onLoading",
+        initVal: false,
       },
     },
   });

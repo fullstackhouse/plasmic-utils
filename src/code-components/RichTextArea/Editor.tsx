@@ -19,6 +19,7 @@ export interface EditorProps {
   onKeyDown?: (event: KeyboardEvent) => void;
   onKeyUp?: (event: KeyboardEvent) => void;
   onError?: (error: { message?: string } | undefined) => void;
+  onLoading?: (loading: boolean) => void;
   onDrop?: (type: string, name: string, blob: Blob) => Promise<string>;
   placeholder?: string;
   readOnly?: boolean;
@@ -39,6 +40,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       onKeyDown,
       onKeyUp,
       onError,
+      onLoading,
       onDrop,
       placeholder,
       readOnly,
@@ -58,6 +60,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
     const onErrorRef = useRef(onError);
+    const onLoadingRef = useRef(onLoading);
     const onDropRef = useRef(onDrop);
 
     async function imageDropHandler(
@@ -69,6 +72,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       if (!handlerFunction) return;
 
       try {
+        onLoadingRef.current?.(true);
         const blob = await getBlob(imageData);
         if (!blob) throw new Error();
 
@@ -81,6 +85,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         throw new Error(message);
       } finally {
         onErrorRef.current?.(undefined);
+        onLoadingRef.current?.(false);
       }
     }
 
