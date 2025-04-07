@@ -17,6 +17,7 @@ interface RichTextAreaProps {
   onFocus?: (range: Range | null, source: string) => void;
   onKeyDown?: (event: KeyboardEvent) => void;
   onKeyUp?: (event: KeyboardEvent) => void;
+  onDrop?: (type: string, name: string, blob: Blob) => Promise<string>;
   placeholder?: string;
   readOnly: boolean;
   className: string;
@@ -34,6 +35,7 @@ export function RichTextArea({
   onFocus,
   onKeyDown,
   onKeyUp,
+  onDrop,
   placeholder,
   readOnly,
   className,
@@ -83,6 +85,7 @@ export function RichTextArea({
       onFocus={onFocus}
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
+      onDrop={onDrop}
       className={className}
       ariaLabel={ariaLabel}
       ariaLabeledby={ariaLabeledby}

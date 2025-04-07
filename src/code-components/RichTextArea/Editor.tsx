@@ -18,6 +18,7 @@ export interface EditorProps {
   onFocus?: (range: Range, source: EmitterSource) => void;
   onKeyDown?: (event: KeyboardEvent) => void;
   onKeyUp?: (event: KeyboardEvent) => void;
+  onDrop?: (type: string, name: string, blob: Blob) => Promise<string>;
   placeholder?: string;
   readOnly?: boolean;
   className?: string;
@@ -36,6 +37,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       onFocus,
       onKeyDown,
       onKeyUp,
+      onDrop,
       placeholder,
       readOnly,
       className,
@@ -53,6 +55,27 @@ const Editor = forwardRef<Quill | null, EditorProps>(
     const onFocusRef = useRef(onFocus);
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
+    const onDropRef = useRef(onDrop);
+
+    async function imageDropHandler(
+      type: string,
+      imageData: QuillImageData & { name?: string },
+    ) {
+      const handlerFunction = onDropRef.current;
+
+      if (!handlerFunction) return;
+
+      try {
+        const blob = await getBlob(imageData);
+        if (!blob) throw new Error("RichTextArea: Blob is null");
+
+        const name = imageData?.name ?? "unknown.jpg";
+
+        return await handlerFunction(type, name, blob);
+      } catch {
+        throw new Error("RichTextArea: On Drop failed");
+      }
+    }
 
     useEffect(() => {
       if (quillRef.current) {
@@ -84,6 +107,19 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         theme: "snow",
         modules: {
           toolbar: toolbarConfigs,
+          imageDropAndPaste: {
+            handler: async (_: string, type: string, data: QuillImageData) => {
+              const imageDataWithName = data as QuillImageData & {
+                name?: string;
+              };
+
+              const imageUrl = await imageDropHandler(type, imageDataWithName);
+
+              let index = (quill.getSelection() || {}).index;
+              if (index === undefined || index < 0) index = quill.getLength();
+              quill.insertEmbed(index, "image", imageUrl, "user");
+            },
+          },
         },
         readOnly,
         placeholder,
@@ -162,3 +198,14 @@ const Editor = forwardRef<Quill | null, EditorProps>(
 Editor.displayName = "Editor";
 
 export default Editor;
+
+async function getBlob(imageData: QuillImageData): Promise<Blob | null> {
+  const miniImageData = await imageData.minify({
+    maxWidth: 320,
+    maxHeight: 320,
+    quality: 0.7,
+  });
+  if ("message" in miniImageData) {
+    return null;
+  } else return miniImageData.toBlob();
+}

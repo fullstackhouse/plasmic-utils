@@ -187,6 +187,10 @@ export function registerRichTextArea(
           },
         ],
       },
+      onDrop: {
+        type: "code",
+        lang: "javascript",
+      },
       placeholder: {
         type: "string",
       },
