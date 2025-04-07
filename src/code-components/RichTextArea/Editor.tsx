@@ -3,6 +3,11 @@ import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
+import QuillImageDropAndPaste, {
+  ImageData as QuillImageData,
+} from "quill-image-drop-and-paste";
+
+Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 
 export interface EditorProps {
   value?: string;
