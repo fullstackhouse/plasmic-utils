@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import { Delta as DeltaType, EmitterSource, Range } from "quill/core";
 import { ToolbarConfigs } from "./formatDefaultToolbarConfigs";
 import Quill from "quill";
+import sanitizeHtml from "sanitize-html";
 
 export interface EditorProps {
   value?: string;
@@ -55,7 +56,11 @@ const Editor = forwardRef<Quill | null, EditorProps>(
         const editorHtml = quill.root.innerHTML.trim();
 
         if (value?.trim() !== editorHtml) {
-          const contents = quill.clipboard.convert({ html: value ?? "" });
+          const dirty = value ?? "";
+          const sanitizedHtml = sanitizeHtml(dirty, {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+          });
+          const contents = quill.clipboard.convert({ html: sanitizedHtml });
           quill.setContents(contents);
         }
       }
@@ -93,7 +98,10 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       }
 
       if (value) {
-        const contents = quill.clipboard.convert({ html: value });
+        const sanitizedHtml = sanitizeHtml(value, {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        });
+        const contents = quill.clipboard.convert({ html: sanitizedHtml });
         quill.setContents(contents);
       }
 
