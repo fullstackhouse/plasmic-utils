@@ -187,6 +187,15 @@ export function registerRichTextArea(
           },
         ],
       },
+      onError: {
+        type: "eventHandler",
+        argTypes: [
+          {
+            name: "message",
+            type: "string",
+          },
+        ],
+      },
       onDrop: {
         type: "code",
         lang: "javascript",
@@ -215,6 +224,12 @@ export function registerRichTextArea(
         variableType: "text",
         valueProp: "value",
         onChangeProp: "onChange",
+      },
+      error: {
+        type: "readonly",
+        variableType: "object",
+        onChangeProp: "onError",
+        initVal: undefined,
       },
     },
   });

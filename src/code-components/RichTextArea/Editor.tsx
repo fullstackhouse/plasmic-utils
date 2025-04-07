@@ -18,6 +18,7 @@ export interface EditorProps {
   onFocus?: (range: Range, source: EmitterSource) => void;
   onKeyDown?: (event: KeyboardEvent) => void;
   onKeyUp?: (event: KeyboardEvent) => void;
+  onError?: (error: { message?: string } | undefined) => void;
   onDrop?: (type: string, name: string, blob: Blob) => Promise<string>;
   placeholder?: string;
   readOnly?: boolean;
@@ -37,6 +38,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       onFocus,
       onKeyDown,
       onKeyUp,
+      onError,
       onDrop,
       placeholder,
       readOnly,
@@ -55,6 +57,7 @@ const Editor = forwardRef<Quill | null, EditorProps>(
     const onFocusRef = useRef(onFocus);
     const onKeyDownRef = useRef(onKeyDown);
     const onKeyUpRef = useRef(onKeyUp);
+    const onErrorRef = useRef(onError);
     const onDropRef = useRef(onDrop);
 
     async function imageDropHandler(
@@ -67,13 +70,17 @@ const Editor = forwardRef<Quill | null, EditorProps>(
 
       try {
         const blob = await getBlob(imageData);
-        if (!blob) throw new Error("RichTextArea: Blob is null");
+        if (!blob) throw new Error();
 
         const name = imageData?.name ?? "unknown.jpg";
 
         return await handlerFunction(type, name, blob);
-      } catch {
-        throw new Error("RichTextArea: On Drop failed");
+      } catch (error) {
+        const message = "RichTextArea: On Drop failed";
+        onErrorRef.current?.({ message });
+        throw new Error(message);
+      } finally {
+        onErrorRef.current?.(undefined);
       }
     }
 
