@@ -240,7 +240,7 @@ describe.sequential(RichTextArea.name, () => {
     });
   });
 
-  it("editor doesnt allow to input not allowed tags", async () => {
+  it("editor should sanitize disallowed tags and attributes in the editor", async () => {
     render(
       <RichTextArea
         toolbar={defaultToolbar}
