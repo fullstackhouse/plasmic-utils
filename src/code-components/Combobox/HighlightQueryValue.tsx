@@ -6,7 +6,7 @@ interface HighlightQueryProps {
   queryClassName?: string;
 }
 
-const HighlightQueryValue = ({
+export const HighlightQueryValue = ({
   text,
   query,
   queryClassName,
@@ -35,5 +35,3 @@ const HighlightQueryValue = ({
 
   return <>{text}</>;
 };
-
-export default HighlightQueryValue;

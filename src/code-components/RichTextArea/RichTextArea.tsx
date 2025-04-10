@@ -52,13 +52,13 @@ export function RichTextArea({
       : false;
 
   const [isMounted, setIsMounted] = useState(false);
-  const [Editor, setEditor] = useState<
-    null | typeof import("./Editor").default
-  >(null);
+  const [Editor, setEditor] = useState<null | typeof import("./Editor").Editor>(
+    null,
+  );
 
   useEffect(() => {
     setIsMounted(true);
-    import("./Editor").then((mod) => setEditor(() => mod.default));
+    import("./Editor").then(({ Editor }) => setEditor(() => Editor));
   }, []);
 
   if (!isMounted || !Editor) {

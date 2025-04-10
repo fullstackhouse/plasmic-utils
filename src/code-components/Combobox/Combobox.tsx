@@ -2,7 +2,7 @@ import { Combobox as HeadlessCombobox, Transition } from "@headlessui/react";
 import { useState, useRef, Fragment, ReactNode } from "react";
 
 import styles from "./Combobox.module.css";
-import HighlightQueryValue from "./HighlightQueryValue";
+import { HighlightQueryValue } from "./HighlightQueryValue";
 import { groupOptions } from "./utils";
 import { limitOptions } from "./limitOptions";
 import { filterOptionGroupsByQuery } from "./filterOptionGroupsByQuery";
