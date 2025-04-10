@@ -1,5 +1,64 @@
 import type { PlasmicLoader } from "../../plasmic";
+import { componentHelpers } from "./componentHelpers";
 import { RichTextArea } from "./RichTextArea";
+import {
+  COLOR_TYPE_DICT,
+  FONT_SIZES,
+  FORMATTING_TYPES_DICT,
+  HEADING_TYPES_DICT,
+  INPUT_TYPES,
+  TEXT_STYLE_DICT,
+  ToolbarOptionsType,
+} from "./toolbar";
+import { PropType } from "@plasmicapp/host";
+
+const toolbarFields: Record<ToolbarOptionsType, PropType<any>> = {
+  textStyle: {
+    type: "choice",
+    multiSelect: true,
+    options: Object.keys(TEXT_STYLE_DICT),
+    defaultValue: Object.keys(TEXT_STYLE_DICT),
+  },
+  colors: {
+    type: "choice",
+    multiSelect: true,
+    options: Object.keys(COLOR_TYPE_DICT),
+    defaultValue: Object.keys(COLOR_TYPE_DICT),
+  },
+  script: {
+    displayName: "Super/Sub Script",
+    type: "boolean",
+    defaultValue: true,
+  },
+  fontFamily: {
+    type: "boolean",
+    defaultValue: true,
+  },
+  heading: {
+    type: "choice",
+    multiSelect: true,
+    options: Object.keys(HEADING_TYPES_DICT),
+    defaultValue: Object.keys(HEADING_TYPES_DICT),
+  },
+  fontSizes: {
+    type: "choice",
+    multiSelect: true,
+    options: FONT_SIZES,
+    defaultValue: FONT_SIZES,
+  },
+  formatting: {
+    type: "choice",
+    multiSelect: true,
+    options: Object.keys(FORMATTING_TYPES_DICT),
+    defaultValue: Object.keys(FORMATTING_TYPES_DICT),
+  },
+  inputTypes: {
+    type: "choice",
+    multiSelect: true,
+    options: INPUT_TYPES,
+    defaultValue: INPUT_TYPES,
+  },
+} as const;
 
 export function registerRichTextArea(
   plasmic: PlasmicLoader,
@@ -8,130 +67,68 @@ export function registerRichTextArea(
   plasmic.registerComponent(RichTextArea, {
     name: "RichTextArea",
     importPath: modulePath + "/code-components/RichTextArea/RichTextArea",
+    defaultStyles: {
+      width: "stretch",
+    },
     props: {
       value: {
         type: "string",
+        displayName: "HTML Value",
+        editOnly: true,
+        uncontrolledProp: "defaultValue",
         description: "Contents of the editor",
       },
+      placeholder: "string",
       toolbar: {
         type: "object",
-        fields: {
-          textStyle: {
-            type: "choice",
-            options: ["bold", "italic", "underline", "strikethrough"],
-            multiSelect: true,
-          },
-          colors: {
-            type: "choice",
-            options: ["text color", "text background"],
-            multiSelect: true,
-          },
-          superSubScript: {
-            type: "boolean",
-            displayName: "Super/SubScript",
-          },
-          fontFamily: {
-            type: "boolean",
-          },
-          heading: {
-            type: "choice",
-            options: [
-              "Heading 1",
-              "Heading 2",
-              "Heading 3",
-              "Heading 4",
-              "Heading 5",
-              "Heading 6",
-              "Body",
-            ],
-            multiSelect: true,
-          },
-          fontSizes: {
-            type: "choice",
-            options: ["small", "medium", "large", "huge"],
-            multiSelect: true,
-          },
-          formatting: {
-            type: "choice",
-            options: [
-              "alignment",
-              "list",
-              "indentation",
-              "text direction",
-              "clear formatting",
-            ],
-            multiSelect: true,
-          },
-          inputTypes: {
-            type: "choice",
-            options: [
-              "link",
-              "blockquote",
-              "image",
-              "video",
-              "code-block",
-              "formula",
-            ],
-            multiSelect: true,
-          },
-        },
+        fields: { ...toolbarFields },
+        defaultValue: Object.keys(toolbarFields).reduce((acc: any, key) => {
+          acc[key] = (
+            toolbarFields[key as keyof typeof toolbarFields] as any
+          ).defaultValue;
+          return acc;
+        }, {}),
         description: "Customize the toolbar to show/hide controls",
-        helpText: "Custom toolbar need to be null for it to work.",
-        defaultValue: {
-          textStyle: ["bold", "italic", "underline", "strikethrough"],
-          colors: ["text color", "text background"],
-          superSubScript: true,
-          fontFamily: true,
-          heading: [
-            "Heading 1",
-            "Heading 2",
-            "Heading 3",
-            "Heading 4",
-            "Heading 5",
-            "Heading 6",
-            "Body",
-          ],
-          fontSizes: ["small", "medium", "large", "huge"],
-          formatting: [
-            "alignment",
-            "list",
-            "indentation",
-            "text direction",
-            "clear formatting",
-          ],
-          inputTypes: [
-            "link",
-            "blockquote",
-            "image",
-            "video",
-            "code-block",
-            "formula",
-          ],
-        },
       },
       customToolbar: {
-        type: "object",
+        type: "array",
+        advanced: true,
         description:
           "Custom toolbar configuration for Quill editor. Overrides the existing toolbar.",
         helpText:
           "Check toolbarOptions here: https://quilljs.com/docs/modules/toolbar",
+      },
+      readOnly: {
+        type: "boolean",
+        description: "Prevents user from changing the contents of the editor",
+        defaultValue: false,
         advanced: true,
       },
       onChange: {
         type: "eventHandler",
+        advanced: true,
         argTypes: [
           {
             name: "content",
             type: "string",
           },
           {
+            name: "delta",
+            type: "object",
+          },
+          {
             name: "source",
             type: "string",
           },
+          {
+            name: "editor",
+            type: "object",
+          },
         ],
       },
-      onSelectionChange: {
+      onChangeSelection: {
         type: "eventHandler",
+        advanced: true,
         argTypes: [
           {
             name: "range",
@@ -141,23 +138,15 @@ export function registerRichTextArea(
             name: "source",
             type: "string",
           },
-        ],
-      },
-      onBlur: {
-        type: "eventHandler",
-        argTypes: [
           {
-            name: "range",
+            name: "editor",
             type: "object",
-          },
-          {
-            name: "source",
-            type: "string",
           },
         ],
       },
       onFocus: {
         type: "eventHandler",
+        advanced: true,
         argTypes: [
           {
             name: "range",
@@ -167,10 +156,43 @@ export function registerRichTextArea(
             name: "source",
             type: "string",
           },
+          {
+            name: "editor",
+            type: "object",
+          },
+        ],
+      },
+      onBlur: {
+        type: "eventHandler",
+        advanced: true,
+        argTypes: [
+          {
+            name: "previousRange",
+            type: "object",
+          },
+          {
+            name: "source",
+            type: "string",
+          },
+          {
+            name: "editor",
+            type: "object",
+          },
+        ],
+      },
+      onKeyPress: {
+        type: "eventHandler",
+        advanced: true,
+        argTypes: [
+          {
+            name: "event",
+            type: "object",
+          },
         ],
       },
       onKeyDown: {
         type: "eventHandler",
+        advanced: true,
         argTypes: [
           {
             name: "event",
@@ -180,23 +202,13 @@ export function registerRichTextArea(
       },
       onKeyUp: {
         type: "eventHandler",
+        advanced: true,
         argTypes: [
           {
             name: "event",
             type: "object",
           },
         ],
-      },
-      placeholder: {
-        type: "string",
-      },
-      readOnly: {
-        type: "boolean",
-        defaultValue: false,
-        description: "Prevents user from changing the contents of the editor",
-      },
-      className: {
-        type: "class",
       },
       ariaLabel: {
         type: "string",
@@ -208,10 +220,16 @@ export function registerRichTextArea(
     states: {
       value: {
         type: "writable",
-        variableType: "text",
         valueProp: "value",
         onChangeProp: "onChange",
+        variableType: "text",
+        ...componentHelpers.states.value,
       },
+    },
+    componentHelpers: {
+      helpers: componentHelpers,
+      importName: "componentHelpers",
+      importPath: modulePath + "/code-components/RichTextArea/componentHelpers",
     },
   });
 }

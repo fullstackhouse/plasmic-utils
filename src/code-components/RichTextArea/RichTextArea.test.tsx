@@ -1,42 +1,31 @@
-import { render, screen, cleanup, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { Screen } from "@testing-library/react";
-import { RichTextArea } from "./RichTextArea";
 import { useState } from "react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { RichTextArea } from "./RichTextArea";
 
 afterEach(cleanup);
 
 describe.sequential(RichTextArea.name, () => {
   it("renders", async () => {
-    render(
-      <RichTextArea
-        toolbar={defaultToolbar}
-        readOnly={false}
-        className="editor-wrapper"
-      />,
-    );
+    render(<RichTextArea />);
 
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    await waitFor(() => expectRichTextAreaToBePresent());
   });
 
   it("should update content and call onChange on user input", async () => {
     const handleChange = vi.fn();
 
-    render(
-      <RichTextArea
-        toolbar={defaultToolbar}
-        onChange={handleChange}
-        readOnly={false}
-        className="editor-wrapper"
-      />,
-    );
+    render(<RichTextArea onChange={handleChange} />);
 
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
-    const editor = document.querySelector(".ql-editor") as HTMLElement;
+    await waitFor(() => expectRichTextAreaToBePresent());
+    const editor = document.querySelector<HTMLElement>(".ql-editor")!;
 
     await userEvent.type(editor, "Test typing");
 
+    await waitFor(() => {
+      expect(editor.innerHTML).toContain("Test typing");
+    });
     await waitFor(() => expect(handleChange).toHaveBeenCalled());
   });
 
@@ -44,18 +33,10 @@ describe.sequential(RichTextArea.name, () => {
     const onFocus = vi.fn();
     const onBlur = vi.fn();
 
-    render(
-      <RichTextArea
-        toolbar={defaultToolbar}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        readOnly={false}
-        className="editor-wrapper"
-      />,
-    );
+    render(<RichTextArea onFocus={onFocus} onBlur={onBlur} />);
 
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
-    const editor = document.querySelector(".ql-editor") as HTMLElement;
+    await waitFor(() => expectRichTextAreaToBePresent());
+    const editor = document.querySelector<HTMLElement>(".ql-editor")!;
 
     userEvent.click(editor);
 
@@ -73,7 +54,6 @@ describe.sequential(RichTextArea.name, () => {
   it("should display custom toolbar correctly", async () => {
     render(
       <RichTextArea
-        toolbar={defaultToolbar}
         customToolbar={[
           ["bold", "italic"],
           [
@@ -95,12 +75,10 @@ describe.sequential(RichTextArea.name, () => {
           ["link"],
           ["clean"],
         ]}
-        readOnly={false}
-        className="editor-wrapper"
       />,
     );
 
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    await waitFor(() => expectRichTextAreaToBePresent());
 
     const underlineButton = screen.queryByRole("button", {
       name: /underline/i,
@@ -146,20 +124,15 @@ describe.sequential(RichTextArea.name, () => {
       return (
         <>
           <button onClick={() => setValue(updatedHtmlValue)}>Update</button>
-          <RichTextArea
-            value={value}
-            toolbar={defaultToolbar}
-            readOnly={false}
-            className="editor-wrapper"
-          />
+          <RichTextArea value={value} />
         </>
       );
     }
 
     render(<WrapperComponent />);
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    await waitFor(() => expectRichTextAreaToBePresent());
 
-    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    const editor = document.querySelector<HTMLElement>(".ql-editor");
     expect(editor).not.toBeNull();
 
     await waitFor(() => {
@@ -183,16 +156,10 @@ describe.sequential(RichTextArea.name, () => {
       return range;
     };
 
-    render(
-      <RichTextArea
-        toolbar={defaultToolbar}
-        readOnly={false}
-        className="editor-wrapper"
-      />,
-    );
+    render(<RichTextArea />);
 
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
-    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    await waitFor(() => expectRichTextAreaToBePresent());
+    const editor = document.querySelector<HTMLElement>(".ql-editor");
     expect(editor).not.toBeNull();
 
     await waitFor(() => {
@@ -212,19 +179,15 @@ describe.sequential(RichTextArea.name, () => {
       return (
         <>
           <button onClick={() => setReadOnly(true)}>Update</button>
-          <RichTextArea
-            toolbar={defaultToolbar}
-            readOnly={readOnly}
-            className="editor-wrapper"
-          />
+          <RichTextArea readOnly={readOnly} />
         </>
       );
     }
 
     render(<WrapperComponent />);
-    await waitFor(() => expectRichTextAreaToBeOnPage(screen));
+    await waitFor(() => expectRichTextAreaToBePresent());
 
-    const editor = document.querySelector(".ql-editor") as HTMLElement | null;
+    const editor = document.querySelector<HTMLElement>(".ql-editor");
     expect(editor).not.toBeNull();
 
     await userEvent.type(editor as HTMLElement, "First");
@@ -241,35 +204,6 @@ describe.sequential(RichTextArea.name, () => {
   });
 });
 
-const defaultToolbar = {
-  textStyle: ["bold", "italic", "underline", "strikethrough"],
-  colors: ["text color", "text background"],
-  superSubScript: true,
-  fontFamily: true,
-  heading: [
-    "Heading 1",
-    "Heading 2",
-    "Heading 3",
-    "Heading 4",
-    "Heading 5",
-    "Heading 6",
-    "Body",
-  ],
-  fontSizes: ["small", "medium", "large", "huge"],
-  formatting: [
-    "alignment",
-    "list",
-    "indentation",
-    "text direction",
-    "clear formatting",
-  ],
-  inputTypes: ["link", "blockquote", "image", "video", "code-block", "formula"],
-};
-
-function expectRichTextAreaToBeOnPage(screen: Screen) {
-  const richTextArea = screen
-    .queryAllByRole("textbox")
-    .some((el) => el.tagName === "DIV");
-
-  expect(richTextArea).toBeTruthy();
+function expectRichTextAreaToBePresent() {
+  expect(document.querySelector(".ql-tooltip")).toBeTruthy();
 }
