@@ -210,12 +210,6 @@ export function registerRichTextArea(
           },
         ],
       },
-      ariaLabel: {
-        type: "string",
-      },
-      ariaLabeledby: {
-        type: "string",
-      },
     },
     states: {
       value: {
