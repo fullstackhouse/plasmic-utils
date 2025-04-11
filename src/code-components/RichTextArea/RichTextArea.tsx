@@ -1,91 +1,56 @@
-import { useMemo, useState, useEffect } from "react";
-import { Range } from "quill/core";
-import {
-  formatDefaultToolbarConfigs,
-  Toolbar,
-  ToolbarConfigs,
-} from "./formatDefaultToolbarConfigs";
-import { EditorFallback } from "./EditorFallback";
+import { CSSProperties, useMemo } from "react";
+import type ReactQuillNew from "react-quill-new";
+import { QuillPlaceholder } from "./QuillPlaceholder";
+import { useToolbar } from "./toolbar";
+import { useReactQuill } from "./useReactQuill";
+import "quill/dist/quill.snow.css";
+import { container } from "./quill.module.css";
 
-interface RichTextAreaProps {
-  value?: string;
-  toolbar: Toolbar;
-  customToolbar?: ToolbarConfigs;
-  onSelectionChange?: (range: Range | null, source: string) => void;
-  onChange?: (content: string, source: string) => void;
-  onBlur?: (range: Range | null, source: string) => void;
-  onFocus?: (range: Range | null, source: string) => void;
-  onKeyDown?: (event: KeyboardEvent) => void;
-  onKeyUp?: (event: KeyboardEvent) => void;
-  placeholder?: string;
-  readOnly: boolean;
-  className: string;
-  ariaLabel?: string;
-  ariaLabeledby?: string;
-}
+const style: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+};
 
-export function RichTextArea({
-  value,
-  toolbar,
-  customToolbar,
-  onSelectionChange,
-  onChange,
-  onBlur,
-  onFocus,
-  onKeyDown,
-  onKeyUp,
-  placeholder,
-  readOnly,
-  className,
-  ariaLabel,
-  ariaLabeledby,
-}: RichTextAreaProps) {
-  const formattedToolbar = useMemo(
-    () => formatDefaultToolbarConfigs(toolbar),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(toolbar)],
+export function RichTextArea(
+  props: ReactQuillNew.ReactQuillProps & {
+    value?: string;
+    toolbar?: any;
+    customToolbar?: any[];
+  },
+) {
+  const ReactQuill = useReactQuill();
+
+  const { toolbar, customToolbar, className, ...reactQuillProps } = props;
+  const actualClassName = `${className} ${container}`;
+  const actualToolbar = useToolbar({
+    toolbar: props.toolbar,
+    customToolbar: props.customToolbar,
+  });
+  const modules = useMemo(
+    () => ({
+      toolbar: actualToolbar,
+    }),
+    [actualToolbar],
   );
-  const currentToolbarConfigs = customToolbar?.length
-    ? customToolbar
-    : formattedToolbar.length
-      ? formattedToolbar
-      : false;
+  const key = useMemo(() => JSON.stringify(modules), [modules]);
 
-  const [isMounted, setIsMounted] = useState(false);
-  const [Editor, setEditor] = useState<null | typeof import("./Editor").Editor>(
-    null,
-  );
-
-  useEffect(() => {
-    setIsMounted(true);
-    import("./Editor").then(({ Editor }) => setEditor(() => Editor));
-  }, []);
-
-  if (!isMounted || !Editor) {
+  if (!ReactQuill) {
     return (
-      <EditorFallback
-        value={value}
-        placeholder={placeholder}
-        className={className}
+      <QuillPlaceholder
+        {...reactQuillProps}
+        className={actualClassName}
+        style={style}
       />
     );
   }
 
   return (
-    <Editor
-      toolbarConfigs={currentToolbarConfigs}
-      readOnly={readOnly}
-      value={value}
-      placeholder={placeholder}
-      onSelectionChange={onSelectionChange}
-      onTextChange={onChange}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      onKeyDown={onKeyDown}
-      onKeyUp={onKeyUp}
-      className={className}
-      ariaLabel={ariaLabel}
-      ariaLabeledby={ariaLabeledby}
+    <ReactQuill
+      {...reactQuillProps}
+      key={key}
+      className={actualClassName}
+      style={style}
+      modules={modules}
     />
   );
 }
