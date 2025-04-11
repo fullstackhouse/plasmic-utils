@@ -1,0 +1,4 @@
+.container :global(.ql-container) {
+  flex-grow: 1;
+  overflow: auto;
+}

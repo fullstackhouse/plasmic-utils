@@ -1,4 +1,3 @@
-import "quill/dist/quill.snow.css";
 import type ReactQuill from "react-quill-new";
 
 export function QuillPlaceholder({

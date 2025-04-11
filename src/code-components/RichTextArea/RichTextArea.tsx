@@ -3,6 +3,8 @@ import type ReactQuillNew from "react-quill-new";
 import { QuillPlaceholder } from "./QuillPlaceholder";
 import { useToolbar } from "./toolbar";
 import { useReactQuill } from "./useReactQuill";
+import "quill/dist/quill.snow.css";
+import { container } from "./quill.module.css";
 
 const style: CSSProperties = {
   display: "flex",
@@ -18,7 +20,8 @@ export function RichTextArea(
 ) {
   const ReactQuill = useReactQuill();
 
-  const { toolbar, customToolbar, ...reactQuillProps } = props;
+  const { toolbar, customToolbar, className, ...reactQuillProps } = props;
+  const actualClassName = `${className} ${container}`;
   const actualToolbar = useToolbar({
     toolbar: props.toolbar,
     customToolbar: props.customToolbar,
@@ -32,13 +35,20 @@ export function RichTextArea(
   const key = useMemo(() => JSON.stringify(modules), [modules]);
 
   if (!ReactQuill) {
-    return <QuillPlaceholder {...reactQuillProps} style={style} />;
+    return (
+      <QuillPlaceholder
+        {...reactQuillProps}
+        className={actualClassName}
+        style={style}
+      />
+    );
   }
 
   return (
     <ReactQuill
       {...reactQuillProps}
       key={key}
+      className={actualClassName}
       style={style}
       modules={modules}
     />
