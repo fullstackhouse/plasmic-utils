@@ -37,7 +37,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Notify FSH Slack on failure
-        if: failure() && github.ref_name == 'main'
+        if: failure()
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: "fsh-alerts"
