@@ -40,10 +40,11 @@ export function RichTextArea(
     customToolbar: props.customToolbar,
   });
 
+  const imageEnabled = !props.formats || props.formats.includes("image");
   const { imageHandler, imageUploading } = useImageUpload({
     pkgs,
     quillRef,
-    onImageUpload,
+    onImageUpload: imageEnabled ? onImageUpload : undefined,
     onImageUploadError,
     onImageUploadingChange,
   });
