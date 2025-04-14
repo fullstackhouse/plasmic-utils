@@ -98,6 +98,14 @@ export function registerRichTextArea(
         helpText:
           "Check toolbarOptions here: https://quilljs.com/docs/modules/toolbar",
       },
+      formats: {
+        type: "array",
+        advanced: true,
+        description:
+          "A list of formats that are recognized and can exist within the editor contents. If unspecified, all formats are allowed.",
+        helpText:
+          "Check Quill docs: https://quilljs.com/docs/configuration#formats",
+      },
       readOnly: {
         type: "boolean",
         description: "Prevents user from changing the contents of the editor",
