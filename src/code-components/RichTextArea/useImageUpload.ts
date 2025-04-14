@@ -59,26 +59,19 @@ export function useImageUpload({
       if (!data) {
         return;
       }
-
       changeImageUploading(true);
-
-      let uploadedImageUrl: string;
       try {
-        uploadedImageUrl = await onImageUploadRef.current!(data!);
+        const uploadedImageUrl = await onImageUploadRef.current!(data!);
+        const quill = quillRef.current?.getEditor();
+        if (!quill) {
+          return;
+        }
+        insertImage(quill, uploadedImageUrl);
       } catch (error) {
         onImageUploadErrorRef.current?.(error);
+      } finally {
         changeImageUploading(false);
-        return;
       }
-
-      const quill = quillRef.current?.getEditor();
-      if (!quill) {
-        changeImageUploading(false);
-        return;
-      }
-
-      insertImage(quill, uploadedImageUrl);
-      changeImageUploading(false);
     }) satisfies ImageDropAndPaste["option"]["handler"];
   }, [onImageUploadErrorRef, onImageUploadRef, changeImageUploading, quillRef]);
 
