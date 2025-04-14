@@ -20,6 +20,7 @@ export function RichTextArea(
     customToolbar?: any[];
     onImageUpload?(image: ImageData): Promise<string>;
     onImageUploadError?(error: unknown): void;
+    onImageUploadingChange?(value: boolean): void;
   },
 ) {
   const pkgs = useReactQuillPackages() as any;
@@ -31,19 +32,20 @@ export function RichTextArea(
     className,
     onImageUpload,
     onImageUploadError,
+    onImageUploadingChange,
     ...reactQuillProps
   } = props;
-  const actualClassName = `${className} ${styles.container}`;
   const actualToolbar = useToolbar({
     toolbar: props.toolbar,
     customToolbar: props.customToolbar,
   });
 
-  const imageHandler = useImageUpload({
+  const { imageHandler, imageUploading } = useImageUpload({
     pkgs,
     quillRef,
     onImageUpload,
     onImageUploadError,
+    onImageUploadingChange,
   });
 
   const modules = useMemo(() => {
@@ -56,6 +58,8 @@ export function RichTextArea(
           },
     };
   }, [actualToolbar, imageHandler]);
+
+  const actualClassName = `${className} ${styles.container} ${imageUploading ? styles.containerImageUploading : ""}`;
 
   if (!pkgs) {
     return (

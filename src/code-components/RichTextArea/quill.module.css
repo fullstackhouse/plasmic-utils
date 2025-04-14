@@ -2,3 +2,12 @@
   flex-grow: 1;
   overflow: auto;
 }
+
+.containerImageUploading {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.containerImageUploading > * {
+  pointer-events: none;
+}

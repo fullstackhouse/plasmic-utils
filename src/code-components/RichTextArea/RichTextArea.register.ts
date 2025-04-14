@@ -224,6 +224,16 @@ export function registerRichTextArea(
           },
         ],
       },
+      onImageUploadingChange: {
+        type: "eventHandler",
+        advanced: true,
+        argTypes: [
+          {
+            name: "value",
+            type: "boolean",
+          },
+        ],
+      },
     },
     states: {
       value: {
@@ -232,6 +242,12 @@ export function registerRichTextArea(
         onChangeProp: "onChange",
         variableType: "text",
         ...componentHelpers.states.value,
+      },
+      imageUploading: {
+        type: "readonly",
+        initVal: false,
+        onChangeProp: "onImageUploadingChange",
+        variableType: "boolean",
       },
     },
     componentHelpers: {

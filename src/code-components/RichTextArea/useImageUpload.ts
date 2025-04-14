@@ -1,7 +1,7 @@
 import type ImageDropAndPaste from "quill-image-drop-and-paste";
 import type { ImageData } from "quill-image-drop-and-paste";
 import "quill/dist/quill.snow.css";
-import { RefObject, useCallback, useMemo } from "react";
+import { RefObject, useCallback, useMemo, useState } from "react";
 import type ReactQuillNew from "react-quill-new";
 import { Quill } from "react-quill-new";
 import { useCurrentRef } from "../../common/useCurrentRef";
@@ -13,14 +13,29 @@ export function useImageUpload({
   quillRef,
   onImageUpload,
   onImageUploadError,
+  onImageUploadingChange,
 }: {
   pkgs: ReactQuillPackages;
   quillRef: RefObject<ReactQuillNew | undefined>;
   onImageUpload?(image: ImageData): Promise<string>;
   onImageUploadError?(error: unknown): void;
-}) {
+  onImageUploadingChange?(value: boolean): void;
+}): {
+  imageHandler?: ImageDropAndPaste["option"]["handler"];
+  imageUploading: boolean;
+} {
+  const [imageUploading, setImageUploading] = useState(false);
   const onImageUploadRef = useCurrentRef(onImageUpload);
   const onImageUploadErrorRef = useCurrentRef(onImageUploadError);
+  const onImageUploadingChangeRef = useCurrentRef(onImageUploadingChange);
+
+  const changeImageUploading = useCallback(
+    (value: boolean) => {
+      setImageUploading(value);
+      onImageUploadingChangeRef.current?.(value);
+    },
+    [onImageUploadingChangeRef],
+  );
 
   const imageHandler = useMemo(() => {
     if (!onImageUploadRef.current) {
@@ -32,21 +47,27 @@ export function useImageUpload({
         return;
       }
 
+      changeImageUploading(true);
+
       let uploadedImageUrl: string;
       try {
         uploadedImageUrl = await onImageUploadRef.current!(data!);
       } catch (error) {
         onImageUploadErrorRef.current?.(error);
+        changeImageUploading(false);
         return;
       }
 
       const quill = quillRef.current?.getEditor();
       if (!quill) {
+        changeImageUploading(false);
         return;
       }
+
       insertImage(quill, uploadedImageUrl);
+      changeImageUploading(false);
     }) satisfies ImageDropAndPaste["option"]["handler"];
-  }, [onImageUploadErrorRef, onImageUploadRef, quillRef]);
+  }, [onImageUploadErrorRef, onImageUploadRef, changeImageUploading, quillRef]);
 
   useToolbarImageHandler({
     pkgs,
@@ -54,7 +75,7 @@ export function useImageUpload({
     imageHandler,
   });
 
-  return imageHandler;
+  return { imageHandler, imageUploading };
 }
 
 function insertImage(quill: Quill, imageUrl: string) {
