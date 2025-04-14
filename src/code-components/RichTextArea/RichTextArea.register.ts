@@ -210,6 +210,20 @@ export function registerRichTextArea(
           },
         ],
       },
+      onImageUpload: {
+        type: "object",
+        advanced: true,
+      },
+      onImageUploadError: {
+        type: "eventHandler",
+        advanced: true,
+        argTypes: [
+          {
+            name: "error",
+            type: "object",
+          },
+        ],
+      },
     },
     states: {
       value: {

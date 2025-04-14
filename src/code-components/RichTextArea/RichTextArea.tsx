@@ -1,10 +1,12 @@
-import { CSSProperties, useMemo } from "react";
+import type { ImageData } from "quill-image-drop-and-paste";
+import "quill/dist/quill.snow.css";
+import { CSSProperties, useMemo, useRef } from "react";
 import type ReactQuillNew from "react-quill-new";
+import styles from "./quill.module.css";
 import { QuillPlaceholder } from "./QuillPlaceholder";
 import { useToolbar } from "./toolbar";
-import { useReactQuill } from "./useReactQuill";
-import "quill/dist/quill.snow.css";
-import styles from "./quill.module.css";
+import { useImageUpload } from "./useImageUpload";
+import { useReactQuillPackages } from "./useReactQuillPackages";
 
 const style: CSSProperties = {
   display: "flex",
@@ -16,25 +18,46 @@ export function RichTextArea(
     value?: string;
     toolbar?: any;
     customToolbar?: any[];
+    onImageUpload?(image: ImageData): Promise<string>;
+    onImageUploadError?(error: unknown): void;
   },
 ) {
-  const ReactQuill = useReactQuill();
+  const pkgs = useReactQuillPackages() as any;
+  const quillRef = useRef<ReactQuillNew>();
 
-  const { toolbar, customToolbar, className, ...reactQuillProps } = props;
+  const {
+    toolbar,
+    customToolbar,
+    className,
+    onImageUpload,
+    onImageUploadError,
+    ...reactQuillProps
+  } = props;
   const actualClassName = `${className} ${styles.container}`;
   const actualToolbar = useToolbar({
     toolbar: props.toolbar,
     customToolbar: props.customToolbar,
   });
-  const modules = useMemo(
-    () => ({
-      toolbar: actualToolbar,
-    }),
-    [actualToolbar],
-  );
-  const key = useMemo(() => JSON.stringify(modules), [modules]);
 
-  if (!ReactQuill) {
+  const imageHandler = useImageUpload({
+    pkgs,
+    quillRef,
+    onImageUpload,
+    onImageUploadError,
+  });
+
+  const modules = useMemo(() => {
+    return {
+      toolbar: actualToolbar,
+      imageDropAndPaste: !imageHandler
+        ? undefined
+        : {
+            handler: imageHandler,
+          },
+    };
+  }, [actualToolbar, imageHandler]);
+
+  if (!pkgs) {
     return (
       <QuillPlaceholder
         {...reactQuillProps}
@@ -45,9 +68,9 @@ export function RichTextArea(
   }
 
   return (
-    <ReactQuill
+    <pkgs.ReactQuill.default
       {...reactQuillProps}
-      key={key}
+      ref={quillRef}
       className={actualClassName}
       style={style}
       modules={modules}
