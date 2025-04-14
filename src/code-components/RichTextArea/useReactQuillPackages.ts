@@ -14,11 +14,10 @@ export function useReactQuillPackages(): ReactQuillPackages | undefined {
 
   useIsomorphicLayoutEffect(() => {
     (async function () {
-      const Quill = await import("quill");
       const ReactQuill = await import("react-quill-new");
       const QuillImageDropAndPaste = await import("quill-image-drop-and-paste");
 
-      Quill.default.register(
+      ReactQuill.Quill.register(
         "modules/imageDropAndPaste",
         QuillImageDropAndPaste.default,
       );
