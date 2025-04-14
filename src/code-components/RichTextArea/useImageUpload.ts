@@ -8,6 +8,19 @@ import { useCurrentRef } from "../../common/useCurrentRef";
 import { useQuillOnInit } from "./useQuillOnInit";
 import { ReactQuillPackages } from "./useReactQuillPackages";
 
+const acceptedImageTypes = [
+  "image/apng",
+  "image/avif",
+  "image/bmp",
+  "image/gif",
+  "image/jpeg",
+  "image/png",
+  "image/svg+xml",
+  "image/tiff",
+  "image/webp",
+  "image/x-icon",
+].join(", ");
+
 export function useImageUpload({
   pkgs,
   quillRef,
@@ -117,10 +130,7 @@ function useToolbarImageHandler({
             if (fileInput == null) {
               fileInput = document.createElement("input");
               fileInput.setAttribute("type", "file");
-              fileInput.setAttribute(
-                "accept",
-                "image/png, image/gif, image/jpeg, image/bmp, image/x-icon",
-              );
+              fileInput.setAttribute("accept", acceptedImageTypes);
               fileInput.classList.add("ql-image");
               fileInput.addEventListener("change", function (changeEvent) {
                 const files = (changeEvent.target as HTMLInputElement).files!;
