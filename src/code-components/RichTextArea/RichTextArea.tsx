@@ -11,6 +11,7 @@ import { useReactQuillPackages } from "./useReactQuillPackages";
 const style: CSSProperties = {
   display: "flex",
   flexDirection: "column",
+  height: "100%",
 };
 
 export function RichTextArea(
@@ -65,22 +66,17 @@ export function RichTextArea(
 
   if (!pkgs) {
     return (
-      <div data-rich-text-area-container={id}>
-        <QuillPlaceholder
-          {...reactQuillProps}
-          className={actualClassName}
-          style={style}
-        />
+      <div className={actualClassName} data-rich-text-area-container={id}>
+        <QuillPlaceholder {...reactQuillProps} style={style} />
       </div>
     );
   }
 
   return (
-    <div data-rich-text-area-container={id}>
+    <div className={actualClassName} data-rich-text-area-container={id}>
       <pkgs.ReactQuill.default
         {...reactQuillProps}
         ref={quillRef}
-        className={actualClassName}
         style={style}
         modules={modules}
         bounds={`[data-rich-text-area-container="${id}"]`}
