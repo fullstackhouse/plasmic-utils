@@ -16,6 +16,7 @@ import { registerSwitch } from "./code-components/form/Switch/Switch.register";
 import { registerHiddenIfEmptyContainer } from "./code-components/HiddenIfEmptyContainer/HiddenIfEmptyContainer.register";
 import { registerInView } from "./code-components/InView/InView.register";
 import { registerInViewContextProvider } from "./code-components/InView/InViewContextProvider.register";
+import { registerHighlightedText } from "./code-components/HighlightedText/HighLightedText.register";
 import { registerMemoChildren } from "./code-components/MemoChildren/MemoChildren.register";
 import { registerMemoDataProvider } from "./code-components/MemoDataProvider/MemoDataProvider.register";
 import { registerOnBeforeUnloadProvider } from "./code-components/OnBeforeUnloadProvider/OnBeforeUnloadProvider.register";
@@ -108,6 +109,7 @@ export function registerPlasmicUtils(
   registerMemoDataProvider(plasmic, modulePath);
   registerInView(plasmic, modulePath);
   registerInViewContextProvider(plasmic, modulePath);
+  registerHighlightedText(plasmic, modulePath);
   registerStateProvider(plasmic, modulePath);
   registerSwitch(plasmic, modulePath);
   registerTextLinkOrButton(plasmic, modulePath);
