@@ -31,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-highlight-words": "^0.20.0",
     "@vitejs/plugin-react": "^4.3.2",
     "dayjs": "^1.11.10",
     "eslint": "^8",
@@ -79,6 +80,7 @@
   },
   "dependencies": {
     "@fullstackhouse/react-ssr-prepass": "^2.0.11",
+    "react-highlight-words": "^0.21.0",
     "react-quill-new": "^3.4.6"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
