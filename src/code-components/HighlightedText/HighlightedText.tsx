@@ -21,6 +21,7 @@ export function HighlightedText({
         textToHighlight={text}
         highlightClassName={highlightClassName}
         caseSensitive={false}
+        autoEscape={true}
       />
     </span>
   );
