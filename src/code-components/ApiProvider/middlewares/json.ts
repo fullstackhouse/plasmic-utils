@@ -16,6 +16,11 @@ export const jsonApiMiddleware: ApiMiddleware = {
         );
       }
 
+      const contentType = response.headers.get("Content-Type");
+      if (!contentType) {
+        return null;
+      }
+
       return await parseResponseBody(response);
     } catch (error) {
       if (error instanceof ApiError) {
