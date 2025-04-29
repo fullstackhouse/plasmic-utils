@@ -19,18 +19,18 @@ export function registerMemoDataProvider(
       },
       data: {
         type: "object",
-        defaultValue: [
-          {
-            name: "Fill Murray",
-            birthYear: 1950,
-            profilePicture: ["https://www.fillmurray.com/200/300"],
-          },
-          {
-            name: "Place Cage",
-            birthYear: 1950,
-            profilePicture: ["https://www.placecage.com/200/300"],
-          },
-        ],
+        defaultExpr: `() => [
+  {
+    name: "Fill Murray",
+    birthYear: 1950,
+    profilePicture: ["https://www.fillmurray.com/200/300"],
+  },
+  {
+    name: "Place Cage",
+    birthYear: 1950,
+    profilePicture: ["https://www.placecage.com/200/300"],
+  },
+]`,
       },
       deps: {
         type: "array",

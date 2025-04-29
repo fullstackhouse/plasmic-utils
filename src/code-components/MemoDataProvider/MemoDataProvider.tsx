@@ -25,11 +25,16 @@ export function MemoDataProvider<T>({
   const parentContext = useDataEnv();
 
   const memoizedData = useMemo(() => {
+    const actualData = typeof data === "function" ? data() : data;
+
     if (process.env.NODE_ENV !== "production") {
-      console.debug(`MemoDataProvider[name=${name}]#recalculateData()`, data);
+      console.debug(
+        `MemoDataProvider[name=${name}]#recalculateData()`,
+        actualData,
+      );
     }
 
-    return data;
+    return actualData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
