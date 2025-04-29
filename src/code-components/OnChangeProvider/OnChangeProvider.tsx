@@ -5,6 +5,7 @@ export interface OnChangeProviderProps {
   data: unknown;
   runOnMount: boolean;
   deepEqualCheck: boolean;
+  "data-plasmic-name"?: string;
   onChange?(data: unknown): void;
 }
 
@@ -19,6 +20,7 @@ export function OnChangeProvider({
   data,
   runOnMount,
   deepEqualCheck,
+  "data-plasmic-name": plasmicName,
   onChange,
 }: OnChangeProviderProps) {
   const prevDataRef = useRef<unknown>(runOnMount ? noValue : data);
@@ -31,6 +33,11 @@ export function OnChangeProvider({
     ) {
       return;
     }
+
+    if (process.env.NODE_ENV !== "production") {
+      console.debug(`OnChangeProvider[name=${plasmicName}]#onChange()`, data);
+    }
+
     prevDataRef.current = data;
     onChange?.(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps

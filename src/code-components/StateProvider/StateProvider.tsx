@@ -6,6 +6,7 @@ interface StateProviderProps<T = unknown> {
   defaultValue?: T;
   forceValue?: T;
   allowedValues?: T[];
+  "data-plasmic-name"?: string;
   onChange?(value: T | undefined): void;
 }
 
@@ -14,6 +15,7 @@ export function StateProvider<T>({
   defaultValue,
   forceValue,
   allowedValues,
+  "data-plasmic-name": plasmicName,
   onChange,
 }: StateProviderProps<T>) {
   const onChangeRef = useRef(onChange);
@@ -43,9 +45,16 @@ export function StateProvider<T>({
   }
 
   useEffect(() => {
-    if (triggerOnChange) {
-      onChangeRef.current?.(nextValue);
+    if (!triggerOnChange) {
+      return;
     }
+
+    if (process.env.NODE_ENV !== "production") {
+      console.debug(`StateProvider[name=${plasmicName}]#onChange()`, nextValue);
+    }
+
+    onChangeRef.current?.(nextValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerOnChange, nextValue]);
 
   return null;
