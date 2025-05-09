@@ -10,6 +10,7 @@ import { registerDebounceProvider } from "./code-components/DebounceProvider/Deb
 import { registerDeferredValue } from "./code-components/DeferredValue/DeferredValue.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
 import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
+import { registerFileInput } from "./code-components/FileInput/FileInput.register";
 import { registerFollowingTooltip } from "./code-components/FollowingTooltip/FollowingTooltip.register";
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
@@ -86,6 +87,7 @@ export function registerPlasmicUtils(
   registerDebounceProvider(plasmic, modulePath);
   registerDeferredValue(plasmic, modulePath);
   registerDialogV2(plasmic, modulePath);
+  registerFileInput(plasmic, modulePath);
   registerFollowingTooltip(plasmic, modulePath);
   registerFormProvider(plasmic, modulePath);
   registerHiddenIfEmptyContainer(plasmic, modulePath);

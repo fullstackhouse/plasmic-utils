@@ -18,6 +18,7 @@ import { registerDebounceProvider } from "./code-components/DebounceProvider/Deb
 import { registerDeferredValue } from "./code-components/DeferredValue/DeferredValue.register";
 import { registerDialogV2 } from "./code-components/DialogV2/DialogV2.register";
 import { registerDOMEventListener } from "./code-components/DOMEventListener/DOMEventListener.register";
+import { registerFileInput } from "./code-components/FileInput/FileInput.register";
 import { registerFollowingTooltip } from "./code-components/FollowingTooltip/FollowingTooltip.register";
 import { registerFormProvider } from "./code-components/form/FormProvider.register";
 import { registerSwitch } from "./code-components/form/Switch/Switch.register";
@@ -72,6 +73,7 @@ export {
   registerDeferredValue,
   registerDialogV2,
   registerDOMEventListener,
+  registerFileInput,
   registerFollowingTooltip,
   registerFormProvider,
   registerGraphqlApiProvider,
