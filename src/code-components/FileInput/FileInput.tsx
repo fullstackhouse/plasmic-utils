@@ -82,6 +82,8 @@ function isFileSizeValid(file: File, maxSize?: number) {
 }
 
 function isFileTypeValid(file: File, types: string[]) {
+  if (!types.length) return true;
+
   const normalizedTypes = types.map((t) => t.trim().toLowerCase());
   const mimeType = file.type.toLowerCase();
   const fileExt = "." + file.name.split(".").pop()?.toLowerCase();
