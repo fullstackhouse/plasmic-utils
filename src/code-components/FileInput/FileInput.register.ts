@@ -33,7 +33,7 @@ export function registerFileInput(
         advanced: true,
         argTypes: [
           {
-            name: "file",
+            name: "files",
             type: "object",
           },
         ],

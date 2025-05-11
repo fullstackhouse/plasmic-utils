@@ -1,7 +1,7 @@
 import { ChangeEvent, ReactNode, useRef } from "react";
 import { FILE_TYPES } from "./FileInput.register";
 
-interface FileUploadProps {
+interface FileInputProps {
   onChange?(files: File[]): void;
   types?: string[];
   customTypes?: string[];
@@ -19,7 +19,7 @@ export function FileInput({
   maxSize,
   className,
   children,
-}: FileUploadProps) {
+}: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTypes =
     customTypes ??
