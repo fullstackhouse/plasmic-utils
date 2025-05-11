@@ -46,6 +46,12 @@ export function registerFileInput(
         defaultValue: ["any"],
       },
       multiple: "boolean",
+      maxSize: {
+        type: "number",
+        defaultValue: 50 * 1024 * 1024,
+        helpText: "Max file size in bytes",
+        advanced: true,
+      },
       customTypes: {
         type: "array",
         advanced: true,

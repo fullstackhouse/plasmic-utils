@@ -6,6 +6,7 @@ interface FileUploadProps {
   types?: string[];
   customTypes?: string[];
   multiple?: boolean;
+  maxSize?: number;
   className?: string;
   children: ReactNode;
 }
@@ -15,6 +16,7 @@ export function FileInput({
   types,
   customTypes,
   multiple,
+  maxSize,
   className,
   children,
 }: FileUploadProps) {
@@ -30,7 +32,7 @@ export function FileInput({
 
     const files = Array.from(fileList);
     const validFiles = files.filter((file) =>
-      isAcceptedFile(file, currentTypes),
+      isFileValid(file, currentTypes, maxSize),
     );
 
     if (validFiles.length > 0) {
@@ -68,7 +70,18 @@ function getAccept(types: string[]) {
   return types.join(",");
 }
 
-function isAcceptedFile(file: File, types: string[]): boolean {
+function isFileValid(file: File, types: string[], maxSize?: number) {
+  return isFileSizeValid(file, maxSize) && isFileTypeValid(file, types);
+}
+
+function isFileSizeValid(file: File, maxSize?: number) {
+  if (maxSize && file.size > maxSize) {
+    return false;
+  }
+  return true;
+}
+
+function isFileTypeValid(file: File, types: string[]) {
   const normalizedTypes = types.map((t) => t.trim().toLowerCase());
   const mimeType = file.type.toLowerCase();
   const fileExt = "." + file.name.split(".").pop()?.toLowerCase();
