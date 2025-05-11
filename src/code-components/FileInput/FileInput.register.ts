@@ -45,6 +45,7 @@ export function registerFileInput(
         options: Object.keys(FILE_TYPES),
         defaultValue: ["any"],
       },
+      multiple: "boolean",
       customTypes: {
         type: "array",
         advanced: true,

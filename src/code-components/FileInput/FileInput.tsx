@@ -2,9 +2,10 @@ import { ChangeEvent, ReactNode, useRef } from "react";
 import { FILE_TYPES } from "./FileInput.register";
 
 interface FileUploadProps {
-  onChange?(value: File): void;
+  onChange?(files: File[]): void;
   types?: string[];
   customTypes?: string[];
+  multiple?: boolean;
   className?: string;
   children: ReactNode;
 }
@@ -13,6 +14,7 @@ export function FileInput({
   onChange,
   types,
   customTypes,
+  multiple,
   className,
   children,
 }: FileUploadProps) {
@@ -23,12 +25,19 @@ export function FileInput({
     [];
 
   async function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const fileList = e.target.files;
+    if (!fileList) return;
 
-    if (currentTypes.length > 0 && !isAcceptedFile(file, currentTypes)) return;
+    const files = Array.from(fileList);
+    const validFiles = files.filter((file) =>
+      isAcceptedFile(file, currentTypes),
+    );
 
-    onChange?.(file);
+    if (validFiles.length > 0) {
+      onChange?.(validFiles);
+    }
+
+    return;
   }
 
   function handleClick() {
@@ -43,6 +52,7 @@ export function FileInput({
         type="file"
         ref={inputRef}
         accept={accept}
+        multiple={multiple}
         onChange={handleFilesChange}
         hidden
       />
@@ -62,10 +72,6 @@ function isAcceptedFile(file: File, types: string[]): boolean {
   const normalizedTypes = types.map((t) => t.trim().toLowerCase());
   const mimeType = file.type.toLowerCase();
   const fileExt = "." + file.name.split(".").pop()?.toLowerCase();
-
-  console.log("normalizedTypes: ", normalizedTypes);
-  console.log("mimeType: ", mimeType);
-  console.log("fileExt: ", fileExt);
 
   return normalizedTypes.some(
     (type) =>
