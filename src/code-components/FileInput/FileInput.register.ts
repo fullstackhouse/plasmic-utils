@@ -56,6 +56,10 @@ export function registerFileInput(
         advanced: true,
       },
       children: "slot",
+      onInvalidFileInput: {
+        type: "eventHandler",
+        argTypes: [{ name: "files", type: "object" }],
+      },
     },
     providesData: true,
     isAttachment: true,

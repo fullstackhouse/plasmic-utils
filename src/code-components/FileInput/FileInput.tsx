@@ -2,9 +2,10 @@ import { ChangeEvent, ReactNode, useRef } from "react";
 import { FILE_TYPES } from "./FileInput.register";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
-interface FileInputProps {
+export interface FileInputProps {
   name: string;
   onChange?(files: File[]): void;
+  onInvalidFileInput?(files: { fileName: string; reason: string }[]): void;
   types?: (keyof typeof FILE_TYPES | string)[];
   multiple?: boolean;
   maxSize?: number;
@@ -14,6 +15,7 @@ interface FileInputProps {
 export function FileInput({
   name,
   onChange,
+  onInvalidFileInput,
   types,
   multiple,
   maxSize,
@@ -25,19 +27,15 @@ export function FileInput({
       type in FILE_TYPES ? FILE_TYPES[type as keyof typeof FILE_TYPES] : [type],
     ) ?? [];
 
-  async function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
     if (!fileList) return;
 
     const files = Array.from(fileList);
-    const validFiles = files.filter((file) =>
-      isFileValid(file, currentTypes, maxSize),
-    );
+    const { valid, invalid } = validateFiles(files, currentTypes, maxSize);
 
-    if (validFiles.length > 0) {
-      onChange?.(validFiles);
-    }
-
+    if (valid.length) onChange?.(valid);
+    if (invalid.length) onInvalidFileInput?.(invalid);
     return;
   }
 
@@ -75,10 +73,23 @@ function getAccept(types: string[]) {
   return types.join(",");
 }
 
-function isFileValid(file: File, allowedFormats: string[], maxSize?: number) {
-  return (
-    isFileSizeValid(file, maxSize) && isFileFormatValid(file, allowedFormats)
-  );
+function validateFiles(files: File[], types: string[], maxSize?: number) {
+  const valid: File[] = [];
+  const invalid: { fileName: string; reason: string }[] = [];
+
+  for (const file of files) {
+    if (!isFileSizeValid(file, maxSize)) {
+      invalid.push({ fileName: file.name, reason: "File is too large" });
+      continue;
+    }
+    if (!isFileFormatValid(file, types)) {
+      invalid.push({ fileName: file.name, reason: "Unsupported file format" });
+      continue;
+    }
+    valid.push(file);
+  }
+
+  return { valid, invalid };
 }
 
 function isFileSizeValid(file: File, maxSize?: number) {
