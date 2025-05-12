@@ -70,8 +70,10 @@ function getAccept(types: string[]) {
   return types.join(",");
 }
 
-function isFileValid(file: File, types: string[], maxSize?: number) {
-  return isFileSizeValid(file, maxSize) && isFileTypeValid(file, types);
+function isFileValid(file: File, allowedFormats: string[], maxSize?: number) {
+  return (
+    isFileSizeValid(file, maxSize) && isFileFormatValid(file, allowedFormats)
+  );
 }
 
 function isFileSizeValid(file: File, maxSize?: number) {
@@ -81,17 +83,20 @@ function isFileSizeValid(file: File, maxSize?: number) {
   return true;
 }
 
-function isFileTypeValid(file: File, types: string[]) {
-  if (!types.length) return true;
+function isFileFormatValid(file: File, allowedFormats: string[]) {
+  if (!allowedFormats.length) return true;
 
-  const normalizedTypes = types.map((t) => t.trim().toLowerCase());
+  const normalizedFileFormats = allowedFormats.map((format) =>
+    format.trim().toLowerCase(),
+  );
   const mimeType = file.type.toLowerCase();
-  const fileExt = "." + file.name.split(".").pop()?.toLowerCase();
+  const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
 
-  return normalizedTypes.some(
-    (type) =>
-      type === fileExt ||
-      type === mimeType ||
-      (type.endsWith("/*") && mimeType.startsWith(type.split("/")[0] + "/")),
+  return normalizedFileFormats.some(
+    (format) =>
+      format === fileExtension ||
+      format === mimeType ||
+      (format.endsWith("/*") &&
+        mimeType.startsWith(format.split("/")[0] + "/")),
   );
 }
