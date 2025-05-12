@@ -2,7 +2,6 @@ import type { PlasmicLoader } from "../../plasmic";
 import { FileInput } from "./FileInput";
 
 export const FILE_TYPES = {
-  any: [],
   images: ["image/*"],
   videos: ["video/*"],
   documents: [
@@ -43,7 +42,7 @@ export function registerFileInput(
         type: "choice",
         multiSelect: true,
         options: Object.keys(FILE_TYPES),
-        defaultValue: ["any"],
+        defaultValue: undefined,
       },
       multiple: "boolean",
       maxSize: {
@@ -51,13 +50,6 @@ export function registerFileInput(
         defaultValue: 50 * 1024 * 1024,
         helpText: "Max file size in bytes",
         advanced: true,
-      },
-      customTypes: {
-        type: "array",
-        advanced: true,
-        description: "Acceptable file types",
-        helpText:
-          "More here: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file",
       },
       children: "slot",
     },

@@ -3,8 +3,7 @@ import { FILE_TYPES } from "./FileInput.register";
 
 interface FileInputProps {
   onChange?(files: File[]): void;
-  types?: string[];
-  customTypes?: string[];
+  types?: (keyof typeof FILE_TYPES | string)[];
   multiple?: boolean;
   maxSize?: number;
   className?: string;
@@ -14,7 +13,6 @@ interface FileInputProps {
 export function FileInput({
   onChange,
   types,
-  customTypes,
   multiple,
   maxSize,
   className,
@@ -22,9 +20,9 @@ export function FileInput({
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTypes =
-    customTypes ??
-    types?.flatMap((key) => FILE_TYPES[key as keyof typeof FILE_TYPES]) ??
-    [];
+    types?.flatMap((type) =>
+      type in FILE_TYPES ? FILE_TYPES[type as keyof typeof FILE_TYPES] : [type],
+    ) ?? [];
 
   async function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
