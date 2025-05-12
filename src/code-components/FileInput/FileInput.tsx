@@ -90,7 +90,9 @@ function isFileFormatValid(file: File, allowedFormats: string[]) {
     format.trim().toLowerCase(),
   );
   const mimeType = file.type.toLowerCase();
-  const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+  const fileNameParts = file.name.toLowerCase().split(".");
+  const fileExtension =
+    fileNameParts.length > 1 ? `.${fileNameParts.pop()}` : "";
 
   return normalizedFileFormats.some(
     (format) =>
