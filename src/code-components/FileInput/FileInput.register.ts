@@ -27,6 +27,10 @@ export function registerFileInput(
     name: "FileInput",
     importPath: modulePath + "/code-components/FileInput/FileInput",
     props: {
+      name: {
+        type: "string",
+        defaultValue: "fileInput",
+      },
       onChange: {
         type: "eventHandler",
         advanced: true,
@@ -53,5 +57,7 @@ export function registerFileInput(
       },
       children: "slot",
     },
+    providesData: true,
+    isAttachment: true,
   });
 }

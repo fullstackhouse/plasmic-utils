@@ -1,21 +1,22 @@
 import { ChangeEvent, ReactNode, useRef } from "react";
 import { FILE_TYPES } from "./FileInput.register";
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 
 interface FileInputProps {
+  name: string;
   onChange?(files: File[]): void;
   types?: (keyof typeof FILE_TYPES | string)[];
   multiple?: boolean;
   maxSize?: number;
-  className?: string;
   children: ReactNode;
 }
 
 export function FileInput({
+  name,
   onChange,
   types,
   multiple,
   maxSize,
-  className,
   children,
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,9 +57,15 @@ export function FileInput({
         onChange={handleFilesChange}
         hidden
       />
-      <div onClick={handleClick} className={className}>
+      <MemoDataProvider
+        name={name}
+        data={{
+          openFilePicker: handleClick,
+        }}
+        deps={[]}
+      >
         {children}
-      </div>
+      </MemoDataProvider>
     </>
   );
 }
