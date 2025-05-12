@@ -22,17 +22,14 @@ export function FileInput({
   children,
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const currentTypes =
-    types?.flatMap((type) =>
-      type in FILE_TYPES ? FILE_TYPES[type as keyof typeof FILE_TYPES] : [type],
-    ) ?? [];
+  const resolvedTypes = resolveTypes(types);
 
   function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
     if (!fileList) return;
 
     const files = Array.from(fileList);
-    const { valid, invalid } = validateFiles(files, currentTypes, maxSize);
+    const { valid, invalid } = validateFiles(files, resolvedTypes, maxSize);
 
     if (valid.length) onChange?.(valid);
     if (invalid.length) onInvalidFileInput?.(invalid);
@@ -43,7 +40,7 @@ export function FileInput({
     inputRef.current?.click();
   }
 
-  const accept = getAccept(currentTypes);
+  const accept = getAccept(resolvedTypes);
 
   return (
     <>
@@ -65,6 +62,14 @@ export function FileInput({
         {children}
       </MemoDataProvider>
     </>
+  );
+}
+
+function resolveTypes(types?: (keyof typeof FILE_TYPES | string)[]): string[] {
+  return (
+    types?.flatMap((type) =>
+      type in FILE_TYPES ? FILE_TYPES[type as keyof typeof FILE_TYPES] : [type],
+    ) ?? []
   );
 }
 
