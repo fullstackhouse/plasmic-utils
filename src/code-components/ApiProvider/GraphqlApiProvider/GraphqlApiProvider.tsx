@@ -23,7 +23,7 @@ export interface GraphqlApiProviderProps {
   suspense?: boolean;
   refreshInterval?: number;
   onLoad?(data: any): void;
-  onError?(error: Error): void;
+  onError?(error: Error): Promise<void>;
 }
 
 export function GraphqlApiProvider(props: GraphqlApiProviderProps) {
