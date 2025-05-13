@@ -85,10 +85,11 @@ async function handleApiError(
 }
 
 async function getMessage(response: Response): Promise<string | undefined> {
-  let message = undefined;
   try {
     const json = await response.json();
-    message = json?.message;
-  } catch {}
-  return message;
+    return json?.message;
+  } catch (error) {
+    console.error(`response returned unparseable JSON`, error);
+    return undefined;
+  }
 }
