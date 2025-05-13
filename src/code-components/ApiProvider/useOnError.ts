@@ -66,7 +66,6 @@ async function handleApiError(
     error.handled = true;
     const message = await getMessage(error.response);
     toast.show({
-      id: "unprocessable-content",
       type: "error",
       title: "Unprocessable Content",
       description: message,
