@@ -36,7 +36,7 @@ export interface ApiProviderProps {
   refreshInterval?: number;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
-  onError?(error: FetchError): void;
+  onError?(error: FetchError): Promise<void>;
 }
 
 export type ApiResponse<Data = any, Error = any, Config = any> = SWRResponse<

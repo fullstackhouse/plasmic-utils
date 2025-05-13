@@ -6,7 +6,7 @@ import { dispatchUnauthorizedEvent } from "./UnauthorizedEvent";
 import { useSelector } from "@plasmicapp/react-web/lib/host";
 import { useTrackBeforeUnload } from "./useTrackBeforeUnload";
 
-type OnError = (error: Error | undefined) => void;
+type OnError = (error: Error | undefined) => Promise<void>;
 
 export function useOnError({
   alertOnError,
@@ -17,8 +17,8 @@ export function useOnError({
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
 
-  return (error: Error | undefined) => {
-    handleApiError(error, {
+  return async (error: Error | undefined) => {
+    await handleApiError(error, {
       requestCancelled,
       toast: alertOnError ? toast : undefined,
       onError: onErrorRef.current,
@@ -64,12 +64,12 @@ async function handleApiError(
 
   if (!error.handled && error.response?.status === 422 && toast) {
     error.handled = true;
-    const response = await error.response.json();
+    const message = await getMessage(error.response);
     toast.show({
       id: "unprocessable-content",
       type: "error",
       title: "Unprocessable Content",
-      description: response?.message,
+      description: message,
     });
   }
 
@@ -83,4 +83,13 @@ async function handleApiError(
         "There have been some troubles while loading data from the server. If the problem persists, refresh the page or contact support for help.",
     });
   }
+}
+
+async function getMessage(response: Response): Promise<string | undefined> {
+  let message = undefined;
+  try {
+    const json = await response.json();
+    message = json?.message;
+  } catch {}
+  return message;
 }
