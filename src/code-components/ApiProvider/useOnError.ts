@@ -89,7 +89,8 @@ async function getMessage(response: Response): Promise<string | undefined> {
     const json = await response.json();
     return json?.message;
   } catch (error) {
-    console.error(`response returned unparseable JSON`, error);
+    if (process.env.NODE_ENV !== "production")
+      console.error(`response returned unparseable JSON`, error);
     return undefined;
   }
 }
