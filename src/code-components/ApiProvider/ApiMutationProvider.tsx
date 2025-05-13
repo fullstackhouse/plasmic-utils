@@ -25,7 +25,7 @@ export interface ApiMutationProviderProps {
   middleware?: string;
   transformResponse?: ResponseTransform;
   onLoad?(data: any): void;
-  onError?(error: FetchError): void;
+  onError?(error: FetchError): Promise<void>;
 }
 
 export function ApiMutationProvider({
