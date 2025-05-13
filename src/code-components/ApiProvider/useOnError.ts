@@ -26,7 +26,7 @@ export function useOnError({
   };
 }
 
-function handleApiError(
+async function handleApiError(
   error: Error | undefined,
   {
     requestCancelled,
@@ -60,6 +60,17 @@ function handleApiError(
           "Your session has expired. The application may not work correctly. Please log in again to continue.",
       });
     }
+  }
+
+  if (!error.handled && error.response?.status === 422 && toast) {
+    error.handled = true;
+    const response = await error.response.json();
+    toast.show({
+      id: "unprocessable-content",
+      type: "error",
+      title: "Unprocessable Content",
+      description: response?.message,
+    });
   }
 
   if (!error.handled && !requestCancelled && toast) {
