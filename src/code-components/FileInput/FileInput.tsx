@@ -33,7 +33,8 @@ export function FileInput({
 
     if (valid.length) onChange?.(valid);
     if (invalid.length) onInvalidFileInput?.(invalid);
-    return;
+
+    inputRef.current!.value = "";
   }
 
   function handleClick() {
