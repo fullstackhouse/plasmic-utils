@@ -7,6 +7,7 @@ import { Quill } from "react-quill-new";
 import { useCurrentRef } from "../../common/useCurrentRef";
 import { useQuillOnInit } from "./useQuillOnInit";
 import { ReactQuillPackages } from "./useReactQuillPackages";
+import Delta from "quill-delta";
 
 const acceptedImageTypes = [
   "image/apng",
@@ -87,7 +88,18 @@ export function useImageUpload({
 function insertImage(quill: Quill, imageUrl: string) {
   let index = quill.getSelection()?.index;
   if (index === undefined || index < 0) index = quill.getLength();
-  quill.insertEmbed(index, "image", imageUrl, "user");
+
+  const delta = new Delta([
+    {
+      insert: {
+        image: imageUrl,
+      },
+      attributes: { maxWidth: "100%" },
+    },
+  ]);
+
+  quill.updateContents(delta, "user");
+  quill.setSelection(index + 1);
 }
 
 function useToolbarImageHandler({
