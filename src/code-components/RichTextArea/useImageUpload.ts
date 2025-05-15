@@ -89,14 +89,12 @@ function insertImage(quill: Quill, imageUrl: string) {
   let index = quill.getSelection()?.index;
   if (index === undefined || index < 0) index = quill.getLength();
 
-  const delta = new Delta([
+  const delta = new Delta().retain(index).insert(
     {
-      insert: {
-        image: imageUrl,
-      },
-      attributes: { maxWidth: "100%" },
+      image: imageUrl,
     },
-  ]);
+    { width: "100%" },
+  );
 
   quill.updateContents(delta, "user");
   quill.setSelection(index + 1);
