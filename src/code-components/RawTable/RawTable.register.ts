@@ -14,7 +14,11 @@ export function registerRawTable(
   plasmic.registerComponent(RawTable, {
     name: "RawTable",
     importPath: modulePath + "/code-components/RawTable/Table",
-    props: { style: { type: "object", advanced: true }, children: "slot" },
+    props: {
+      id: { type: "string" },
+      style: { type: "object", advanced: true },
+      children: "slot",
+    },
   });
 
   plasmic.registerComponent(RawThead, {
@@ -43,6 +47,7 @@ export function registerRawTable(
     name: "RawTr",
     importPath: modulePath + "/code-components/RawTable/Tr",
     props: {
+      id: { type: "string" },
       style: { type: "object", advanced: true },
       children: "slot",
       onMouseEnter: {
@@ -61,6 +66,7 @@ export function registerRawTable(
     name: "RawTh",
     importPath: modulePath + "/code-components/RawTable/Th",
     props: {
+      id: { type: "string" },
       rowSpan: { type: "number", defaultValueHint: 1 },
       colSpan: { type: "number", defaultValueHint: 1 },
       style: { type: "object", advanced: true },
@@ -73,6 +79,7 @@ export function registerRawTable(
     name: "RawTd",
     importPath: modulePath + "/code-components/RawTable/Td",
     props: {
+      id: { type: "string" },
       rowSpan: { type: "number", defaultValueHint: 1 },
       colSpan: { type: "number", defaultValueHint: 1 },
       style: { type: "object", advanced: true },

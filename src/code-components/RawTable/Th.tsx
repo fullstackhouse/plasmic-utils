@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode } from "react";
 
 interface RawThProps {
+  id?: string;
   colSpan: number;
   rowSpan: number;
   className?: string;
@@ -9,6 +10,7 @@ interface RawThProps {
 }
 
 export function RawTh({
+  id,
   colSpan,
   rowSpan,
   className,
@@ -16,7 +18,13 @@ export function RawTh({
   children,
 }: RawThProps) {
   return (
-    <th colSpan={colSpan} rowSpan={rowSpan} className={className} style={style}>
+    <th
+      id={id}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+      className={className}
+      style={style}
+    >
       {children}
     </th>
   );

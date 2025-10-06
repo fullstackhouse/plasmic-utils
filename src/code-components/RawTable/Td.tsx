@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode } from "react";
 
 interface RawTdProps {
+  id?: string;
   colSpan: number;
   rowSpan: number;
   className?: string;
@@ -9,6 +10,7 @@ interface RawTdProps {
 }
 
 export function RawTd({
+  id,
   colSpan,
   rowSpan,
   className,
@@ -16,7 +18,13 @@ export function RawTd({
   children,
 }: RawTdProps) {
   return (
-    <td colSpan={colSpan} rowSpan={rowSpan} className={className} style={style}>
+    <td
+      id={id}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+      className={className}
+      style={style}
+    >
       {children}
     </td>
   );
