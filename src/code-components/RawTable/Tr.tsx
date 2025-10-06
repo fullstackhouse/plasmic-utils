@@ -1,6 +1,7 @@
 import React, { CSSProperties, MouseEventHandler, ReactNode } from "react";
 
 interface RawTrProps {
+  id?: string;
   className?: string;
   style?: CSSProperties;
   onMouseEnter?: MouseEventHandler<HTMLTableRowElement>;
@@ -9,6 +10,7 @@ interface RawTrProps {
 }
 
 export function RawTr({
+  id,
   className,
   style,
   onMouseEnter,
@@ -17,6 +19,7 @@ export function RawTr({
 }: RawTrProps) {
   return (
     <tr
+      id={id}
       className={className}
       style={style}
       onMouseEnter={onMouseEnter}
