@@ -22,10 +22,12 @@ export function useReactQuillPackages(): ReactQuillPackages | undefined {
         QuillImageDropAndPaste.default,
       );
 
-      setPackages(() => ({
-        ReactQuill,
-        QuillImageDropAndPaste,
-      }));
+      setTimeout(() => {
+        setPackages(() => ({
+          ReactQuill,
+          QuillImageDropAndPaste,
+        }));
+      }, 0);
     })();
   }, []);
 
