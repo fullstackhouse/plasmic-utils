@@ -64,7 +64,15 @@ export function RichTextArea(
   const actualClassName = `${className} ${styles.container} ${imageUploading ? styles.containerImageUploading : ""}`;
   const id = useId();
 
-  if (!pkgs) {
+  console.log("=== RichTextArea Render ===");
+  console.log("pkgs:", !!pkgs);
+  console.log("actualToolbar:", actualToolbar);
+  console.log("modules:", modules);
+  console.log("===========================");
+
+  const isReady = pkgs && (!props.toolbar || actualToolbar.length > 0);
+
+  if (!isReady) {
     return (
       <div className={actualClassName} data-rich-text-area-container={id}>
         <QuillPlaceholder {...reactQuillProps} style={style} />
