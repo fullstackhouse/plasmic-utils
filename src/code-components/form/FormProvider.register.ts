@@ -10,6 +10,12 @@ export function registerFormProvider(
     name: "FormProvider",
     importPath: modulePath + "/code-components/form/FormProvider",
     props: {
+      formKey: {
+        type: "string",
+        advanced: true,
+        description:
+          "Forces the form to remount when changed. Use a unique value (e.g. JSON.stringify of params) to reset form state when context changes.",
+      },
       contextName: {
         type: "string",
         defaultValue: "form",
