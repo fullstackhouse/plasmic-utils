@@ -14,6 +14,7 @@ export interface FormProviderProps {
   shouldUnregister?: boolean;
   zodValidationSchema?: z.Schema;
   children: ReactNode;
+  formKey?: string;
 }
 
 export function FormProvider({
@@ -26,6 +27,7 @@ export function FormProvider({
   shouldUnregister,
   zodValidationSchema,
   children,
+  formKey,
 }: FormProviderProps) {
   const form = useForm({
     defaultValues,
@@ -40,7 +42,12 @@ export function FormProvider({
   });
 
   return (
-    <MemoDataProvider name={contextName} data={form} deps={[form]}>
+    <MemoDataProvider
+      name={contextName}
+      data={form}
+      deps={[form]}
+      key={formKey}
+    >
       {children}
     </MemoDataProvider>
   );
