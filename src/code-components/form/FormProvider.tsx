@@ -17,9 +17,10 @@ export interface FormProviderProps {
   formKey?: string;
 }
 
-interface FormWrapperProps extends Omit<FormProviderProps, "formKey"> {}
+interface FormProviderWithoutKeyProps
+  extends Omit<FormProviderProps, "formKey"> {}
 
-function FormWrapper({
+function FormProviderWithoutKey({
   contextName,
   defaultValues,
   values,
@@ -29,7 +30,7 @@ function FormWrapper({
   shouldUnregister,
   zodValidationSchema,
   children,
-}: FormWrapperProps) {
+}: FormProviderWithoutKeyProps) {
   const form = useForm({
     defaultValues,
     values,
@@ -49,31 +50,6 @@ function FormWrapper({
   );
 }
 
-export function FormProvider({
-  contextName,
-  defaultValues,
-  values,
-  mode,
-  reValidateMode,
-  resetOptions,
-  shouldUnregister,
-  zodValidationSchema,
-  children,
-  formKey,
-}: FormProviderProps) {
-  return (
-    <FormWrapper
-      key={formKey}
-      contextName={contextName}
-      defaultValues={defaultValues}
-      values={values}
-      mode={mode}
-      reValidateMode={reValidateMode}
-      resetOptions={resetOptions}
-      shouldUnregister={shouldUnregister}
-      zodValidationSchema={zodValidationSchema}
-    >
-      {children}
-    </FormWrapper>
-  );
+export function FormProvider({ formKey, ...props }: FormProviderProps) {
+  return <FormProviderWithoutKey key={formKey} {...props} />;
 }
