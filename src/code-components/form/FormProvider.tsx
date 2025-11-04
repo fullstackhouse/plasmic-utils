@@ -17,7 +17,9 @@ export interface FormProviderProps {
   formKey?: string;
 }
 
-export function FormProvider({
+interface FormWrapperProps extends Omit<FormProviderProps, "formKey"> {}
+
+function FormWrapper({
   contextName,
   defaultValues,
   values,
@@ -27,8 +29,7 @@ export function FormProvider({
   shouldUnregister,
   zodValidationSchema,
   children,
-  formKey,
-}: FormProviderProps) {
+}: FormWrapperProps) {
   const form = useForm({
     defaultValues,
     values,
@@ -42,13 +43,37 @@ export function FormProvider({
   });
 
   return (
-    <MemoDataProvider
-      name={contextName}
-      data={form}
-      deps={[form]}
-      key={formKey}
-    >
+    <MemoDataProvider name={contextName} data={form} deps={[form]}>
       {children}
     </MemoDataProvider>
+  );
+}
+
+export function FormProvider({
+  contextName,
+  defaultValues,
+  values,
+  mode,
+  reValidateMode,
+  resetOptions,
+  shouldUnregister,
+  zodValidationSchema,
+  children,
+  formKey,
+}: FormProviderProps) {
+  return (
+    <FormWrapper
+      key={formKey}
+      contextName={contextName}
+      defaultValues={defaultValues}
+      values={values}
+      mode={mode}
+      reValidateMode={reValidateMode}
+      resetOptions={resetOptions}
+      shouldUnregister={shouldUnregister}
+      zodValidationSchema={zodValidationSchema}
+    >
+      {children}
+    </FormWrapper>
   );
 }
