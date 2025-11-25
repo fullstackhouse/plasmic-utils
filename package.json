@@ -1,5 +1,5 @@
 {
-  "name": "@fullstackhouse/plasmic-utils",
+  "name": "@myevaluations/plasmic-utils",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
@@ -15,7 +15,7 @@
     "dist",
     "README.md"
   ],
-  "repository": "github:fullstackhouse/plasmic-utils",
+  "repository": "github:myevaluations/myevals-plasmic-utils",
   "devDependencies": {
     "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^3.3.4",
