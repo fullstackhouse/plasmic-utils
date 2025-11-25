@@ -18,8 +18,8 @@ yarn start
 
 ## Plasmic Host
 
-Deployment is automatic. Whenever a commit appears on the `main` branch, new version of the [Plasmic host](https://fullstackhouse.github.io/plasmic-utils/plasmic-host) is automatically deployed.
+Deployment is automatic. Whenever a commit appears on the `main` branch, new version of the [Plasmic host](https://myevaluations.github.io/myevals-plasmic-utils/plasmic-host) is automatically deployed.
 
 ## Releasing
 
-**Manual.** Create a release through GH UI to trigger deployment of a new npm `@fullstackhouse/plasmic-utils` package version, which will be named after the release name.
+**Manual.** Create a release through GH UI to trigger deployment of a new npm `@myevaluations/plasmic-utils` package version, which will be named after the release name.
