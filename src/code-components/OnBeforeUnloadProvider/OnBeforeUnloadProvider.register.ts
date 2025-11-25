@@ -3,7 +3,7 @@ import { OnBeforeUnloadProvider } from "./OnBeforeUnloadProvider";
 
 export function registerOnBeforeUnloadProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(OnBeforeUnloadProvider, {
     name: "OnBeforeUnloadProvider",

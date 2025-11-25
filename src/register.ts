@@ -46,7 +46,7 @@ import { registerToastContextProvider } from "./ToastContextProvider/ToastContex
 export function registerPlasmicUtils(
   plasmic: PlasmicLoader,
   {
-    modulePath = "@fullstackhouse/plasmic-utils/dist",
+    modulePath = "@myevaluations/plasmic-utils/dist",
     router = true,
     toast = true,
     api,

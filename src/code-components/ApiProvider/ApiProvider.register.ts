@@ -11,7 +11,7 @@ export interface RegisterApiProviderOptions {
 
 export function registerApiProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
   options: RegisterApiProviderOptions = {},
 ) {
   const containsMyevalsNodejsBackendMiddleware = (

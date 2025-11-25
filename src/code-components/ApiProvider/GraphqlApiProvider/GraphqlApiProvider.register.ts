@@ -22,7 +22,7 @@ export interface RegisterGraphqlApiProviderOptions {
 
 export function registerGraphqlApiProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
   options: RegisterGraphqlApiProviderOptions = {},
 ) {
   const middlewares = options.middlewares ?? {

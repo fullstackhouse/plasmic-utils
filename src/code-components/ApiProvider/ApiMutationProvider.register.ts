@@ -4,7 +4,7 @@ import { RegisterApiProviderOptions } from "./ApiProvider.register";
 
 export function registerApiMutationProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
   options: RegisterApiProviderOptions = {},
 ) {
   const containsMyevalsNodejsBackendMiddleware = (

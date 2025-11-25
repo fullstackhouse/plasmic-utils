@@ -21,7 +21,7 @@ export const FILE_TYPES = {
 
 export function registerFileInput(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(FileInput, {
     name: "FileInput",

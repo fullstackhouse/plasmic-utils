@@ -3,7 +3,7 @@ import { MemoChildren } from "./MemoChildren";
 
 export function registerMemoChildren(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(MemoChildren, {
     name: "MemoChildren",

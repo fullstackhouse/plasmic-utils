@@ -62,7 +62,7 @@ const toolbarFields: Record<ToolbarOptionsType, PropType<any>> = {
 
 export function registerRichTextArea(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RichTextArea, {
     name: "RichTextArea",

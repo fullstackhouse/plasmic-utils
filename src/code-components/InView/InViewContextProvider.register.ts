@@ -3,7 +3,7 @@ import { InViewContextProvider } from "./InViewContextProvider";
 
 export function registerInViewContextProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(InViewContextProvider, {
     name: "InViewContextProvider",

@@ -3,7 +3,7 @@ import { RawNull } from "./RawNull";
 
 export function registerRawNull(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(RawNull, {
     name: "RawNull",

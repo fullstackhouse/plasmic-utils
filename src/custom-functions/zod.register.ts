@@ -3,7 +3,7 @@ import { zod } from "./zod";
 
 export function registerZod(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerFunction(zod, {
     name: "zod",

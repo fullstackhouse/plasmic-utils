@@ -4,7 +4,7 @@ import { FormProvider } from "./FormProvider";
 
 export function registerFormProvider(
   plasmic: PlasmicLoader,
-  modulePath = "@fullstackhouse/plasmic-utils/dist",
+  modulePath = "@myevaluations/plasmic-utils/dist",
 ) {
   plasmic.registerComponent(FormProvider, {
     name: "FormProvider",
