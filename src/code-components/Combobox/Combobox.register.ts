@@ -136,8 +136,24 @@ export function registerCombobox(
             selector: `${selectedSelector}${disabledSelector}`,
           },
           {
+            label: "Selected & Highlighted & Disabled",
+            selector: `${selectedSelector}${highlightSelector}${disabledSelector}`,
+          },
+          {
             label: "Active & Selected & Highlighted",
             selector: `${activeSelector}${selectedSelector}${highlightSelector}`,
+          },
+          {
+            label: "Active & Selected & Disabled",
+            selector: `${activeSelector}${selectedSelector}${disabledSelector}`,
+          },
+          {
+            label: "Active & Highlighted & Disabled",
+            selector: `${activeSelector}${highlightSelector}${disabledSelector}`,
+          },
+          {
+            label: "Active & Selected & Highlighted & Disabled",
+            selector: `${activeSelector}${selectedSelector}${highlightSelector}${disabledSelector}`,
           },
         ],
       },
