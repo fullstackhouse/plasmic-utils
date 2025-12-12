@@ -46,6 +46,7 @@ export interface ComboboxOption {
   value: ComboboxValue;
   highlight?: boolean;
   group?: string;
+  disabled?: boolean;
 }
 
 export interface OptionGroup {
@@ -203,9 +204,11 @@ export function Combobox({
                           <HeadlessCombobox.Option
                             key={optionIndex}
                             value={option}
+                            disabled={option.disabled}
                             data-highlight={
                               option.highlight ? "true" : undefined
                             }
+                            data-disabled={option.disabled ? "true" : undefined}
                             className={optionClassName}
                           >
                             <p className={labelClassName}>
