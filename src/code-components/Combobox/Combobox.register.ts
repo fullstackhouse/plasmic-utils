@@ -8,6 +8,7 @@ export function registerCombobox(
   const activeSelector = "[data-headlessui-state*=active]";
   const selectedSelector = "[aria-selected=true]";
   const highlightSelector = "[data-highlight=true]";
+  const disabledSelector = "[aria-disabled=true]";
 
   plasmic.registerComponent(Combobox, {
     name: "RawCombobox",
@@ -111,6 +112,10 @@ export function registerCombobox(
             selector: highlightSelector,
           },
           {
+            label: "Disabled",
+            selector: disabledSelector,
+          },
+          {
             label: "Active & Selected",
             selector: `${activeSelector}${selectedSelector}`,
           },
@@ -119,8 +124,16 @@ export function registerCombobox(
             selector: `${activeSelector}${highlightSelector}`,
           },
           {
+            label: "Active & Disabled",
+            selector: `${activeSelector}${disabledSelector}`,
+          },
+          {
             label: "Selected & Highlighted",
             selector: `${selectedSelector}${highlightSelector}`,
+          },
+          {
+            label: "Selected & Disabled",
+            selector: `${selectedSelector}${disabledSelector}`,
           },
           {
             label: "Active & Selected & Highlighted",
