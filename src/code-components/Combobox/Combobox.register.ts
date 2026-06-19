@@ -54,6 +54,9 @@ export function registerCombobox(
       leftIcon: { type: "slot" },
       rightIcon: { type: "slot" },
       footer: { type: "slot" },
+      optionLeftIcon: {
+        type: "slot",
+      },
       inputWrapperClassName: {
         type: "class",
         selectors: [
@@ -96,6 +99,8 @@ export function registerCombobox(
         type: "class",
       },
       optionsClassName: { type: "class" },
+      optionLeftIconClassName: { type: "class" },
+      optionContentClassName: { type: "class" },
       optionClassName: {
         type: "class",
         selectors: [
@@ -175,5 +180,6 @@ export function registerCombobox(
         onChangeProp: "onChange",
       },
     },
+    providesData: true,
   });
 }

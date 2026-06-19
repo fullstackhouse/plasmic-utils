@@ -1,6 +1,7 @@
 import { Combobox as HeadlessCombobox, Transition } from "@headlessui/react";
 import { useState, useRef, Fragment, ReactNode } from "react";
 
+import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import styles from "./Combobox.module.css";
 import { HighlightQueryValue } from "./HighlightQueryValue";
 import { groupOptions } from "./utils";
@@ -19,6 +20,7 @@ interface ComboboxProps {
   rightIcon: ReactNode;
   footer?: ReactNode;
   options?: ComboboxOption[];
+  optionLeftIcon?: ReactNode;
   disabled?: boolean;
   "aria-label"?: string;
   "aria-labelledby"?: string;
@@ -31,6 +33,8 @@ interface ComboboxProps {
   emptyOptionClassName?: string;
   optionsClassName?: string;
   optionClassName?: string;
+  optionLeftIconClassName?: string;
+  optionContentClassName?: string;
   groupClassName?: string;
   labelClassName?: string;
   searchValueClassName?: string;
@@ -62,6 +66,7 @@ export function Combobox({
   rightIcon,
   footer,
   options,
+  optionLeftIcon,
   disabled,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
@@ -75,6 +80,8 @@ export function Combobox({
   emptyOptionClassName,
   optionsClassName,
   optionClassName,
+  optionLeftIconClassName,
+  optionContentClassName,
   groupClassName,
   labelClassName,
   searchValueClassName,
@@ -211,27 +218,40 @@ export function Combobox({
                             data-disabled={option.disabled ? "true" : undefined}
                             className={optionClassName}
                           >
-                            <p className={labelClassName}>
-                              <HighlightQueryValue
-                                text={option.label ?? String(option.value)}
-                                query={query}
-                                queryClassName={searchValueClassName}
-                              />
-                            </p>
-                            {option.description ? (
-                              <p
-                                data-highlight={
-                                  option.highlight ? "true" : undefined
-                                }
-                                className={descriptionClassName}
+                            {optionLeftIcon ? (
+                              <MemoDataProvider
+                                name="option"
+                                data={option}
+                                deps={[option]}
                               >
+                                <div className={optionLeftIconClassName}>
+                                  {optionLeftIcon}
+                                </div>
+                              </MemoDataProvider>
+                            ) : null}
+                            <div className={optionContentClassName}>
+                              <p className={labelClassName}>
                                 <HighlightQueryValue
-                                  text={option.description}
+                                  text={option.label ?? String(option.value)}
                                   query={query}
                                   queryClassName={searchValueClassName}
                                 />
                               </p>
-                            ) : null}
+                              {option.description ? (
+                                <p
+                                  data-highlight={
+                                    option.highlight ? "true" : undefined
+                                  }
+                                  className={descriptionClassName}
+                                >
+                                  <HighlightQueryValue
+                                    text={option.description}
+                                    query={query}
+                                    queryClassName={searchValueClassName}
+                                  />
+                                </p>
+                              ) : null}
+                            </div>
                           </HeadlessCombobox.Option>
                         ))}
                       </Fragment>
