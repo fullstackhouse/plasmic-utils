@@ -16,7 +16,8 @@ export function registerHighlightedText(
       },
       highlight: {
         type: "string",
-        description: "The substring to highlight (case insensitive)",
+        description:
+          'Substring to highlight (case insensitive). For multiple words, use a dynamic value with a string array, e.g. ["APE", "GME"].',
       },
       textClassName: {
         type: "class",
