@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { Fragment, useRef, useState, ReactNode } from "react";
 
+import { useInPlasmic } from "../../common/useInPlasmic";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import styles from "./Combobox.module.css";
 import { HighlightQueryValue } from "./HighlightQueryValue";
@@ -125,6 +126,14 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  // In the Plasmic canvas the menu must render inline: Headless UI's `anchor`
+  // portals it to `document.body`, which is outside the component subtree the
+  // design tool can select or inject styles into, so `optionsClassName` edits
+  // would never reach it. Inline keeps it styleable; prod keeps the portal so
+  // the menu escapes `overflow` ancestors and flips into the viewport. Only the
+  // positioning differs between the two paths — the classes are identical.
+  const inCanvas = useInPlasmic();
+
   // `width` / `min-width` are inline so they beat any leftover `width` on
   // `optionsClassName` (e.g. a `width: 100%` from the design tool). `max-width`
   // is deliberately left to CSS so it stays overridable via `optionsClassName`.
@@ -217,10 +226,25 @@ export function Combobox({
               </svg>
             </ComboboxButton>
             <ComboboxOptions
-              // `gap: 1` matches the old `margin: 1px` offset; `padding: 8`
-              // keeps the menu 8px clear of the viewport edge when it shifts.
-              anchor={{ to: menuPlacement, gap: 1, padding: 8 }}
-              transition
+              // Prod: `anchor` portals + positions via Floating UI. `gap: 1`
+              // matches the old `margin: 1px`; `padding: 8` keeps it clear of the
+              // viewport edge. Canvas: no `anchor` (so no portal); position it
+              // just below the input inline so the design tool can select+style
+              // it (it lives in a flex row, hence the explicit absolute offset).
+              {...(inCanvas
+                ? {
+                    portal: false,
+                    style: {
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      zIndex: 1000,
+                    },
+                  }
+                : {
+                    anchor: { to: menuPlacement, gap: 1, padding: 8 },
+                    transition: true,
+                  })}
               className={styles.positioner}
             >
               {/*
