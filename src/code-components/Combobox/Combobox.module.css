@@ -24,22 +24,26 @@
   transform: rotate(180deg) translateY(5px);
 }
 
-/* Clip-path to get rid of overflowing box shadow on input */
+/*
+ * `.positioner` is the element Headless UI portals + positions via Floating UI.
+ * It also gets an inline `max-width: <viewport>px` from Floating UI's `size`
+ * middleware on every reposition, so all author-facing sizing (width via the
+ * `menuWidth` prop, max-width via `optionsClassName`) lives on the inner
+ * `.options` wrapper, which Floating UI never touches.
+ */
+.positioner {
+  transition: opacity 0.1s ease-in;
+}
+
+.positioner[data-closed] {
+  opacity: 0;
+}
+
 .options {
   list-style: none;
   scrollbar-width: thin;
   user-select: none;
-  transition: opacity 0.1s ease-in;
-  position: absolute;
-  top: 100%;
   margin: 0;
+  /* Clip the top edge so the box-shadow does not bleed up over the input. */
   clip-path: inset(0 -48px -48px -48px);
-}
-
-.options:global(.hide-start) {
-  opacity: 1;
-}
-
-.options:global(.hide-end) {
-  opacity: 0;
 }
