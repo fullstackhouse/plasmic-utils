@@ -5,10 +5,10 @@ export function registerCombobox(
   plasmic: PlasmicLoader,
   modulePath = "@fullstackhouse/plasmic-utils/dist",
 ) {
-  const activeSelector = "[data-headlessui-state*=active]";
-  const selectedSelector = "[aria-selected=true]";
+  const activeSelector = "[data-focus]";
+  const selectedSelector = "[data-selected]";
   const highlightSelector = "[data-highlight=true]";
-  const disabledSelector = "[aria-disabled=true]";
+  const disabledSelector = "[data-disabled]";
 
   plasmic.registerComponent(Combobox, {
     name: "RawCombobox",
@@ -48,6 +48,27 @@ export function registerCombobox(
         ],
       },
       disabled: { type: "boolean", defaultValue: false },
+      menuPlacement: {
+        type: "choice",
+        options: [
+          "bottom start",
+          "bottom end",
+          "bottom",
+          "top start",
+          "top end",
+          "top",
+        ],
+        defaultValue: "bottom start",
+        description:
+          "Where the dropdown menu opens relative to the input. The menu is portalled and kept on-screen, so it may be wider than the input.",
+      },
+      menuWidth: {
+        type: "choice",
+        options: ["input", "fit"],
+        defaultValue: "input",
+        description:
+          "'input' matches the input width; 'fit' grows to the widest option (long labels don't wrap), never narrower than the input, capped to stay on screen.",
+      },
       "aria-label": "string",
       "aria-labelledby": "string",
       placeholder: { type: "string", defaultValue: "Select" },

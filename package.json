@@ -17,7 +17,7 @@
   ],
   "repository": "github:fullstackhouse/plasmic-utils",
   "devDependencies": {
-    "@headlessui/react": "^2.1.8",
+    "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@plasmicapp/loader-nextjs": "^1.0.415",
     "@plasmicapp/react-web": "^0.2.374",
@@ -58,7 +58,7 @@
     "zod": "^3.22.4"
   },
   "peerDependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@plasmicapp/react-web": "^0.2.327",
     "@radix-ui/react-dialog": "^1.0.5",
