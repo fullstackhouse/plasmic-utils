@@ -69,6 +69,7 @@ export function registerCombobox(
         description:
           "'input' matches the input width; 'fit' grows to the widest option (long labels don't wrap), never narrower than the input, capped to stay on screen.",
       },
+      themeResetClass: { type: "themeResetClass" },
       "aria-label": "string",
       "aria-labelledby": "string",
       placeholder: { type: "string", defaultValue: "Select" },

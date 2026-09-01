@@ -54,6 +54,15 @@ interface ComboboxProps {
    * menu is still kept inside the viewport by Floating UI.
    */
   menuWidth?: "input" | "fit";
+  /**
+   * Plasmic's theme-reset class. In prod the menu is portalled to
+   * `document.body`, outside the element that carries Plasmic's design-token
+   * CSS variables, so `var(--token-*)` in the menu's styles stops resolving and
+   * it renders unstyled. Registered as `type: "themeResetClass"` so Plasmic
+   * supplies the class automatically; it is applied to the portalled root. No
+   * effect in the Plasmic canvas, where the menu already renders inline.
+   */
+  themeResetClass?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   placeholder?: string;
@@ -102,6 +111,7 @@ export function Combobox({
   disabled,
   menuPlacement = "bottom start",
   menuWidth = "input",
+  themeResetClass,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   placeholder,
@@ -245,7 +255,12 @@ export function Combobox({
                     anchor: { to: menuPlacement, gap: 1, padding: 8 },
                     transition: true,
                   })}
-              className={styles.positioner}
+              // `themeResetClass` re-establishes Plasmic's design-token CSS
+              // variables on the portalled root so `var(--token-*)` in the
+              // menu's styles still resolves.
+              className={[styles.positioner, themeResetClass]
+                .filter(Boolean)
+                .join(" ")}
             >
               {/*
                * Inner wrapper carries all sizing + look. Headless UI's `anchor`
