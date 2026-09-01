@@ -26,13 +26,16 @@
 
 /*
  * `.positioner` is the element Headless UI portals + positions via Floating UI.
- * It also gets an inline `max-width: <viewport>px` from Floating UI's `size`
- * middleware on every reposition, so all author-facing sizing (width via the
- * `menuWidth` prop, max-width via `optionsClassName`) lives on the inner
- * `.options` wrapper, which Floating UI never touches.
+ * Floating UI's `size` middleware stamps `overflow: auto` and a `max-width` /
+ * `max-height` inline on it every reposition, so all author-facing sizing (width
+ * via `menuWidth`, max-width via `optionsClassName`) lives on the inner
+ * `.options` wrapper, which Floating UI never touches. We also override that
+ * `overflow` back to `visible` so it doesn't clip the menu's own drop shadow -
+ * the inner `.options` keeps its own `max-height` + `overflow-y` for scrolling.
  */
 .positioner {
   transition: opacity 0.1s ease-in;
+  overflow: visible !important;
 }
 
 .positioner[data-closed] {
@@ -44,6 +47,4 @@
   scrollbar-width: thin;
   user-select: none;
   margin: 0;
-  /* Clip the top edge so the box-shadow does not bleed up over the input. */
-  clip-path: inset(0 -48px -48px -48px);
 }

@@ -147,10 +147,18 @@ export function Combobox({
   // `width` / `min-width` are inline so they beat any leftover `width` on
   // `optionsClassName` (e.g. a `width: 100%` from the design tool). `max-width`
   // is deliberately left to CSS so it stays overridable via `optionsClassName`.
-  const optionsStyle =
-    menuWidth === "fit"
+  //
+  // `clipPath` only in the canvas: there the menu sits flush under the input
+  // (inline, no gap), so clip the top of the box-shadow that would bleed over
+  // it. In prod the menu is portalled and gapped, so the full shadow should
+  // show. (Inline rather than a class so a bundler that skips reprocessing
+  // node_modules CSS can't drop it.)
+  const optionsStyle = {
+    ...(menuWidth === "fit"
       ? { width: "max-content", minWidth: "var(--input-width)" }
-      : { width: "var(--input-width)" };
+      : { width: "var(--input-width)" }),
+    ...(inCanvas ? { clipPath: "inset(0 -48px -48px -48px)" } : {}),
+  };
 
   const optionGroups = groupOptions(options ?? []);
   const visibleOptionGroups = filterOptionGroupsByQuery(optionGroups, query);
