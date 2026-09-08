@@ -62,6 +62,10 @@ export function DialogV2({
               event.preventDefault();
             }}
             onPointerDownOutside={(event) => {
+              if (isHeadlessUiPortalClick(event)) {
+                event.preventDefault();
+                return;
+              }
               preventEventIfScrollbarClick(event);
               onPointerDownOutside?.(event);
             }}
@@ -71,6 +75,19 @@ export function DialogV2({
         </Dialog.Overlay>
       </Dialog.Portal>
     </Dialog.Root>
+  );
+}
+
+/**
+ * A Headless UI menu (Combobox, Listbox, Menu) opened from inside the dialog is
+ * portalled to `document.body`, so Radix sees a click on one of its options as a
+ * click outside the dialog and closes it mid-selection. Treat those clicks as
+ * inside.
+ */
+function isHeadlessUiPortalClick(event: PointerDownOutsideEvent) {
+  const target = event.target;
+  return (
+    target instanceof Element && !!target.closest("[data-headlessui-portal]")
   );
 }
 
