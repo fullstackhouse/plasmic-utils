@@ -36,6 +36,14 @@
 .positioner {
   transition: opacity 0.1s ease-in;
   overflow: visible !important;
+  /*
+   * The menu is portalled to `document.body`. A Radix modal dialog sets
+   * `pointer-events: none` on `body` while open and restores `auto` only on its
+   * own content element, so a menu opened from inside a dialog would render but
+   * ignore every click. `pointer-events` inherits, so re-enabling it here covers
+   * the whole menu subtree. Harmless outside a dialog.
+   */
+  pointer-events: auto;
 }
 
 .positioner[data-closed] {
