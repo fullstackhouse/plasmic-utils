@@ -9,6 +9,7 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "jsx": "preserve"
   },
   "include": ["package-env.d.ts", "src"],
