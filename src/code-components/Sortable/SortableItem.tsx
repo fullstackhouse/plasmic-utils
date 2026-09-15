@@ -54,7 +54,7 @@ export function SortableItem({
     ? { ...attributes, ...listeners }
     : {};
   const draggableStyle: CSSProperties = wholeItemDraggable
-    ? { touchAction: "none" }
+    ? { touchAction: "none", cursor: isDragging ? "grabbing" : "grab" }
     : {};
 
   return (
