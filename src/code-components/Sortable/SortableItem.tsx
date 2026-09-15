@@ -39,7 +39,14 @@ export function SortableItem({
     isDragging,
     isOver,
     index,
-  } = useSortable({ id: itemId, disabled });
+  } = useSortable({
+    id: itemId,
+    disabled,
+    // Plasmic keys repeated elements by index, so after a drop each hook
+    // instance suddenly represents another row; dnd-kit's layout-change
+    // animation would then slide every row from a stale rect. Snap instead.
+    animateLayoutChanges: () => false,
+  });
 
   const itemStyle: CSSProperties = {
     ...style,

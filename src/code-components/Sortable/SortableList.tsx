@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
-import { CSSProperties, ReactNode, useMemo, useState } from "react";
+import { CSSProperties, ReactNode, useId, useMemo, useState } from "react";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { reorderItems, ReorderResult } from "./reorderItems";
 
@@ -53,6 +53,8 @@ export function SortableList({
   const isDisabled = disabled || inPlasmicCanvas;
   const itemIds = useMemo(() => items.map(String), [items]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  // dnd-kit numbers its aria ids per mount; a stable id keeps SSR and client markup equal.
+  const dndId = useId();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -87,6 +89,7 @@ export function SortableList({
   return (
     <div className={className} style={style}>
       <DndContext
+        id={dndId}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={handleDragStart}
