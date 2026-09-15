@@ -1,7 +1,6 @@
 import {
   closestCenter,
   DndContext,
-  DragCancelEvent,
   DragEndEvent,
   DragStartEvent,
   KeyboardSensor,
@@ -24,8 +23,11 @@ export interface SortableReorderChange extends ReorderResult {
 }
 
 export interface SortableListProps {
-  /** Ids of the items in their current order. Each `SortableItem` inside must use one of them. */
-  items: Array<string | number>;
+  /**
+   * Ids of the items in their current order. Each `SortableItem` inside must
+   * use one of them. Undefined while a Plasmic data source is still loading.
+   */
+  items?: Array<string | number>;
   /** Called with the full new order once a drag ends on another position. */
   onReorder?: (orderedItems: string[], change: SortableReorderChange) => void;
   disabled?: boolean;
@@ -37,8 +39,10 @@ export interface SortableListProps {
   children?: ReactNode;
 }
 
+const noItems: Array<string | number> = [];
+
 export function SortableList({
-  items,
+  items = noItems,
   onReorder,
   disabled = false,
   activationDistance = 4,
@@ -69,7 +73,7 @@ export function SortableList({
     setActiveId(String(event.active.id));
   }
 
-  function handleDragCancel(_event: DragCancelEvent) {
+  function handleDragCancel() {
     setActiveId(null);
   }
 

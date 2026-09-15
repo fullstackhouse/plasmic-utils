@@ -41,10 +41,13 @@ afterEach(() => {
   HTMLElement.prototype.getBoundingClientRect = originalGetBoundingClientRect;
 });
 
-function renderList(onReorder: (orderedItems: string[]) => void) {
+function renderList(
+  onReorder: (orderedItems: string[]) => void,
+  { disabled = false }: { disabled?: boolean } = {},
+) {
   const items = ["a", "b", "c"];
   return render(
-    <SortableList items={items} onReorder={onReorder}>
+    <SortableList items={items} onReorder={onReorder} disabled={disabled}>
       {items.map((id, index) => (
         <SortableItem key={id} id={id}>
           <div data-row={index}>
@@ -84,6 +87,31 @@ describe(SortableList.name, () => {
       toIndex: 1,
       orderedItems: ["b", "a", "c"],
     });
+  });
+
+  it("disables every row when the list is disabled", async () => {
+    const user = userEvent.setup();
+    const onReorder = vi.fn();
+    renderList(onReorder, { disabled: true });
+
+    const handle = screen.getByRole("button", { name: "Drag a" });
+    expect(handle.getAttribute("aria-disabled")).toBe("true");
+
+    handle.focus();
+    await user.keyboard("[Space]");
+    await user.keyboard("[ArrowDown]");
+    await user.keyboard("[Space]");
+
+    expect(onReorder).not.toHaveBeenCalled();
+  });
+
+  it("renders without items while the data source is still loading", () => {
+    render(
+      <SortableList>
+        <span>empty</span>
+      </SortableList>,
+    );
+    expect(screen.getByText("empty")).toBeTruthy();
   });
 
   it("reports nothing when the drag is cancelled", async () => {

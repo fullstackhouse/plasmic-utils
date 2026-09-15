@@ -41,7 +41,9 @@ export function SortableItem({
     index,
   } = useSortable({
     id: itemId,
-    disabled,
+    // A boolean here overrides the SortableContext flag, so only pass it
+    // when this row opts out; otherwise the list's disabled state applies.
+    disabled: disabled ? true : undefined,
     // Plasmic keys repeated elements by index, so after a drop each hook
     // instance suddenly represents another row; dnd-kit's layout-change
     // animation would then slide every row from a stale rect. Snap instead.
@@ -53,7 +55,7 @@ export function SortableItem({
     // Translate only: `CSS.Transform` would also scale items of unequal height.
     transform: CSS.Translate.toString(transform),
     transition,
-    position: "relative",
+    position: style?.position ?? "relative",
     zIndex: isDragging ? 1 : style?.zIndex,
   };
 
