@@ -16,6 +16,6 @@ export function registerHiddenIfEmptyContainer(
       style: { type: "object", advanced: true },
       children: "slot",
     },
-    styleSections: ["sizing"],
+    styleSections: ["visibility", "sizing"],
   });
 }
