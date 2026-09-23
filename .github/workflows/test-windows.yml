@@ -27,12 +27,15 @@ jobs:
       - run: npm run build
         if: steps.npm-install.conclusion == 'success' && (success() || failure())
 
-      - name: Notify FSH Slack on failure
-        if: failure() && github.ref_name == 'main'
-        uses: slackapi/slack-github-action@v1.24.0
+  notify-failure:
+    needs: deploy
+    if: failure() && needs.deploy.result == 'failure' && github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fullstackhouse/slack-notify-action@v1
         with:
-          channel-id: "fsh-alerts"
-          slack-message: ":red_circle: Workflow *<${{env.GITHUB_WORKFLOW_URL}}|${{github.workflow_ref}}>* failed"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.FSH_SLACK_BOT_TOKEN }}
-          GITHUB_WORKFLOW_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+          bot-token: ${{ secrets.FSH_SLACK_BOT_TOKEN }}
+          channel: "#fsh-alerts"
+          title: "plasmic-utils — Windows tests failed"
+          message: "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          status: failure
