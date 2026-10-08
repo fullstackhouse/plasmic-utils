@@ -8,6 +8,10 @@ import { useToolbar } from "./toolbar";
 import { useImageUpload } from "./useImageUpload";
 import { useReactQuillPackages } from "./useReactQuillPackages";
 
+// Plasmic codegen sometimes imports the component helpers from the
+// component's own module instead of the registered helper importPath.
+export { componentHelpers } from "./componentHelpers";
+
 const style: CSSProperties = {
   display: "flex",
   flexDirection: "column",
