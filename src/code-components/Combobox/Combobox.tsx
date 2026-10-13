@@ -263,6 +263,11 @@ export function Combobox({
                     anchor: { to: menuPlacement, gap: 1, padding: 8 },
                     transition: true,
                   })}
+              // Headless UI v2 defaults `modal` to true, which locks page scroll
+              // and marks the rest of the page inert while the menu is open. A
+              // dropdown should leave the page scrollable; outside clicks still
+              // close it.
+              modal={false}
               // `themeResetClass` re-establishes Plasmic's design-token CSS
               // variables on the portalled root so `var(--token-*)` in the
               // menu's styles still resolves.
