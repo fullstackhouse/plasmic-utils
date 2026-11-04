@@ -5,9 +5,9 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
 import { Fragment, useRef, useState, ReactNode } from "react";
 
-import { useInPlasmic } from "../../common/useInPlasmic";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import styles from "./Combobox.module.css";
 import { HighlightQueryValue } from "./HighlightQueryValue";
@@ -136,13 +136,16 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // In the Plasmic canvas the menu must render inline: Headless UI's `anchor`
-  // portals it to `document.body`, which is outside the component subtree the
-  // design tool can select or inject styles into, so `optionsClassName` edits
-  // would never reach it. Inline keeps it styleable; prod keeps the portal so
-  // the menu escapes `overflow` ancestors and flips into the viewport. Only the
-  // positioning differs between the two paths — the classes are identical.
-  const inCanvas = useInPlasmic();
+  // In design mode on the Plasmic canvas the menu must render inline: Headless
+  // UI's `anchor` portals it to `document.body`, which is outside the component
+  // subtree the design tool can select or inject styles into, so
+  // `optionsClassName` edits would never reach it. Inline keeps it styleable.
+  // Everywhere else (the app, live preview, interactive mode) keep the portal,
+  // so the menu escapes `overflow` ancestors and flips into the viewport, and a
+  // preview behaves like the app. Only the positioning differs between the two
+  // paths; the classes are identical.
+  const canvasContext = usePlasmicCanvasContext();
+  const inCanvas = !!canvasContext && !canvasContext.interactive;
 
   // `width` / `min-width` are inline so they beat any leftover `width` on
   // `optionsClassName` (e.g. a `width: 100%` from the design tool). `max-width`
