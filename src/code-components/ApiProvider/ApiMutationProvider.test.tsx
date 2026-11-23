@@ -3,7 +3,14 @@ import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Key, SWRConfig } from "swr";
-import { afterEach, describe, it, onTestFinished, vitest } from "vitest";
+import {
+  afterEach,
+  describe,
+  expect,
+  it,
+  onTestFinished,
+  vitest,
+} from "vitest";
 import { ApiErrorBoundary } from "./ApiErrorBoundary";
 import { FetchError } from "./FetchError";
 import { subscribeToUnauthorizedEvents } from "./UnauthorizedEvent";
@@ -256,6 +263,56 @@ describe.sequential(ApiMutationProvider.name, () => {
 
     expect(onUnauthorized).toHaveBeenCalledTimes(1);
   });
+
+  it("doesn't show toast when fetch fails because the page is unloading", async ({
+    expect,
+  }) => {
+    const { toast, getOutput, getResponse } = renderApiMutationProvider({
+      path: "http://localhost/error",
+    });
+
+    act(() => {
+      window.dispatchEvent(new Event("beforeunload"));
+    });
+    act(() => {
+      getResponse()
+        .trigger()
+        .catch((e) => null);
+    });
+
+    await waitFor(() => {
+      expect(getOutput()).toMatchObject({ error: { name: "FetchError" } });
+    });
+    expect(toast.show).not.toHaveBeenCalled();
+  });
+
+  it.each(["pointerdown", "keydown"])(
+    "shows toast when fetch fails after the user stayed on the page (%s)",
+    async (interaction) => {
+      const { toast, getResponse } = renderApiMutationProvider({
+        path: "http://localhost/error",
+      });
+
+      act(() => {
+        window.dispatchEvent(new Event("beforeunload"));
+      });
+      act(() => {
+        window.dispatchEvent(new Event(interaction));
+      });
+      act(() => {
+        getResponse()
+          .trigger()
+          .catch((e) => null);
+      });
+
+      await waitFor(() => {
+        expect(toast.show).toHaveBeenCalledTimes(1);
+      });
+      expect(toast.show).toHaveBeenCalledWith(
+        expect.objectContaining({ id: "server-error" }),
+      );
+    },
+  );
 
   it("shows toast when fatch fails", async ({ expect }) => {
     const { toast, getOutput, getResponse } = renderApiMutationProvider({
