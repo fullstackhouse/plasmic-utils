@@ -12,14 +12,14 @@ export function useOnError({
   alertOnError,
   onError,
 }: Pick<ApiProviderFilledProps, "alertOnError" | "onError">): OnError {
-  const requestCancelled = useTrackBeforeUnload();
+  const unloadingRef = useTrackBeforeUnload();
   const toast = useSelector("toast") as ToastService | undefined;
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
 
   return async (error: Error | undefined) => {
     await handleApiError(error, {
-      requestCancelled,
+      requestCancelled: !!unloadingRef.current,
       toast: alertOnError ? toast : undefined,
       onError: onErrorRef.current,
     });
