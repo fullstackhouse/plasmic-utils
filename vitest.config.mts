@@ -1,11 +1,11 @@
-/// <reference types="vitest" />
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
+    exclude: [...configDefaults.exclude, "dist/**"],
     onConsoleLog(log) {
       // Silence errors caught by React error boundaries
       // (Workaround for https://github.com/facebook/react/issues/15069 )
