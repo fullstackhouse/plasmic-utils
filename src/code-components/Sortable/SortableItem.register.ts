@@ -8,7 +8,7 @@ export function registerSortableItem(
   plasmic.registerComponent(SortableItem, {
     name: "SortableItem",
     description:
-      "One reorderable row of a SortableList. Provides `{ id, index, isDragging, isOver }` to its children.",
+      'One reorderable row of a SortableList. Provides `{ id, index, isDragging, isOver, dropPosition }` to its children. `dropPosition` is `"before"` or `"after"` on the item the dragged one would land next to, otherwise `null`; it needs `showDropIndicator` on the SortableList.',
     importPath: modulePath + "/code-components/Sortable/SortableItem",
     props: {
       id: {
@@ -31,6 +31,11 @@ export function registerSortableItem(
       style: { type: "object", advanced: true },
       className: { type: "class" },
       children: "slot",
+      placeholder: {
+        type: "slot",
+        description:
+          "Fills the place of this item while it is dragged. Needs `showDropIndicator` on the SortableList.",
+      },
     },
     providesData: true,
     isAttachment: true,

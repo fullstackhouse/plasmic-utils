@@ -11,12 +11,14 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
+  SortingStrategy,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { usePlasmicCanvasContext } from "@plasmicapp/react-web/lib/host";
 import { CSSProperties, ReactNode, useId, useMemo, useState } from "react";
 import { MemoDataProvider } from "../MemoDataProvider/MemoDataProvider";
 import { reorderItems, ReorderResult } from "./reorderItems";
+import { SortableListContext } from "./SortableListContext";
 
 export interface SortableReorderChange extends ReorderResult {
   activeId: string;
@@ -31,6 +33,12 @@ export interface SortableListProps {
   /** Called with the full new order once a drag ends on another position. */
   onReorder?: (orderedItems: string[], change: SortableReorderChange) => void;
   disabled?: boolean;
+  /**
+   * Keep the other items in place during a drag instead of moving them out of
+   * the way. Each `SortableItem` then provides `dropPosition` for drawing the
+   * drop line, and shows its `placeholder` where the dragged item came from.
+   */
+  showDropIndicator?: boolean;
   /** Pointer travel in px before a drag starts, so clicks on the handle stay clicks. */
   activationDistance?: number;
   contextName?: string;
@@ -41,10 +49,13 @@ export interface SortableListProps {
 
 const noItems: Array<string | number> = [];
 
+const keepItemsInPlaceStrategy: SortingStrategy = () => null;
+
 export function SortableList({
   items = noItems,
   onReorder,
   disabled = false,
+  showDropIndicator = false,
   activationDistance = 4,
   contextName = "sortableList",
   className,
@@ -57,6 +68,10 @@ export function SortableList({
   const isDisabled = disabled || inPlasmicCanvas;
   const itemIds = useMemo(() => items.map(String), [items]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const listSettings = useMemo(
+    () => ({ showDropIndicator }),
+    [showDropIndicator],
+  );
   // dnd-kit numbers its aria ids per mount; a stable id keeps SSR and client markup equal.
   const dndId = useId();
 
@@ -102,7 +117,11 @@ export function SortableList({
       >
         <SortableContext
           items={itemIds}
-          strategy={verticalListSortingStrategy}
+          strategy={
+            showDropIndicator
+              ? keepItemsInPlaceStrategy
+              : verticalListSortingStrategy
+          }
           disabled={isDisabled}
         >
           <MemoDataProvider
@@ -110,7 +129,9 @@ export function SortableList({
             data={{ items: itemIds, activeId, disabled: isDisabled }}
             deps={[itemIds, activeId, isDisabled]}
           >
-            {children}
+            <SortableListContext.Provider value={listSettings}>
+              {children}
+            </SortableListContext.Provider>
           </MemoDataProvider>
         </SortableContext>
       </DndContext>
