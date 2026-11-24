@@ -57,7 +57,7 @@
     "typescript": "^5",
     "use-debounce": "^10.0.4",
     "virtua": "^0.35.1",
-    "vitest": "^2.0.2",
+    "vitest": "^4.1.11",
     "zod": "^3.22.4"
   },
   "peerDependencies": {
