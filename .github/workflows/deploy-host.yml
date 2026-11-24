@@ -13,11 +13,10 @@ concurrency:
   group: ${{ github.workflow }}-${{github.job}}
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ steps.artifact.outputs.name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,18 +32,47 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # A re-run keeps the artifacts of earlier attempts, and deploy-pages rejects two with one name.
+      - name: Name artifact
+        id: artifact
+        run: echo "name=github-pages-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: ${{ steps.artifact.outputs.name }}
           path: out
 
+  # Separate from the upload: deploy-pages doesn't always see an artifact uploaded just before it.
+  # https://github.com/actions/deploy-pages/issues/451
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.retry.outputs.page_url || steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs.build.outputs.artifact-name }}
+
+      - name: Wait before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - name: Retry deploy to GitHub Pages
+        id: retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs.build.outputs.artifact-name }}
 
   notify-failure:
-    needs: deploy
-    if: failure() && needs.deploy.result == 'failure'
+    needs: [build, deploy]
+    if: failure()
     runs-on: ubuntu-latest
     steps:
       - uses: fullstackhouse/slack-notify-action@v1
