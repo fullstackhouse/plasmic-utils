@@ -26,6 +26,12 @@ export function registerSortableList(
           "Called with the full new order once a drag ends on another position. `change` holds `activeId`, `fromIndex` and `toIndex`.",
       },
       disabled: { type: "boolean", defaultValue: false },
+      showDropIndicator: {
+        type: "boolean",
+        defaultValue: false,
+        description:
+          "Keep the other items in place during a drag. Each SortableItem then provides `dropPosition` for drawing the drop line, and shows its `placeholder` slot where the dragged item came from.",
+      },
       activationDistance: {
         type: "number",
         defaultValue: 4,
